@@ -1,5 +1,5 @@
 
-
+ 
 <h1 align="center">
     <img src="https://docs.solo.io/gloo/latest/img/Gloo-01.png" alt="Gloo" width="200" height="242">
   <br>
