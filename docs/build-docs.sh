@@ -115,7 +115,7 @@ function generateSiteForVersion() {
 
   # If we are on the latest version, then copy over `404.html` so firebase uses that.
   # https://firebase.google.com/docs/hosting/full-config#404
-  if [[ "$version" ==  "$latestVersion" ]]
+  if [[ "$version" ==  "latest" ]]
   then
     cp site-latest/404.html $docsSiteDir/public/404.html
   fi
