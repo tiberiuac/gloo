@@ -7,11 +7,11 @@ import (
 	. "github.com/onsi/gomega"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/test/helpers"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 )
 
 var (

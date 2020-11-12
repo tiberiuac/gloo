@@ -4,5 +4,5 @@ changelog:
       In active (event-heavy) kubernetes environments, if events come in too quickly, they can lead to memory 
       usage growing without bound in Gloo and Discovery. Mitigate and slow the leak by de-duplicating events
       received when possible.
-    issueLink: https://github.com/solo-io/gloo/issues/2361
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2361
     resolvesIssue: false

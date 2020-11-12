@@ -3,4 +3,4 @@ changelog:
     description: Expose a subset of read-only envoy admin apis.
   - type: FIX
     description: Make the gateway proxy service selectors more specific.
-    issueLink: https://github.com/solo-io/gloo/issues/1029
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1029

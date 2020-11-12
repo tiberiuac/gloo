@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	errors "github.com/rotisserie/eris"
-	editOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmdutils"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	ratelimitpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
+	editOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmdutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	ratelimitpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 
 	"github.com/solo-io/go-utils/cliutils"

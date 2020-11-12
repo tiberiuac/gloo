@@ -8,18 +8,18 @@ import (
 	"os"
 	"strings"
 
-	"github.com/solo-io/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils"
 
 	"github.com/rotisserie/eris"
-	glooec2 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/aws/ec2"
+	glooec2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/aws/ec2"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	"github.com/solo-io/gloo/test/services"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 

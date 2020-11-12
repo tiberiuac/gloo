@@ -7,4 +7,4 @@ changelog:
       proceed by passing the new --force flag to "glooctl uninstall", which will attempt to perform an
       uninstall that may inadvertently delete cluster-scoped resources belonging to some other
       installation of Gloo.
-    issueLink: https://github.com/solo-io/gloo/issues/1593
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1593

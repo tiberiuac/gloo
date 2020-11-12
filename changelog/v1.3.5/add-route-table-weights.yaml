@@ -14,4 +14,4 @@ changelog:
     they are defined. If multiple route tables define the same weight, Gloo will sort the routes which belong to those
     tables to avoid short-circuiting. In this scenario, Gloo will also alert the user by adding a warning to the status
     of the parent resource (the one that specifies the `RouteTableSelector`).
-  issueLink: https://github.com/solo-io/gloo/issues/2233
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2233

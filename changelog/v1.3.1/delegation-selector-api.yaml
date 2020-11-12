@@ -6,5 +6,5 @@ changelog:
     sorted by descending specificity of the matchers on each route.
 
     Marking this as non user facing as this change only updates the API but does not implement the feature.
-  issueLink: https://github.com/solo-io/gloo/issues/2054
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2054
   resolvesIssue: false

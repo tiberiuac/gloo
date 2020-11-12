@@ -4,7 +4,7 @@ import (
 	"net"
 
 	pbgostruct "github.com/golang/protobuf/ptypes/struct"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 
@@ -15,9 +15,9 @@ import (
 	envoycore "github.com/envoyproxy/go-control-plane/envoy/api/v2/core"
 	envoyendpoint "github.com/envoyproxy/go-control-plane/envoy/api/v2/endpoint"
 	envoyauth "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	v1static "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/static"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	v1static "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/static"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 	"github.com/solo-io/solo-kit/pkg/errors"
 )
 

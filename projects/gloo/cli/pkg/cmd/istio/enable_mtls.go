@@ -3,16 +3,16 @@ package istio
 import (
 	"fmt"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/errors"
 
 	"github.com/spf13/cobra"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 const (

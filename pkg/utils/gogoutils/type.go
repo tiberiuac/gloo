@@ -3,8 +3,8 @@ package gogoutils
 import (
 	envoycore "github.com/envoyproxy/go-control-plane/envoy/api/v2/core"
 	envoytype "github.com/envoyproxy/go-control-plane/envoy/type"
-	envoytype_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/type"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	envoytype_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/type"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	envoycore_sk "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2/core"
 	"github.com/solo-io/solo-kit/pkg/errors"
 )
@@ -14,7 +14,7 @@ import (
 // in v0.9.0, but solokit depends on gogoproto (and the generated deep equals it creates).
 //
 // we should work to remove that assumption from solokit and delete this code:
-// https://github.com/solo-io/gloo/issues/1793
+// https://github.com/solo-io/gloo-edge/issues/1793
 
 func ToGlooInt64RangeList(int64Range []*envoytype.Int64Range) []*envoytype_gloo.Int64Range {
 	result := make([]*envoytype_gloo.Int64Range, len(int64Range))

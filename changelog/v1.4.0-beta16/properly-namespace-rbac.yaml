@@ -3,4 +3,4 @@ changelog:
     description: >
       Properly suffix all cluster-scoped RBAC resources, including those only relevant to ingress- and knative-mode installations.
       This ensures that multi-tenant Gloo installations will not experience conflicts on those RBAC resources.
-    issueLink: https://github.com/solo-io/gloo/issues/3103
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3103

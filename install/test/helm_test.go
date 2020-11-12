@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"html/template"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/test/matchers"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/test/matchers"
 	"github.com/solo-io/go-utils/installutils/kuberesource"
 	"github.com/solo-io/go-utils/manifesttestutils"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -18,8 +18,8 @@ import (
 	"k8s.io/utils/pointer"
 
 	"github.com/gogo/protobuf/types"
-	gwv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	gwv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	skprotoutils "github.com/solo-io/solo-kit/pkg/utils/protoutils"

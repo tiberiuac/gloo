@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Use latest envoy to address envoy security release.
-    issueLink: https://github.com/solo-io/gloo/pull/665
+    issueLink: https://github.com/solo-io/gloo-edge/pull/665

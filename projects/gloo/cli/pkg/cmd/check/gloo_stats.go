@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/solo-io/gloo/pkg/cliutil"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	v1 "k8s.io/api/apps/v1"
 )
 

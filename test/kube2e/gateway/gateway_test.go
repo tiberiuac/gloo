@@ -8,26 +8,26 @@ import (
 	"strings"
 	"time"
 
-	gwtranslator "github.com/solo-io/gloo/projects/gateway/pkg/translator"
+	gwtranslator "github.com/solo-io/gloo-edge/projects/gateway/pkg/translator"
 
-	"github.com/solo-io/gloo/test/kube2e"
+	"github.com/solo-io/gloo-edge/test/kube2e"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
-	glootransformation "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
-	kubernetes2 "github.com/solo-io/gloo/projects/gloo/pkg/plugins/kubernetes"
-	"github.com/solo-io/gloo/projects/gloo/pkg/translator"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation"
+	glootransformation "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/transformation"
+	kubernetes2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/kubernetes"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
 
-	"github.com/solo-io/gloo/projects/discovery/pkg/fds/syncer"
-	gloorest "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/rest"
+	"github.com/solo-io/gloo-edge/projects/discovery/pkg/fds/syncer"
+	gloorest "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/rest"
 	v1 "k8s.io/api/apps/v1"
 	"sigs.k8s.io/yaml"
 
 	"github.com/gogo/protobuf/types"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 
-	"github.com/solo-io/gloo/pkg/cliutil/install"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/install"
 
-	defaults2 "github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	defaults2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
@@ -37,25 +37,25 @@ import (
 
 	"github.com/rotisserie/eris"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/linkerd"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/linkerd"
 	"github.com/solo-io/go-utils/testutils/helper"
 
 	"k8s.io/client-go/kubernetes"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	grpcv1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/grpc"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	grpcv1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/grpc"
 
-	"github.com/solo-io/gloo/test/helpers"
+	"github.com/solo-io/gloo-edge/test/helpers"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/test/setup"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
-	gloov1plugins "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options"
+	gloov1plugins "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/kube"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"

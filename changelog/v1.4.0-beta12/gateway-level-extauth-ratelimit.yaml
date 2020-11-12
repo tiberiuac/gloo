@@ -4,4 +4,4 @@ changelog:
       Add extauth and ratelimit settings to Gateway httpGateway.options.extauth and httpGateway.options.ratelimit.
       This takes precedence over the global extauth and ratelimit settings on the Settings object, and allows users to set
       per-gateway extauth or rate-limit configuration for a set of virtual services.
-    issueLink: https://github.com/solo-io/gloo/issues/2257
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2257

@@ -5,11 +5,11 @@ import (
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/spf13/cobra"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/federation/list"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/federation/register"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/prerun"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/federation/list"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/federation/register"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/prerun"
 )
 
 var MissingSubcommandError = eris.New("please provide a subcommand")

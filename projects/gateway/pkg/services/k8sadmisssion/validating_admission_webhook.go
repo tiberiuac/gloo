@@ -16,18 +16,18 @@ import (
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 
 	"github.com/solo-io/solo-kit/pkg/utils/protoutils"
 
-	"github.com/solo-io/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils"
 
 	"go.opencensus.io/stats"
 	"go.opencensus.io/tag"
 
 	errors "github.com/rotisserie/eris"
-	gwv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/validation"
+	gwv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/validation"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"k8s.io/api/admission/v1beta1"

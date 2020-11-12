@@ -13,7 +13,7 @@ Fortunately, Gloo Edge provides alternate mechanisms for configuration, credenti
 
 This tutorial provides a basic installation flow for running Gloo Edge with Docker Compose, connecting it to Consul for configuration storage, and using Vault for credential storage.
 
-First we will copy the necessary files from the [Solo.io GitHub](https://github.com/solo-io/gloo) repository. 
+First we will copy the necessary files from the [Solo.io GitHub](https://github.com/solo-io/gloo-edge) repository. 
 
 Then we will use `docker-compose` to create the containers for Gloo Edge, Consul, Vault, and the Pet Store application.
 
@@ -46,16 +46,16 @@ Installation on your local system requires the following applications to be inst
 
 - [Docker](https://docs.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- [Glooctl](https://github.com/solo-io/gloo/releases)
+- [Glooctl](https://github.com/solo-io/gloo-edge/releases)
 
 ### Download the Installation Files
 
-This tutorial uses files stored on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo).
+This tutorial uses files stored on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo-edge).
 
 In order to install Gloo Edge using Docker-Compose, let's clone the repository:
 
 ```
-git clone https://github.com/solo-io/gloo
+git clone https://github.com/solo-io/gloo-edge
 cd gloo/install/docker-compose-consul
 ```
 

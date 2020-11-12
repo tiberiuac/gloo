@@ -1,6 +1,6 @@
 syntax = "proto3";
 package ratelimit.options.gloo.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/ratelimit";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/ratelimit";
 
 import "solo-apis/api/rate-limiter/v1alpha1/ratelimit.proto";
 

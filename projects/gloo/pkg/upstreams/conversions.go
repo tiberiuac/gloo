@@ -1,13 +1,13 @@
 package upstreams
 
 import (
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/kubernetes"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/kubernetes"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	"github.com/rotisserie/eris"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 func isRealUpstream(upstreamName string) bool {

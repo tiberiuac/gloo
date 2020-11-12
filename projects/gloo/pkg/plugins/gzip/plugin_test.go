@@ -9,11 +9,11 @@ import (
 	"github.com/golang/protobuf/ptypes/wrappers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v2 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/config/filter/http/gzip/v2"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/gzip"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	v2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/config/filter/http/gzip/v2"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/gzip"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 )
 
 var _ = Describe("Plugin", func() {

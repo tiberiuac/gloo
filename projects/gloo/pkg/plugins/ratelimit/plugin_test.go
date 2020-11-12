@@ -6,25 +6,25 @@ import (
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 	"github.com/golang/protobuf/ptypes"
 
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	extauthv1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/extauth"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	extauthv1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/extauth"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/ratelimit"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/ratelimit"
 
 	envoycore "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	rlconfig "github.com/envoyproxy/go-control-plane/envoy/config/ratelimit/v3"
 	envoyratelimit "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/ratelimit/v3"
 	envoyhttp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	ratelimitpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
-	"github.com/solo-io/gloo/projects/gloo/pkg/translator"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	ratelimitpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 )
 
 var _ = Describe("RateLimit Plugin", func() {

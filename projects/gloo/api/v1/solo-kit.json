@@ -6,7 +6,7 @@
   "docs_dir": "docs/content/reference/api",
   "imports": [
     "github.com/solo-io/solo-kit/api/external/kubernetes",
-    "github.com/solo-io/gloo/projects/gloo/api/external/solo/ratelimit"
+    "github.com/solo-io/gloo-edge/projects/gloo/api/external/solo/ratelimit"
   ],
   "resource_groups": {
     "setup.gloo.solo.io": [
@@ -46,7 +46,7 @@
       },
       {
         "name": "RateLimitConfig",
-        "package": "github.com/solo-io/gloo/projects/gloo/pkg/api/external/solo/ratelimit"
+        "package": "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
       }
     ],
     "eds.gloo.solo.io": [

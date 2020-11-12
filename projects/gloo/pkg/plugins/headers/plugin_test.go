@@ -7,9 +7,9 @@ import (
 	"github.com/golang/protobuf/ptypes/wrappers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/headers"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/headers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 	envoycore_sk "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2/core"
 	coreV1 "github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )

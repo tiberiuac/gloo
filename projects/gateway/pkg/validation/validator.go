@@ -6,13 +6,13 @@ import (
 	"sync"
 	"time"
 
-	utils2 "github.com/solo-io/gloo/pkg/utils"
+	utils2 "github.com/solo-io/gloo-edge/pkg/utils"
 
 	"github.com/hashicorp/go-multierror"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	skprotoutils "github.com/solo-io/solo-kit/pkg/utils/protoutils"
 
 	"github.com/avast/retry-go"
@@ -21,11 +21,11 @@ import (
 	"go.uber.org/multierr"
 
 	errors "github.com/rotisserie/eris"
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/translator"
-	"github.com/solo-io/gloo/projects/gateway/pkg/utils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	validationutils "github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/translator"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	validationutils "github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"go.uber.org/zap"

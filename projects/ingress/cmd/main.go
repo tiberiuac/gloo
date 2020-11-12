@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/solo-io/gloo/projects/ingress/pkg/setup"
+	"github.com/solo-io/gloo-edge/projects/ingress/pkg/setup"
 	"github.com/solo-io/go-utils/log"
 )
 

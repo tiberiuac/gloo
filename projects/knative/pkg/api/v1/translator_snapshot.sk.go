@@ -8,7 +8,7 @@ import (
 	"hash/fnv"
 	"log"
 
-	github_com_solo_io_gloo_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo/projects/knative/pkg/api/external/knative"
+	github_com_solo_io_gloo_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/pkg/api/external/knative"
 
 	"github.com/rotisserie/eris"
 	"github.com/solo-io/go-utils/hashutils"

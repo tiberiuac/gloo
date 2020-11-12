@@ -9,7 +9,7 @@ import (
 	"log"
 	"sort"
 
-	github_com_solo_io_gloo_projects_knative_api_external_knative "github.com/solo-io/gloo/projects/knative/api/external/knative"
+	github_com_solo_io_gloo_projects_knative_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/api/external/knative"
 
 	"github.com/solo-io/go-utils/hashutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"

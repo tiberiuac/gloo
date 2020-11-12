@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/solo-io/gloo/test/helpers"
+	"github.com/solo-io/gloo-edge/test/helpers"
 )
 
 func StartSslProxy(ctx context.Context, port uint32) uint32 {

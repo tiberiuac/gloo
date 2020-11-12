@@ -6,4 +6,4 @@ changelog:
       **After this change, ssl configurations that are only different by ssl parameters must have different sni domains.**
       Prior to this change, such a configuration would not error but could result in one ssl configuration being selected over another;
       now an explicit error is recorded on the virtual service.
-    issueLink: https://github.com/solo-io/gloo/issues/3776
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3776

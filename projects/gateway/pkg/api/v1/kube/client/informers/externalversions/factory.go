@@ -23,9 +23,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/clientset/versioned"
-	gatewaysoloio "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/informers/externalversions/gateway.solo.io"
-	internalinterfaces "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/informers/externalversions/internalinterfaces"
+	versioned "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/clientset/versioned"
+	gatewaysoloio "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/informers/externalversions/gateway.solo.io"
+	internalinterfaces "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/informers/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

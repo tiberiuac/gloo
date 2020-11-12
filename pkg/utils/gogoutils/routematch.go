@@ -5,8 +5,8 @@ import (
 	envoyroute "github.com/envoyproxy/go-control-plane/envoy/api/v2/route"
 	envoytype "github.com/envoyproxy/go-control-plane/envoy/type"
 	types "github.com/gogo/protobuf/types"
-	envoyroute_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/api/v2/route"
-	envoytype_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/type"
+	envoyroute_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/api/v2/route"
+	envoytype_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/type"
 	envoycore_sk "github.com/solo-io/solo-kit/pkg/api/external/envoy/api/v2/core"
 	envoytype_sk "github.com/solo-io/solo-kit/pkg/api/external/envoy/type"
 )
@@ -16,7 +16,7 @@ import (
 // in v0.9.0, but solokit depends on gogoproto (and the generated deep equals it creates).
 //
 // we should work to remove that assumption from solokit and delete this code:
-// https://github.com/solo-io/gloo/issues/1793
+// https://github.com/solo-io/gloo-edge/issues/1793
 
 // used in enterprise code
 func ToGlooRouteMatch(routeMatch *envoyroute.RouteMatch) *envoyroute_gloo.RouteMatch {
@@ -181,6 +181,6 @@ func ToGlooGrpc(grpc *envoyroute.RouteMatch_GrpcRouteMatchOptions) *envoyroute_g
 	}
 	return &envoyroute_gloo.RouteMatch_GrpcRouteMatchOptions{
 		// envoy currently doesn't support any options :/
-		// all the more reason to worry about future regressions with this code ala https://github.com/solo-io/gloo/issues/1793
+		// all the more reason to worry about future regressions with this code ala https://github.com/solo-io/gloo-edge/issues/1793
 	}
 }

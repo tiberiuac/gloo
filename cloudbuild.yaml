@@ -20,7 +20,7 @@ steps:
 - name: 'gcr.io/cloud-builders/wget'
   entrypoint: ./ci/spell.sh
   args: ['check']
-  dir: &dir '/workspace/gloo'
+  dir: &dir '/workspace/gloo-edge'
   env:
   # The LSCOMMAND is the env var which tells the spell script how to search for the files it needs to fix.
   - 'LSCOMMAND=find * -type f | grep -v vendor | grep -v docs/themes | grep -v docs/site'

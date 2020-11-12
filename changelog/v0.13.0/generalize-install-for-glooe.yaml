@@ -3,4 +3,4 @@ changelog:
     description: Generalizes the install library so glooe can use it and remove redundant code.
   - type: BREAKING_CHANGE
     description: Glooctl install library has been refactored.
-    issueLink: https://github.com/solo-io/gloo/pull/597
+    issueLink: https://github.com/solo-io/gloo-edge/pull/597

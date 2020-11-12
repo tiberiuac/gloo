@@ -5,7 +5,7 @@ package envoy.config.health_checker.http_path.v2;
 import "udpa/annotations/status.proto";
 import "envoy/config/core/v3/health_check.proto";
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/http_path";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/http_path";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
 

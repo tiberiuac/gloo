@@ -8,8 +8,8 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/protobuf/ptypes/any"
 	errors "github.com/rotisserie/eris"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

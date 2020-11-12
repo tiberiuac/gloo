@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/solo-io/gloo/projects/sds/pkg/server"
-	"github.com/solo-io/gloo/projects/sds/pkg/testutils"
+	"github.com/solo-io/gloo-edge/projects/sds/pkg/server"
+	"github.com/solo-io/gloo-edge/projects/sds/pkg/testutils"
 
 	envoy_api_v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	envoy_service_discovery_v2 "github.com/envoyproxy/go-control-plane/envoy/service/discovery/v2"

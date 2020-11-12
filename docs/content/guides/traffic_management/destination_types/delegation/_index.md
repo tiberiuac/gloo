@@ -324,7 +324,7 @@ Gloo Edge will sort the routes which belong to those tables to avoid short-circu
 prefix matcher coming before a route with a `/foo/bar` one). The sorting occurs by descending specificity: 
 routes with longer paths will come first, and in case of equal paths, precedence will be given to the route that defines 
 the more restrictive matchers. The algorithm used for sorting the routes can be found 
-[here](https://github.com/solo-io/gloo/blob/v1.3.2/projects/gloo/pkg/utils/sort_routes.go#L23).
+[here](https://github.com/solo-io/gloo-edge/blob/v1.3.2/projects/gloo/pkg/utils/sort_routes.go#L23).
 In this scenario, Gloo Edge will also alert the user by adding a warning to the status of the parent resource (the one that 
 specifies the `RouteTableSelector`).
 
@@ -511,6 +511,6 @@ Explore Gloo Edge's Routing API in the API documentation:
 
 - {{< protobuf name="gateway.solo.io.RouteTable" display="Route Tables">}}
 
-Please submit questions and feedback to [the solo.io slack channel](https://slack.solo.io/), or [open an issue on GitHub](https://github.com/solo-io/gloo).
+Please submit questions and feedback to [the solo.io slack channel](https://slack.solo.io/), or [open an issue on GitHub](https://github.com/solo-io/gloo-edge).
 
 

@@ -3,12 +3,12 @@ package translator
 import (
 	"fmt"
 
-	validationapi "github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/xds"
+	validationapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/xds"
 	"github.com/solo-io/go-utils/contextutils"
 	envoycache "github.com/solo-io/solo-kit/pkg/api/v1/control-plane/cache"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"

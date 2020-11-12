@@ -11,7 +11,7 @@ import "google/protobuf/any.proto";
 import "validate/validate.proto";
 
 // manually updated this line:
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/wasm/v3";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/wasm/v3";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
 

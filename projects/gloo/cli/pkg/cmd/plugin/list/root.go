@@ -1,10 +1,10 @@
 package list
 
 import (
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 	"github.com/spf13/cobra"
 )
 

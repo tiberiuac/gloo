@@ -12,11 +12,11 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	errors "github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/discovery/pkg/fds"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	plugins "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options"
-	glooaws "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/aws"
-	awsutils "github.com/solo-io/gloo/projects/gloo/pkg/utils/aws"
+	"github.com/solo-io/gloo-edge/projects/discovery/pkg/fds"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	plugins "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options"
+	glooaws "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/aws"
+	awsutils "github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/aws"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

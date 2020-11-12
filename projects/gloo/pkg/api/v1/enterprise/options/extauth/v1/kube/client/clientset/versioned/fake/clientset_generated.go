@@ -19,9 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned"
-	enterprisev1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned/typed/enterprise.gloo.solo.io/v1"
-	fakeenterprisev1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned/typed/enterprise.gloo.solo.io/v1/fake"
+	clientset "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned"
+	enterprisev1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned/typed/enterprise.gloo.solo.io/v1"
+	fakeenterprisev1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1/kube/client/clientset/versioned/typed/enterprise.gloo.solo.io/v1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

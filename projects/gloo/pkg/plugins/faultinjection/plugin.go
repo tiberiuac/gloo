@@ -6,13 +6,13 @@ import (
 	envoyhttpfault "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/fault/v3"
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 	"github.com/gogo/protobuf/proto"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	fault "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/faultinjection"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/internal/common"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	fault "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/faultinjection"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/internal/common"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
 )
 
 var pluginStage = plugins.DuringStage(plugins.FaultStage)

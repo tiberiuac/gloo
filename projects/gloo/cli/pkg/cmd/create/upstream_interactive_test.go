@@ -3,11 +3,11 @@ package create_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/pkg/cliutil/testutil"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	. "github.com/solo-io/gloo/projects/gloo/cli/pkg/surveyutils"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/testutil"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	. "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/surveyutils"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )

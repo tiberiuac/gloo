@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 
@@ -18,7 +18,7 @@ import (
 	envoy_extensions_filters_network_http_connection_manager_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	"github.com/golang/protobuf/proto"
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/pkg/utils/protoutils"
+	"github.com/solo-io/gloo-edge/pkg/utils/protoutils"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

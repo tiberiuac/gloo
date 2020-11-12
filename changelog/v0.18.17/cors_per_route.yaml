@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: Enable per-route CORS policy specification.
-    issueLink: https://github.com/solo-io/gloo/issues/1020
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1020

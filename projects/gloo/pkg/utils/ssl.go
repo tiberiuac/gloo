@@ -6,14 +6,14 @@ import (
 	envoyauth "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
 	envoymatcher "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
 	gogo_types "github.com/gogo/protobuf/types"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
 
 	"github.com/rotisserie/eris"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 
-//go:generate mockgen -destination mocks/mock_ssl.go github.com/solo-io/gloo/projects/gloo/pkg/utils SslConfigTranslator
+//go:generate mockgen -destination mocks/mock_ssl.go github.com/solo-io/gloo-edge/projects/gloo/pkg/utils SslConfigTranslator
 
 const (
 	MetadataPluginName    = "envoy.grpc_credentials.file_based_metadata"

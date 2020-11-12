@@ -3,11 +3,11 @@ package utils_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	. "github.com/solo-io/gloo/projects/gateway/pkg/utils"
+	. "github.com/solo-io/gloo-edge/projects/gateway/pkg/utils"
 )
 
 var _ = Describe("gateway util unit tests", func() {

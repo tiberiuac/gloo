@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/solo-io/gloo/test/helpers"
-	"github.com/solo-io/gloo/test/kube2e"
+	"github.com/solo-io/gloo-edge/test/helpers"
+	"github.com/solo-io/gloo-edge/test/kube2e"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/go-utils/testutils/helper"
 	skhelpers "github.com/solo-io/solo-kit/test/helpers"
@@ -63,7 +63,7 @@ func StartTestHelper() {
 	kube2e.GlooctlCheckEventuallyHealthy(1, testHelper, "90s")
 
 	// TODO(marco): explicitly enable strict validation, this can be removed once we enable validation by default
-	// See https://github.com/solo-io/gloo/issues/1374
+	// See https://github.com/solo-io/gloo-edge/issues/1374
 	kube2e.UpdateAlwaysAcceptSetting(false, testHelper.InstallNamespace)
 
 	// Ensure gloo reaches valid state and doesn't continually resync

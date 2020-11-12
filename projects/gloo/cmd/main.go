@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/setup"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/setup"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/go-utils/stats"
 )

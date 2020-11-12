@@ -7,15 +7,15 @@ import (
 	"os/exec"
 	"strings"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	"github.com/spf13/cobra"
 
 	errors "github.com/rotisserie/eris"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd"
 )
 
 func Glooctl(args string) error {

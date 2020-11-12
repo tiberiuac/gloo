@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package healthcheck.options.gloo.solo.io;
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/healthcheck";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/healthcheck";
 
 import "gogoproto/gogo.proto";
 import "solo-kit/api/v1/ref.proto";

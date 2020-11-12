@@ -3,4 +3,4 @@ changelog:
     description: |
       Bump solo-kit to a version where CRDs are registered with both Version and Versions set.
       This fixes gloo installation on Kubernetes 1.10 when CRDs are not created via helm chart.
-    issueLink: https://github.com/solo-io/gloo/issues/828
+    issueLink: https://github.com/solo-io/gloo-edge/issues/828

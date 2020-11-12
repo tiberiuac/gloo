@@ -5,11 +5,11 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 
-	"github.com/solo-io/gloo/pkg/cliutil/testutil"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/testutils"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/testutil"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/testutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 

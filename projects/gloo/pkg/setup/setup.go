@@ -4,17 +4,17 @@ import (
 	"context"
 	"os"
 
-	"github.com/solo-io/gloo/pkg/version"
+	"github.com/solo-io/gloo-edge/pkg/version"
 
 	"go.uber.org/zap"
 
-	"github.com/solo-io/gloo/pkg/utils/usage"
-	"github.com/solo-io/gloo/projects/metrics/pkg/metricsservice"
+	"github.com/solo-io/gloo-edge/pkg/utils/usage"
+	"github.com/solo-io/gloo-edge/projects/metrics/pkg/metricsservice"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/reporting-client/pkg/client"
 
-	"github.com/solo-io/gloo/pkg/utils/setuputils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/syncer"
+	"github.com/solo-io/gloo-edge/pkg/utils/setuputils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/syncer"
 )
 
 func Main(customCtx context.Context) error {

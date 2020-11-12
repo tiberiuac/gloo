@@ -8,7 +8,7 @@ changelog:
     now just reference the correspondent new `AuthConfig` resource. The advantages of this change are twofold: besides
     reducing the duplication of configuration, it guarantees the stability of secured upstreams between auth
     configuration updates.
-  issueLink: https://github.com/solo-io/gloo/issues/1201
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1201
   resolvesIssue: false
 - type: DEPENDENCY_BUMP
   dependencyOwner: solo-io

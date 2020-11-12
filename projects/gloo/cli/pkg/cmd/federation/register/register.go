@@ -3,7 +3,7 @@ package register
 import (
 	"context"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
 	"github.com/solo-io/skv2/pkg/multicluster/register"
 	v1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

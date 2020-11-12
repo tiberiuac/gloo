@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix setting custom runAsUser during helm install via --set
-    issueLink: https://github.com/solo-io/gloo/issues/3152
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3152

@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix an issue with CORS and regex.
-    issueLink: https://github.com/solo-io/gloo/issues/2614
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2614

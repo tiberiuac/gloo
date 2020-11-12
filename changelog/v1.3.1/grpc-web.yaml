@@ -2,4 +2,4 @@ changelog:
 - type: FIX
   description: >
     Wire in grpc web into gloo.
-  issueLink: https://github.com/solo-io/gloo/issues/555
+  issueLink: https://github.com/solo-io/gloo-edge/issues/555

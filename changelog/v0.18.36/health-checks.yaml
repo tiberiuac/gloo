@@ -1,4 +1,4 @@
 changelog:
 - type: NEW_FEATURE
   description: Add support for envoy health checks
-  issueLink: https://github.com/solo-io/gloo/issues/1113
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1113

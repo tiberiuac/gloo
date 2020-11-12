@@ -15,26 +15,26 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/dgrijalva/jwt-go"
-	gwdefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
-	aws2 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/aws"
-	"github.com/solo-io/gloo/test/helpers"
-	"github.com/solo-io/gloo/test/kube2e"
+	gwdefaults "github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
+	aws2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/aws"
+	"github.com/solo-io/gloo-edge/test/helpers"
+	"github.com/solo-io/gloo-edge/test/kube2e"
 
-	"github.com/solo-io/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 
-	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo-edge/test/services"
 
-	gw1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	gw1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	aws_plugin "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/aws"
+	aws_plugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/aws"
 
 	"github.com/aws/aws-sdk-go/aws/credentials"
 )

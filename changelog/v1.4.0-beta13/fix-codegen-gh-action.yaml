@@ -3,4 +3,4 @@ changelog:
     description: >
       Fix codegen github action to prevent false positives by ensuring that we checkout git with all other tags so
       the `git describe` call in our makefile succeeds
-    issueLink: https://github.com/solo-io/gloo/issues/3058
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3058

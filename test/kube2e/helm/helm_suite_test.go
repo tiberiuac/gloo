@@ -10,11 +10,11 @@ import (
 
 	"github.com/solo-io/go-utils/log"
 
-	"github.com/solo-io/gloo/test/kube2e"
+	"github.com/solo-io/gloo-edge/test/kube2e"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/solo-io/gloo/test/helpers"
+	"github.com/solo-io/gloo-edge/test/helpers"
 
 	"github.com/solo-io/go-utils/testutils/helper"
 

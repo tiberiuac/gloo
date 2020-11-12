@@ -1,6 +1,6 @@
 changelog:
   - type: FIX
-    issueLink: https://github.com/solo-io/gloo/issues/1893
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1893
     description: >
       glooctl assumed a kube-based environment when checking for a client/Server version
       mismtach. When using Consul, this caused a delay in the glooctl command while the connection

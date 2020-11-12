@@ -3,9 +3,9 @@ package setup
 import (
 	"context"
 
-	"github.com/solo-io/gloo/pkg/version"
+	"github.com/solo-io/gloo-edge/pkg/version"
 
-	"github.com/solo-io/gloo/pkg/utils/setuputils"
+	"github.com/solo-io/gloo-edge/pkg/utils/setuputils"
 )
 
 func Main(customCtx context.Context) error {

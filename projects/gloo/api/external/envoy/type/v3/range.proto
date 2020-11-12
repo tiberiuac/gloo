@@ -47,6 +47,6 @@ message DoubleRange {
   // end of the range (exclusive)
   double end = 2;
 }
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/type/v3";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/type/v3";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

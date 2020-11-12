@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 
 	"github.com/ghodss/yaml"
 	"github.com/golang/protobuf/jsonpb"

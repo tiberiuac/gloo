@@ -9,8 +9,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/api/converters/kube"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/converters/kube"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	kubev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

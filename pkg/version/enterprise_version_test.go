@@ -3,7 +3,7 @@ package version_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/pkg/version"
+	"github.com/solo-io/gloo-edge/pkg/version"
 	"github.com/spf13/afero"
 )
 

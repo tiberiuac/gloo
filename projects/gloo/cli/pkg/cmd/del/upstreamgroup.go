@@ -3,13 +3,13 @@ package del
 import (
 	"fmt"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/common"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/common"
 	"github.com/solo-io/go-utils/cliutils"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/spf13/cobra"
 )

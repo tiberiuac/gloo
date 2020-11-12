@@ -19,17 +19,17 @@ func run() error {
 		Words:                   false,
 		PrintConfidence:         false,
 		UseCsv:                  true,
-		PrunePath:               "github.com/solo-io/gloo/vendor/",
+		PrunePath:               "github.com/solo-io/gloo-edge/vendor/",
 		HelperListGlooPkgs:      false,
 		ConsolidatedLicenseFile: "third_party_licenses.txt",
 		Pkgs: []string{
-			"github.com/solo-io/gloo/projects/accesslogger/cmd",
-			"github.com/solo-io/gloo/projects/discovery/cmd",
-			"github.com/solo-io/gloo/projects/envoyinit/cmd",
-			"github.com/solo-io/gloo/projects/gateway/cmd",
-			"github.com/solo-io/gloo/projects/gloo/cmd",
-			"github.com/solo-io/gloo/projects/ingress/cmd",
-			"github.com/solo-io/gloo/projects/hypergloo",
+			"github.com/solo-io/gloo-edge/projects/accesslogger/cmd",
+			"github.com/solo-io/gloo-edge/projects/discovery/cmd",
+			"github.com/solo-io/gloo-edge/projects/envoyinit/cmd",
+			"github.com/solo-io/gloo-edge/projects/gateway/cmd",
+			"github.com/solo-io/gloo-edge/projects/gloo/cmd",
+			"github.com/solo-io/gloo-edge/projects/ingress/cmd",
+			"github.com/solo-io/gloo-edge/projects/hypergloo",
 		},
 		Product: NewGlooProductLicenseHandler(linuxTarget),
 	}
@@ -53,7 +53,7 @@ func NewGlooProductLicenseHandler(targetOs string) *GlooProductLicenseHandler {
 
 func (lh *GlooProductLicenseHandler) SkipLicense(l license.License) bool {
 	// only present on mac
-	if lh.TargetOs == linuxTarget && l.Package == "github.com/solo-io/gloo/vendor/github.com/mitchellh/go-homedir" {
+	if lh.TargetOs == linuxTarget && l.Package == "github.com/solo-io/gloo-edge/vendor/github.com/mitchellh/go-homedir" {
 		return true
 	}
 	return false

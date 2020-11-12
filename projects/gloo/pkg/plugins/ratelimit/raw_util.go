@@ -10,9 +10,9 @@ import (
 	envoyratelimit "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/ratelimit/v3"
 	envoytype "github.com/envoyproxy/go-control-plane/envoy/type"
 	"github.com/golang/protobuf/ptypes/wrappers"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
 
-	regexutils "github.com/solo-io/gloo/pkg/utils/regexutils"
+	regexutils "github.com/solo-io/gloo-edge/pkg/utils/regexutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 

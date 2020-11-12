@@ -8,13 +8,13 @@ import (
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	envoyroute "github.com/envoyproxy/go-control-plane/envoy/api/v2/route"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
 )
 
 var _ = Describe("TypedPerFilterConfig", func() {

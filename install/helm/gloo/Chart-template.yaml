@@ -4,7 +4,7 @@ name: gloo
 home: https://gloo.solo.io/
 icon: https://raw.githubusercontent.com/solo-io/gloo/master/docs/content/img/Gloo-01.png
 sources:
-  - https://github.com/solo-io/gloo
+  - https://github.com/solo-io/gloo-edge
 keywords:
   - apigateway
   - kubernetes

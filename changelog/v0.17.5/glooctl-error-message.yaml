@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Improve glooctl error message for malformed upstreams
-    issueLink: https://github.com/solo-io/gloo/issues/655
+    issueLink: https://github.com/solo-io/gloo-edge/issues/655

@@ -1,7 +1,7 @@
 changelog:
   - type: FIX
     description: Update --kubeyaml flag to --dry-run to be consistent with kubernetes conventions.
-    issueLink: https://github.com/solo-io/gloo/issues/626
+    issueLink: https://github.com/solo-io/gloo-edge/issues/626
   - type: DEPENDENCY_BUMP
     dependencyOwner: solo-io
     dependencyRepo: go-utils

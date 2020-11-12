@@ -1,4 +1,4 @@
 changelog:
   - type: BREAKING_CHANGE
     description: Allow gloo extensions to have access to extensions settings.
-    issueLink: https://github.com/solo-io/gloo/pull/533
+    issueLink: https://github.com/solo-io/gloo-edge/pull/533

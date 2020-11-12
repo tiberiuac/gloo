@@ -7,11 +7,11 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	. "github.com/solo-io/gloo/projects/gateway/pkg/validation"
+	. "github.com/solo-io/gloo-edge/projects/gateway/pkg/validation"
 )
 
 var _ = Describe("NotificationChannel", func() {

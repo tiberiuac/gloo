@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: Add support for users to provide their own Envoy grpc rate-limit server.
-    issueLink: https://github.com/solo-io/gloo/issues/1398
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1398

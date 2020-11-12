@@ -6,7 +6,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/solo-io/gloo/projects/envoyinit/cmd/utils"
+	"github.com/solo-io/gloo-edge/projects/envoyinit/cmd/utils"
 )
 
 func writeConfig(cfg string) {

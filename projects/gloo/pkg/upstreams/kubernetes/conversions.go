@@ -4,9 +4,9 @@ import (
 	"context"
 	"strings"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	kubeplugin "github.com/solo-io/gloo/projects/gloo/pkg/plugins/kubernetes"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	kubeplugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/kubernetes"
 	skkube "github.com/solo-io/solo-kit/pkg/api/v1/resources/common/kubernetes"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	kubev1 "k8s.io/api/core/v1"

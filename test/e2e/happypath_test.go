@@ -12,27 +12,27 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/types"
-	gatewaydefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	gatewaydefaults "github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 
 	errors "github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/healthcheck"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/healthcheck"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/stats"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/stats"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/test/helpers"
 	"github.com/solo-io/solo-kit/test/setup"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	matchers "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
-	static_plugin_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/static"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	gloohelpers "github.com/solo-io/gloo/test/helpers"
-	"github.com/solo-io/gloo/test/v1helpers"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	matchers "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
+	static_plugin_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/static"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	gloohelpers "github.com/solo-io/gloo-edge/test/helpers"
+	"github.com/solo-io/gloo-edge/test/v1helpers"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	skkubeutils "github.com/solo-io/solo-kit/pkg/utils/kubeutils"

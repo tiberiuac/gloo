@@ -1,6 +1,6 @@
 changelog:
   - type: FIX
-    issueLink: https://github.com/solo-io/gloo/issues/1812
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1812
     description: >
       The Gateway controller now resyncs Proxy resources when Gloo sends a notification that
       an event occurred. This allows the Gateway to re-process its resources

@@ -15,8 +15,8 @@ import (
 	"sync/atomic"
 	"text/template"
 
-	"github.com/solo-io/gloo/projects/envoyinit/cmd/utils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/envoyinit/cmd/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 
 	"bytes"
 	"io"

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/solo-io/gloo/projects/metrics/pkg/metricsservice"
+	"github.com/solo-io/gloo-edge/projects/metrics/pkg/metricsservice"
 	"github.com/solo-io/reporting-client/pkg/client"
 )
 

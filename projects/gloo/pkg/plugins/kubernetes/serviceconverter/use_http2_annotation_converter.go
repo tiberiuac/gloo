@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/gogo/protobuf/types"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	kubev1 "k8s.io/api/core/v1"
 )
 

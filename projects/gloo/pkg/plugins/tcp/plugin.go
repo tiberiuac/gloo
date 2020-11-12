@@ -11,13 +11,13 @@ import (
 	"github.com/gogo/protobuf/types"
 	"github.com/hashicorp/go-multierror"
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
-	translatorutil "github.com/solo-io/gloo/projects/gloo/pkg/translator"
-	usconversion "github.com/solo-io/gloo/projects/gloo/pkg/upstreams"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
+	translatorutil "github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
+	usconversion "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 )
 
 const (

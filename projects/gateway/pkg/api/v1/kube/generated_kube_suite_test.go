@@ -6,7 +6,7 @@ import (
 	"github.com/avast/retry-go"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/test/kube2e"
+	"github.com/solo-io/gloo-edge/test/kube2e"
 	"github.com/solo-io/go-utils/testutils/clusterlock"
 )
 

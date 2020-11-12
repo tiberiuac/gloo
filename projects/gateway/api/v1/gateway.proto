@@ -1,6 +1,6 @@
 syntax = "proto3";
 package gateway.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gateway/pkg/api/v1";
+option go_package = "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
@@ -58,7 +58,7 @@ message Gateway {
     }
 
     /*
-    * Names of the [`Proxy`](https://gloo.solo.io/api/github.com/solo-io/gloo/projects/gloo/api/v1/proxy.proto.sk/)
+    * Names of the [`Proxy`](https://gloo.solo.io/api/github.com/solo-io/gloo-edge/projects/gloo/api/v1/proxy.proto.sk/)
     * resources to generate from this gateway. If other gateways exist which point to the same proxy,
     * Gloo will join them together.
     *
@@ -68,10 +68,10 @@ message Gateway {
     * Envoy instances announce their `role` to Gloo, which maps to the  `{{ .Namespace }}~{{ .Name }}`
     * of the Proxy resource.
     *
-    * The template for this value can be seen in the [Gloo Helm chart](https://github.com/solo-io/gloo/blob/master/install/helm/gloo/templates/9-gateway-proxy-configmap.yaml#L22)
+    * The template for this value can be seen in the [Gloo Helm chart](https://github.com/solo-io/gloo-edge/blob/master/install/helm/gloo/templates/9-gateway-proxy-configmap.yaml#L22)
     *
     * Note: this field also accepts fields written in camel-case. They will be converted
-    * to kebab-case in the Proxy name. This allows use of the [Gateway Name Helm value](https://github.com/solo-io/gloo/blob/master/install/helm/gloo/values-gateway-template.yaml#L47)
+    * to kebab-case in the Proxy name. This allows use of the [Gateway Name Helm value](https://github.com/solo-io/gloo-edge/blob/master/install/helm/gloo/values-gateway-template.yaml#L47)
     * for this field
     *
     * Defaults to `["gateway-proxy"]`

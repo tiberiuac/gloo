@@ -7,4 +7,4 @@ changelog:
     dependencyRepo: solo-kit
     dependencyTag: v0.10.10
     description: Update solo-kit to version 0.10.10.
-    issueLink: https://github.com/solo-io/gloo/issues/706
+    issueLink: https://github.com/solo-io/gloo-edge/issues/706

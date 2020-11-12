@@ -7,4 +7,4 @@ changelog:
       if this doesn't happen within the warming timeout. This helps prevent unnecessary downtime in upgrade scenarios.
       If `EndpointsWarmingTimeout` is set to zero on the Gloo settings, the old default behavior is used (Gloo doesn't
       wait for EDS or discovery to be ready before propagating config).
-    issueLink: https://github.com/solo-io/gloo/issues/2673
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2673

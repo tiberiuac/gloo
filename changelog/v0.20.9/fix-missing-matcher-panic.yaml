@@ -1,4 +1,4 @@
 changelog:
 - type: FIX
   description: Avoid panicking on routes without matchers.
-  issueLink: https://github.com/solo-io/gloo/issues/1438
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1438

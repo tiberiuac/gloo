@@ -4,9 +4,9 @@ import (
 	"github.com/hashicorp/consul/api"
 	vaultapi "github.com/hashicorp/vault/api"
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/printers"
-	"github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/printers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
 	"github.com/spf13/pflag"
 	"k8s.io/client-go/tools/clientcmd"
 )

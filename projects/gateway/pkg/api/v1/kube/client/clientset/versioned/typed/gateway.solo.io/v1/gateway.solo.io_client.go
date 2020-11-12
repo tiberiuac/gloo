@@ -19,8 +19,8 @@ limitations under the License.
 package v1
 
 import (
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/apis/gateway.solo.io/v1"
-	"github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/scheme"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/apis/gateway.solo.io/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )
 

@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Assign a service account name to the gateway conversion job.
-    issueLink: https://github.com/solo-io/gloo/issues/1085
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1085

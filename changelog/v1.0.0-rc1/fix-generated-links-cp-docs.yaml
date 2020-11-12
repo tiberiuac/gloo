@@ -5,7 +5,7 @@ changelog:
     dependencyTag: v0.11.5
   - type: FIX
     description: Fix generated API field links in docs.solo.io/gloo-edge/latest/.
-    issueLink: https://github.com/solo-io/gloo/issues/1477
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1477
   - type: NON_USER_FACING
     description: Cherry-pick recent docs updates from solo-docs.
-    issueLink: https://github.com/solo-io/gloo/issues/1505
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1505

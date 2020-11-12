@@ -3,9 +3,9 @@ package validation_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
 )
 
 var _ = Describe("validation utils", func() {

@@ -1,4 +1,4 @@
 changelog:
   - type: NON_USER_FACING
     description: Fix ingress docs rendering and formatting, tested and confirmed docs work
-    issueLink: https://github.com/solo-io/gloo/issues/3222
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3222

@@ -29,7 +29,7 @@ def import_and_copy(f):
         path = os.path.join(envoy_path,"api/",i)
         if os.path.exists(path):
             folder = os.path.dirname(i)
-            option = 'option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/'+folder+'";'
+            option = 'option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/'+folder+'";'
             if os.getenv("COPY"):
                 f = os.system
             else:
@@ -39,7 +39,7 @@ def import_and_copy(f):
             if not gopath:
                 gopath = os.getenv("HOME")+"/go"
 
-            basedir = gopath+"/src/github.com/solo-io/gloo/projects/gloo/api/external/"
+            basedir = gopath+"/src/github.com/solo-io/gloo-edge/projects/gloo/api/external/"
             f('mkdir -p ' + basedir + folder)
             dest = basedir +i
             f('cp '+path+' ' + dest)
@@ -51,7 +51,7 @@ def main():
     if len(sys.argv) != 2:
         print("please run like so:")
         print("    [COPY=1] [GOPATH=...] ENVOYPATH=... {} path-to-proto-in-envoy".format(sys.argv[0]))
-        print("for example, this will copy route_components.proto and its dependencies to $GOPATH/src/github.com/solo-io/gloo/projects/gloo/api/external from ~/sources/envoy/api:")
+        print("for example, this will copy route_components.proto and its dependencies to $GOPATH/src/github.com/solo-io/gloo-edge/projects/gloo/api/external from ~/sources/envoy/api:")
         print("    COPY=1 GOPATH=~/go ENVOYPATH=~/sources/envoy {} envoy/config/route/v3/route_components.proto".format(sys.argv[0]))
         os.abort()
     import_and_copy(sys.argv[1])

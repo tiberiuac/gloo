@@ -4,11 +4,11 @@ import (
 	"net"
 	"time"
 
-	gatewaysyncer "github.com/solo-io/gloo/projects/gateway/pkg/syncer"
+	gatewaysyncer "github.com/solo-io/gloo-edge/projects/gateway/pkg/syncer"
 
-	"github.com/solo-io/gloo/projects/gateway/pkg/translator"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/translator"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
 
 	"github.com/solo-io/solo-kit/test/helpers"
 
@@ -27,9 +27,9 @@ import (
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/memory"
 
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
 	"google.golang.org/grpc"
 
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
@@ -41,11 +41,11 @@ import (
 	. "github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/config"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	fds_syncer "github.com/solo-io/gloo/projects/discovery/pkg/fds/syncer"
-	uds_syncer "github.com/solo-io/gloo/projects/discovery/pkg/uds/syncer"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	"github.com/solo-io/gloo/projects/gloo/pkg/syncer"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	fds_syncer "github.com/solo-io/gloo-edge/projects/discovery/pkg/fds/syncer"
+	uds_syncer "github.com/solo-io/gloo-edge/projects/discovery/pkg/uds/syncer"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/syncer"
 
 	"k8s.io/client-go/kubernetes"
 )

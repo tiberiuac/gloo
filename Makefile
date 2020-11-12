@@ -50,7 +50,7 @@ print-git-info:
 	@echo ON_DEFAULT_BRANCH: $(ON_DEFAULT_BRANCH)
 	@echo ASSETS_ONLY_RELEASE: $(ASSETS_ONLY_RELEASE)
 
-LDFLAGS := "-X github.com/solo-io/gloo/pkg/version.Version=$(VERSION)"
+LDFLAGS := "-X github.com/solo-io/gloo-edge/pkg/version.Version=$(VERSION)"
 GCFLAGS := all="-N -l"
 
 # Define Architecture. Default: amd64
@@ -191,7 +191,7 @@ generate-client-mocks:
 		echo Generating mock for $(word 3,$(subst :, , $(INFO)))...; \
 		GOBIN=$(DEPSGOBIN) mockgen -destination=projects/$(word 1,$(subst :, , $(INFO)))/pkg/mocks/mock_$(word 2,$(subst :, , $(INFO)))_client.go \
      		-package=mocks \
-     		github.com/solo-io/gloo/projects/$(word 1,$(subst :, , $(INFO)))/pkg/api/v1 \
+     		github.com/solo-io/gloo-edge/projects/$(word 1,$(subst :, , $(INFO)))/pkg/api/v1 \
      		$(word 3,$(subst :, , $(INFO))) \
      	;)
 

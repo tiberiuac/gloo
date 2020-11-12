@@ -3,10 +3,10 @@ package add_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/testutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/testutils"
 )
 
 var _ = Describe("Root", func() {

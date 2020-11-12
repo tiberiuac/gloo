@@ -41,7 +41,7 @@ The documentation for Gloo Edge is meant to be conversational and engaging. It s
 
 ## Document naming and structure
 
-The docs use Hugo to generate the static website, which makes the structure and naming of the directories holding the content important. The structure of the current docs can be found on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo). Here is a representation of `content` directory as of this writing.
+The docs use Hugo to generate the static website, which makes the structure and naming of the directories holding the content important. The structure of the current docs can be found on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo-edge). Here is a representation of `content` directory as of this writing.
 
 ```bash
 # Menu item in the navigation bar

@@ -19,7 +19,7 @@ weight: 5
 
 
 
-##### Source File: [github.com/solo-io/gloo/projects/gloo/api/external/envoy/extensions/aws/filter.proto](https://github.com/solo-io/gloo/blob/master/projects/gloo/api/external/envoy/extensions/aws/filter.proto)
+##### Source File: [github.com/solo-io/gloo-edge/projects/gloo/api/external/envoy/extensions/aws/filter.proto](https://github.com/solo-io/gloo-edge/blob/master/projects/gloo/api/external/envoy/extensions/aws/filter.proto)
 
 
 

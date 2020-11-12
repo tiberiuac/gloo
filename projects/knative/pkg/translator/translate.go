@@ -13,18 +13,18 @@ import (
 	"knative.dev/pkg/network"
 	"knative.dev/serving/pkg/apis/networking"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 
-	v1alpha1 "github.com/solo-io/gloo/projects/knative/pkg/api/external/knative"
+	v1alpha1 "github.com/solo-io/gloo-edge/projects/knative/pkg/api/external/knative"
 	"github.com/solo-io/go-utils/contextutils"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/headers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/headers"
 
 	errors "github.com/rotisserie/eris"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/retries"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/retries"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	knativev1alpha1 "knative.dev/serving/pkg/apis/networking/v1alpha1"

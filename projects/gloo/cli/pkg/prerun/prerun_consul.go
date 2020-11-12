@@ -2,8 +2,8 @@ package prerun
 
 import (
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 )
 
 func EnableConsulClients(opts *options.Options) error {

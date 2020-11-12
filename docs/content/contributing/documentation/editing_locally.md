@@ -13,7 +13,7 @@ The first step in the preparation process is to install the proper software on y
 
 You're going to need some software to make all this magic happen:
 
-* **Hugo** - Hugo is a static site generator written in Go. Unlike the other programs listed here, You need a specific version of Hugo for this to work, which is [noted in the docs makefile](https://github.com/solo-io/gloo/blob/master/docs/Makefile#L26) as `HUGO_VERSION`. You can find the [installation process](https://gohugo.io/getting-started/installing/) for Hugo on their website. Refer to the tarball installation section for instructions on downloading specific versions.
+* **Hugo** - Hugo is a static site generator written in Go. Unlike the other programs listed here, You need a specific version of Hugo for this to work, which is [noted in the docs makefile](https://github.com/solo-io/gloo-edge/blob/master/docs/Makefile#L26) as `HUGO_VERSION`. You can find the [installation process](https://gohugo.io/getting-started/installing/) for Hugo on their website. Refer to the tarball installation section for instructions on downloading specific versions.
 
 * **Go** - Golang is a programming language created by Google. You can find the [installation process](https://golang.org/doc/install) for Go on their website.
 
@@ -40,7 +40,7 @@ With the correct software in place, now it is time to get the docs from the Gloo
 
 In this step you will fork the Gloo Edge repository into your own account. This step assumes that you already have a GitHub account. More information on forking a repository can be found on [GitHub's website](https://guides.github.com/activities/forking/).
 
-* On the [Gloo Edge repository](https://github.com/solo-io/gloo), click on the **Fork** button at the top of the screen
+* On the [Gloo Edge repository](https://github.com/solo-io/gloo-edge), click on the **Fork** button at the top of the screen
 * Select your account as a destination for the fork
 
 After a few moments the fork will complete and you will be taken to the page with your fork of the Gloo Edge repository. This is the repository you will clone locally.

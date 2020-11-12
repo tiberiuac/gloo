@@ -4,11 +4,11 @@ import (
 	"context"
 
 	"github.com/golang/mock/gomock"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	kubev1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/kubernetes"
-	mock_kubernetes "github.com/solo-io/gloo/projects/gloo/pkg/plugins/kubernetes/mocks"
-	mock_cache "github.com/solo-io/gloo/test/mocks/cache"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	kubev1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/kubernetes"
+	mock_kubernetes "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/kubernetes/mocks"
+	mock_cache "github.com/solo-io/gloo-edge/test/mocks/cache"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 
 	. "github.com/onsi/ginkgo"

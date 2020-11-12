@@ -9,8 +9,8 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/types"
-	regexutils "github.com/solo-io/gloo/pkg/utils/regexutils"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/ratelimit"
+	regexutils "github.com/solo-io/gloo-edge/pkg/utils/regexutils"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/ratelimit"
 	gloorl "github.com/solo-io/solo-apis/pkg/api/ratelimit.solo.io/v1alpha1"
 )
 

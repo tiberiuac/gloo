@@ -1,6 +1,6 @@
 changelog:
   - type: NON_USER_FACING
-    issueLink: https://github.com/solo-io/gloo/issues/2856
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2856
     description: >
       Ensure hosted docs hugo version locally matches the version in CI, so any containers built locally match
       containers built in CI. Also updates the CI hugo version to a newer hugo version that renders our bulleted lists

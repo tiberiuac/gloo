@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix race condition where helm chart sometimes wouldn't publish on release builds.
-    issueLink: https://github.com/solo-io/gloo/issues/785
+    issueLink: https://github.com/solo-io/gloo-edge/issues/785

@@ -3,4 +3,4 @@ changelog:
     description: >
       Automatically determine whether or not a release should create PRs for our formulas, rather than hard-coding
       an ASSETS_ONLY variable into the makefile.
-    issueLink: https://github.com/solo-io/gloo/issues/2084
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2084

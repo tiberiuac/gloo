@@ -9,14 +9,14 @@ import (
 	"github.com/hashicorp/consul/api"
 	"github.com/rotisserie/eris"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/discovery"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/discovery"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
 
 	envoyapi "github.com/envoyproxy/go-control-plane/envoy/api/v2"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/xds"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/xds"
 )
 
 var _ discovery.DiscoveryPlugin = new(plugin)

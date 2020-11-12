@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: fixed the upstream edit command
-    issueLink: https://github.com/solo-io/gloo/issues/516
+    issueLink: https://github.com/solo-io/gloo-edge-edge/issues/516

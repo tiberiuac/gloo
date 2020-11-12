@@ -1,6 +1,6 @@
 changelog:
 - type: NEW_FEATURE
   description: Experimental support for envoy-wasm
-  issueLink: https://github.com/solo-io/gloo/issues/1868
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1868
 
 

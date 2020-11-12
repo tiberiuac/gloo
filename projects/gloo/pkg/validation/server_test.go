@@ -6,33 +6,33 @@ import (
 	"sync"
 	"time"
 
-	ratelimit "github.com/solo-io/gloo/projects/gloo/pkg/api/external/solo/ratelimit"
+	ratelimit "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
 
-	enterprise_gloo_solo_io "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
-	mock_consul "github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul/mocks"
+	enterprise_gloo_solo_io "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	mock_consul "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul/mocks"
 	"google.golang.org/grpc"
 
-	"github.com/solo-io/gloo/test/samples"
+	"github.com/solo-io/gloo-edge/test/samples"
 
-	validationgrpc "github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
+	validationgrpc "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/validation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/validation"
 
 	"github.com/golang/mock/gomock"
 
-	sslutils "github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	sslutils "github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/memory"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/translator"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/registry"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/registry"
 )
 
 var _ = Describe("Validation Server", func() {

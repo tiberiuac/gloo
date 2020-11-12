@@ -7,17 +7,17 @@ import (
 	"os"
 	"strings"
 
-	"github.com/solo-io/gloo/pkg/cliutil/install"
-	installcmd "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/install"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/install"
+	installcmd "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/install"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	"github.com/solo-io/go-utils/tarutils"
 	"github.com/spf13/afero"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/go-utils/debugutils"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

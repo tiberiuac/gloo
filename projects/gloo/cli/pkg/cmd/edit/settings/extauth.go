@@ -1,13 +1,13 @@
 package settings
 
 import (
-	editOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
-	flagutilsExt "github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	surveyutilsExt "github.com/solo-io/gloo/projects/gloo/cli/pkg/surveyutils"
-	extauthpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	editOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
+	flagutilsExt "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	surveyutilsExt "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/surveyutils"
+	extauthpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"

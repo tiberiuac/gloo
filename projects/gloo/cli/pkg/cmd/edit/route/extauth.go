@@ -1,13 +1,13 @@
 package route
 
 import (
-	"github.com/solo-io/gloo/pkg/cliutil"
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	editRouteOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/route/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	extauthpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	editRouteOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/route/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	extauthpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

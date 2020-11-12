@@ -1,4 +1,4 @@
 changelog:
 - type: NEW_FEATURE
-  issueLink: https://github.com/solo-io/gloo/issues/1875
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1875
   description: Add preserve_external_request_id hcm setting

@@ -3,14 +3,14 @@ package syncer
 import (
 	"context"
 
-	"github.com/solo-io/gloo/pkg/utils/syncutil"
+	"github.com/solo-io/gloo-edge/pkg/utils/syncutil"
 	"github.com/solo-io/go-utils/hashutils"
 	"go.uber.org/zap/zapcore"
 
 	"time"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/discovery"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/discovery"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

@@ -4,7 +4,7 @@ import (
 	"reflect"
 
 	"github.com/gogo/protobuf/proto"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 func mergeRoutePlugins(dst, src *v1.RouteOptions) (*v1.RouteOptions, error) {

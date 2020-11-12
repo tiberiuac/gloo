@@ -4,6 +4,6 @@ changelog:
     Gloo now allows updating headers for direct responses. This includes the ability to copy request headers to the
     direct response via the `%REQ(header-name)%` format specifier.
     See [here](https://github.com/envoyproxy/envoy/pull/8782) for more information.
-  issueLink: https://github.com/solo-io/gloo/issues/1912
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1912
 
 

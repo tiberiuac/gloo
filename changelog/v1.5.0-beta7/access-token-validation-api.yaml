@@ -1,6 +1,6 @@
 changelog:
   - type: NEW_FEATURE
-    issueLink: https://github.com/solo-io/gloo/issues/3055
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3055
     resolvesIssue: false
     description: >
       Define the API to specify access token validation for external authentication in Gloo Enterprise. This

@@ -4,4 +4,4 @@ changelog:
       Output the glooctl version warning to stderr rather than stdout. Also, base the decision on whether or
       not to warn about a version mismatch solely on the versions of the open-source discovery containers
       that we find in the cluster.
-    issueLink: https://github.com/solo-io/gloo/issues/1852
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1852

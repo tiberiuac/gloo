@@ -1,4 +1,4 @@
 changelog:
   - type: NON_USER_FACING
     description: Fix changelog landing page links.
-    issueLink: https://github.com/solo-io/gloo/issues/1526
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1526

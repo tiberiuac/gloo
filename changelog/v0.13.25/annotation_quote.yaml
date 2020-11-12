@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Quote annotations in helm chart
-    issueLink: https://github.com/solo-io/gloo/pull/711
+    issueLink: https://github.com/solo-io/gloo-edge-edge/pull/711

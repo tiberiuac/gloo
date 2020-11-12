@@ -11,8 +11,8 @@ import (
 
 	"github.com/solo-io/solo-kit/pkg/errors"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
-	transformapi "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation"
+	transformapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/transformation"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

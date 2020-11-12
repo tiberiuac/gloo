@@ -31,4 +31,4 @@ changelog:
 
       We also added a new `--auth-endpoint-query-params` flag to the `glooctl create authconfig` command; the flag takes
       in a comma-separated list of key value pairs (e.g. a=b,c=d).
-  issueLink: https://github.com/solo-io/gloo/issues/2030
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2030

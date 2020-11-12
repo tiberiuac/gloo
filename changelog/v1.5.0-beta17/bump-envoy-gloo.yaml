@@ -6,4 +6,4 @@ changelog:
   dependencyTag: v1.16.0-rc1
 - type: FIX
   description: Update envoy to pull in grpc-web fix for safari.
-  issueLink: https://github.com/solo-io/gloo/issues/3474
+  issueLink: https://github.com/solo-io/gloo-edge/issues/3474

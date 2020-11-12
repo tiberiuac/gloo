@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	glootest "github.com/solo-io/gloo/test/v1helpers/test_grpc_service/glootest/protos"
+	glootest "github.com/solo-io/gloo-edge/test/v1helpers/test_grpc_service/glootest/protos"
 	"github.com/solo-io/go-utils/healthchecker"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"

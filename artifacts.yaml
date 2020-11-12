@@ -5,7 +5,7 @@
 
 build:
   go:
-    version: github.com/solo-io/gloo/pkg/version.Version
+    version: github.com/solo-io/gloo-edge/pkg/version.Version
     gcFlags: "all=-N -l"
     binaries:
       - name: gloo

@@ -4,17 +4,17 @@ import (
 	"net"
 	"net/url"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	mock_consul2 "github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul/mocks"
+	mock_consul2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/consul/mocks"
 
 	"github.com/golang/mock/gomock"
 	consulapi "github.com/hashicorp/consul/api"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	mock_consul "github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul/mocks"
+	mock_consul "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul/mocks"
 )
 
 var _ = Describe("Resolve", func() {

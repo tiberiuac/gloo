@@ -1,6 +1,6 @@
 changelog:
     - type: NEW_FEATURE
-      issueLink: https://github.com/solo-io/gloo/issues/3369
+      issueLink: https://github.com/solo-io/gloo-edge/issues/3369
       description: >
         Change the `glooctl cluster unregister` command to `glooctl cluster deregister`.
         The deregister command now deletes the service account, cluster role, and cluster

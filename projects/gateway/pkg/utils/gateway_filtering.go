@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
 )
 
 func GatewaysByProxyName(gateways v1.GatewayList) map[string]v1.GatewayList {

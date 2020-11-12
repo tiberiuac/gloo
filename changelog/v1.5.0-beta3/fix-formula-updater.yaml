@@ -1,7 +1,7 @@
 changelog:
   - type: NON_USER_FACING
     description: Fix the regex used by the formula updater utility to find sha256 checksums
-    issueLink: https://github.com/solo-io/gloo/issues/3178
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3178
   - type: DEPENDENCY_BUMP
     dependencyOwner: solo-io
     dependencyRepo: go-utils

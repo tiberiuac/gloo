@@ -3,10 +3,10 @@ package gogoutils
 import (
 	envoycluster "github.com/envoyproxy/go-control-plane/envoy/api/v2/cluster"
 	envoycore "github.com/envoyproxy/go-control-plane/envoy/api/v2/core"
-	"github.com/solo-io/gloo/pkg/utils/protoutils"
-	envoycluster_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/api/v2/cluster"
-	envoycore_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/api/v2/core"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/pkg/utils/protoutils"
+	envoycluster_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/api/v2/cluster"
+	envoycore_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/api/v2/core"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 // Converts between Envoy and Gloo/solokit versions of envoy protos
@@ -14,7 +14,7 @@ import (
 // in v0.9.0, but solokit depends on gogoproto (and the generated deep equals it creates).
 //
 // we should work to remove that assumption from solokit and delete this code:
-// https://github.com/solo-io/gloo/issues/1793
+// https://github.com/solo-io/gloo-edge/issues/1793
 
 func ToGlooOutlierDetectionList(list []*envoycluster.OutlierDetection) []*envoycluster_gloo.OutlierDetection {
 	if list == nil {

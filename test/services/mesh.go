@@ -6,9 +6,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/solo-io/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils"
 
-	static_plugin_gloo "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/static"
+	static_plugin_gloo "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/static"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
@@ -16,8 +16,8 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/faultinjection"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/faultinjection"
 )
 
 // for each service we will create an envoy config and run it with

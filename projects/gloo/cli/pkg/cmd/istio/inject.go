@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/istio/sidecars"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/istio/sidecars"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/go-utils/cliutils"
 
 	"github.com/ghodss/yaml"

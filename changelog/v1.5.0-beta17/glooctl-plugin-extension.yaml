@@ -1,6 +1,6 @@
 changelog:
     - type: NEW_FEATURE
-      issueLink: https://github.com/solo-io/gloo/issues/3460
+      issueLink: https://github.com/solo-io/gloo-edge/issues/3460
       description: >
         Support a Kubernetes-style plugin system for glooctl.
         (See https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/).

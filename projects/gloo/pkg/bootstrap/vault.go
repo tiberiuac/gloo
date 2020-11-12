@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"github.com/hashicorp/vault/api"
 	errors "github.com/rotisserie/eris"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 func VaultClientForSettings(vaultSettings *v1.Settings_VaultSecrets) (*api.Client, error) {

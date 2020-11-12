@@ -6,7 +6,7 @@ set -o nounset
 set -o pipefail
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
-ROOT_PKG=github.com/solo-io/gloo/projects/gateway/pkg/api/v1
+ROOT_PKG=github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1
 CLIENT_PKG=${ROOT_PKG}/kube/client
 APIS_PKG=${ROOT_PKG}/kube/apis
 

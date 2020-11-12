@@ -8,16 +8,16 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/opencontainers/go-digest"
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/wasm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/wasm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	configcore "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/config/core/v3"
-	wasmv3 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/filters/http/wasm/v3"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	mock_cache "github.com/solo-io/gloo/projects/gloo/pkg/plugins/wasm/mocks"
+	configcore "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/config/core/v3"
+	wasmv3 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/filters/http/wasm/v3"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	mock_cache "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/wasm/mocks"
 )
 
 var _ = Describe("wasm plugin", func() {

@@ -3,14 +3,14 @@ package azure_test
 import (
 	"context"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	envoyapi "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	envoyauth "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/azure"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	azureplugin "github.com/solo-io/gloo/projects/gloo/pkg/plugins/azure"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/azure"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	azureplugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/azure"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	. "github.com/onsi/ginkgo"

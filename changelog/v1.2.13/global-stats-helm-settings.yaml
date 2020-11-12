@@ -9,4 +9,4 @@ changelog:
       `discovery.deployment.stats.enabled=false`. Note that this change has converted the `stats`
       field on our deployment objects from a boolean to an object with an `enabled` boolean field
       inside of it.
-    issueLink: https://github.com/solo-io/gloo/issues/1884
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1884

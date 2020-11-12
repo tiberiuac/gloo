@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/version"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/version"
 	"github.com/solo-io/go-utils/pkgmgmtutils/formula_updater_types"
 	"github.com/solo-io/go-utils/protoutils"
 

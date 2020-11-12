@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/solo-io/gloo/pkg/utils/syncutil"
+	"github.com/solo-io/gloo-edge/pkg/utils/syncutil"
 	"github.com/solo-io/go-utils/hashutils"
 	"go.uber.org/zap/zapcore"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )

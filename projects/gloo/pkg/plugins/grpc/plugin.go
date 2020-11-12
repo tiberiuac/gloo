@@ -7,9 +7,9 @@ import (
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams"
 	"github.com/solo-io/go-utils/contextutils"
 
 	envoyapi "github.com/envoyproxy/go-control-plane/envoy/api/v2"
@@ -24,15 +24,15 @@ import (
 
 	"github.com/gogo/protobuf/types"
 	errors "github.com/rotisserie/eris"
-	envoy_transform "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	glooplugins "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options"
-	grpcapi "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/grpc"
-	transformapi "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/transformation"
-	transformutils "github.com/solo-io/gloo/projects/gloo/pkg/plugins/utils/transformation"
+	envoy_transform "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	glooplugins "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options"
+	grpcapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/grpc"
+	transformapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/transformation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/transformation"
+	transformutils "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/utils/transformation"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )

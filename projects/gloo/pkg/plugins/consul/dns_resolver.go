@@ -7,7 +7,7 @@ import (
 	"github.com/rotisserie/eris"
 )
 
-//go:generate mockgen -destination ./mocks/dnsresolver_mock.go github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul DnsResolver
+//go:generate mockgen -destination ./mocks/dnsresolver_mock.go github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/consul DnsResolver
 //go:generate gofmt -w ./mocks/
 //go:generate goimports -w ./mocks/
 

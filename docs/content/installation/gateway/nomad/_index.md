@@ -37,18 +37,18 @@ Before proceeding to the installation, you will need to complete some prerequisi
 Installation on Nomad requires the following:
 
 - [Levant](https://github.com/jrasell/levant) installed on your local machine
-- [Docker](https://github.com/jrasell/levant), [Consul](https://www.consul.io), [Vault](https://www.vaultproject.io), and [Nomad](https://www.nomadproject.io/) installed on the target host machine (which can also be your local machine). A [Vagrantfile](https://github.com/solo-io/gloo/blob/master/install/nomad/Vagrantfile) is provided that includes everything needed to run Nomad.
+- [Docker](https://github.com/jrasell/levant), [Consul](https://www.consul.io), [Vault](https://www.vaultproject.io), and [Nomad](https://www.nomadproject.io/) installed on the target host machine (which can also be your local machine). A [Vagrantfile](https://github.com/solo-io/gloo-edge/blob/master/install/nomad/Vagrantfile) is provided that includes everything needed to run Nomad.
 
 If you want to run locally on macOS, you will also need to install [Weave Network](https://www.weave.works/docs/net/latest/install/installing-weave/).
 
 ### Download the Installation Files
 
-This tutorial uses files stored on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo).
+This tutorial uses files stored on the [Gloo Edge GitHub repository](https://github.com/solo-io/gloo-edge).
 
 In order to install Gloo Edge on Nomad, you'll want to clone the repository:
 
 ```shell
-git clone https://github.com/solo-io/gloo
+git clone https://github.com/solo-io/gloo-edge
 cd gloo/install/nomad
 ```
 

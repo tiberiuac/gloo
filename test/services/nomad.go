@@ -20,9 +20,9 @@ package services
 //	"github.com/hashicorp/nomad/api"
 //	"github.com/onsi/ginkgo"
 //	errors "github.com/rotisserie/eris"
-//	"github.com/solo-io/gloo/pkg/backoff"
+//	"github.com/solo-io/gloo-edge/pkg/backoff"
 //	"github.com/solo-io/go-utils/log"
-//	"github.com/solo-io/gloo/test/helpers"
+//	"github.com/solo-io/gloo-edge/test/helpers"
 //)
 //
 //const defaultNomadDockerImage = "djenriquez/nomad@sha256:31f63da9ad07b349e02f5d71bd3def416bac72cfcfd79323fd2e99abaaccdd0f"

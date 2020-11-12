@@ -2,4 +2,4 @@ changelog:
   - type: NEW_FEATURE
     description: >
       The gateway validation API now handles yaml admission requests if sent with the `application/x-yaml` header.
-    issueLink: https://github.com/solo-io/gloo/issues/3256
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3256

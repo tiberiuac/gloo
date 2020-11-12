@@ -1,7 +1,7 @@
 changelog:
   - type: FIX
     description: glooctl interactive prompts display updated state
-    issueLink: https://github.com/solo-io/gloo/issues/551
+    issueLink: https://github.com/solo-io/gloo-edge/issues/551
   - type: NON_USER_FACING
     description: fix broken glooctl interactive test with slice input
-    issueLink: https://github.com/solo-io/gloo/issues/387
+    issueLink: https://github.com/solo-io/gloo-edge/issues/387

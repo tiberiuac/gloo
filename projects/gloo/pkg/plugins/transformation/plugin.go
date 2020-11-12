@@ -9,18 +9,18 @@ import (
 	"github.com/gogo/protobuf/types"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
 
-	"github.com/solo-io/gloo/pkg/utils/regexutils"
-	envoyroutev3 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/config/route/v3"
-	v3 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/type/matcher/v3"
+	"github.com/solo-io/gloo-edge/pkg/utils/regexutils"
+	envoyroutev3 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/config/route/v3"
+	v3 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/type/matcher/v3"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
-	transformation "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
+	transformation "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/transformation"
 
-	envoytransformation "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
+	envoytransformation "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
 )
 
 const (

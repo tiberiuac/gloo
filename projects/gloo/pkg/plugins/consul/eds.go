@@ -9,21 +9,21 @@ import (
 	"sync"
 	"time"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
 
 	"github.com/rotisserie/eris"
 	"github.com/solo-io/go-utils/hashutils"
 
 	"github.com/solo-io/go-utils/kubeutils"
 
-	"github.com/solo-io/gloo/projects/gloo/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/constants"
 
 	"github.com/solo-io/go-utils/contextutils"
 
-	"github.com/solo-io/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/pkg/utils"
 
 	consulapi "github.com/hashicorp/consul/api"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/errutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
@@ -197,7 +197,7 @@ func buildEndpointsFromSpecs(ctx context.Context, writeNamespace string, resolve
 	for _, spec := range specs {
 		if upstreams, ok := trackedServiceToUpstreams[spec.ServiceName]; ok {
 			// TODO if buildEndpoints fails temporarily due to dns failure, we will remove it from eds.
-			// tracking issue: https://github.com/solo-io/gloo/issues/2576
+			// tracking issue: https://github.com/solo-io/gloo-edge/issues/2576
 			if eps, err := buildEndpoints(ctx, writeNamespace, resolver, spec, upstreams); err != nil {
 				contextutils.LoggerFrom(ctx).Warnf("consul eds plugin encountered error resolving DNS for consul service %v", spec, err)
 			} else {

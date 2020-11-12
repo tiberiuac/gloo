@@ -3,8 +3,8 @@ package knative
 import (
 	"sort"
 
-	"github.com/solo-io/gloo/projects/clusteringress/api/external/knative"
-	v1alpha1 "github.com/solo-io/gloo/projects/clusteringress/pkg/api/external/knative"
+	"github.com/solo-io/gloo-edge/projects/clusteringress/api/external/knative"
+	v1alpha1 "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
 	knativev1alpha1 "knative.dev/serving/pkg/apis/networking/v1alpha1"
 	knativeclient "knative.dev/serving/pkg/client/clientset/versioned"
 

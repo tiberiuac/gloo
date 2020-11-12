@@ -8,21 +8,21 @@ import (
 
 	"github.com/hashicorp/go-multierror"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/waf"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/als"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/waf"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/als"
 
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
-	"github.com/solo-io/gloo/test/samples"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
+	"github.com/solo-io/gloo-edge/test/samples"
 
 	"github.com/gogo/protobuf/types"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/solo-io/gloo/projects/gateway/pkg/translator"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/tcp"
+	. "github.com/solo-io/gloo-edge/projects/gateway/pkg/translator"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/tcp"
 
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
 

@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: fix prepending of route prefixes when the prefix is a /
-    issueLink: https://github.com/solo-io/gloo/pull/1178
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1178

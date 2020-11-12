@@ -6,11 +6,11 @@ import (
 	"github.com/solo-io/go-utils/hashutils"
 	"k8s.io/apimachinery/pkg/util/sets"
 
-	"github.com/solo-io/gloo/pkg/utils/syncutil"
+	"github.com/solo-io/gloo-edge/pkg/utils/syncutil"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/solo-io/gloo/projects/discovery/pkg/fds"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/discovery/pkg/fds"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/common/kubernetes"
 )

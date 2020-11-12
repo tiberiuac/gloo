@@ -3,7 +3,7 @@ package utils
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 )
 
 var _ = Describe("PathAsString", func() {

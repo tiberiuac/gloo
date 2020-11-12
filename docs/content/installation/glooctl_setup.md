@@ -15,7 +15,7 @@ The `glooctl` command line provides useful functions to install, configure, and 
   export PATH=$HOME/.gloo/bin:$PATH
   ```
 
-* You can download `glooctl` directly via the [GitHub releases page](https://github.com/solo-io/gloo/releases). You will need to rename the executable to `glooctl` and add it to your system's `PATH` after downloading.
+* You can download `glooctl` directly via the [GitHub releases page](https://github.com/solo-io/gloo-edge/releases). You will need to rename the executable to `glooctl` and add it to your system's `PATH` after downloading.
 
 You can verify the `glooctl` CLI is installed and running correctly by executing the command:
 

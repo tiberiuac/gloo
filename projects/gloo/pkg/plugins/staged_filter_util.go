@@ -3,7 +3,7 @@ package plugins
 import (
 	envoyhttp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	"github.com/gogo/protobuf/proto"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 )
 
 func NewStagedFilter(name string, stage FilterStage) StagedHttpFilter {

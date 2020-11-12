@@ -1,8 +1,8 @@
 package surveyutils
 
 import (
-	"github.com/solo-io/gloo/pkg/cliutil"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
 )
 
 func AddSettingsExtAuthFlagsInteractive(opts *options.OIDCSettings) error {

@@ -3,7 +3,7 @@ package nsselect
 import (
 	"fmt"
 
-	"github.com/solo-io/gloo/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	survey "gopkg.in/AlecAivazis/survey.v1"
 )

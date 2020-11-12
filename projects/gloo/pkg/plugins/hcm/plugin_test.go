@@ -8,24 +8,24 @@ import (
 	envoycore "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/protocol_upgrade"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/tracing"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/protocol_upgrade"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/tracing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/hcm"
-	translatorutil "github.com/solo-io/gloo/projects/gloo/pkg/translator"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/hcm"
+	translatorutil "github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
 
 	envoyapi "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	envoylistener "github.com/envoyproxy/go-control-plane/envoy/api/v2/listener"
 	envoyhttp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	"github.com/gogo/protobuf/types"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/hcm"
-	tracingv1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/tracing"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/hcm"
+	tracingv1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/tracing"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 )
 
 var _ = Describe("Plugin", func() {

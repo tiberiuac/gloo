@@ -1,4 +1,4 @@
 changelog:
 - type: NON_USER_FACING
   description: Add go-mod cache for gloo
-  issueLink: https://github.com/solo-io/gloo/issues/1942
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1942

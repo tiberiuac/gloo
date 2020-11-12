@@ -3,9 +3,9 @@ package syncer
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/aws"
-	kubeplugin "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/kubernetes"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/aws"
+	kubeplugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/kubernetes"
 	"github.com/solo-io/solo-kit/api/external/kubernetes/namespace"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/common/kubernetes"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

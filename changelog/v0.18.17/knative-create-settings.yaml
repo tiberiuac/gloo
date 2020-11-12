@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Knative install creates settings
-    issueLink: https://github.com/solo-io/gloo/issues/1023
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1023

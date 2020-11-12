@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 
 	"github.com/golang/mock/gomock"
 	consulapi "github.com/hashicorp/consul/api"
@@ -12,8 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/rotisserie/eris"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul/mocks"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul/mocks"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 

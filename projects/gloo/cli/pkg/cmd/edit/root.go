@@ -1,17 +1,17 @@
 package edit
 
 import (
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/route"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/settings"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/prerun"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/route"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/settings"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/prerun"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/argsutils"
-	editOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/upstream"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/virtualservice"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/argsutils"
+	editOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/upstream"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/virtualservice"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

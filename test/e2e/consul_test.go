@@ -7,22 +7,22 @@ import (
 	"net/http"
 	"time"
 
-	consul2 "github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul"
+	consul2 "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/consul"
 
-	gatewaydefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	gatewaydefaults "github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 
 	"github.com/rotisserie/eris"
 
 	"github.com/hashicorp/consul/api"
 
-	"github.com/solo-io/gloo/test/v1helpers"
+	"github.com/solo-io/gloo-edge/test/v1helpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
-	"github.com/solo-io/gloo/test/services"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )

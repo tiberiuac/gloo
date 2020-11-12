@@ -4,4 +4,4 @@ changelog:
     dependencyOwner: helm
     dependencyRepo: helm
     dependencyTag: v3.1.2
-    issueLink: https://github.com/solo-io/gloo/issues/2754
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2754

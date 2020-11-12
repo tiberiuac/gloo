@@ -5,4 +5,4 @@ changelog:
       it will now search for virtual services in all the namespaces watched by Gloo.
       Previously the behavior was to include only virtual services in the same namespace as the gateway,
       which has proven unintuitive to users.
-    issueLink: https://github.com/solo-io/gloo/issues/2156
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2156

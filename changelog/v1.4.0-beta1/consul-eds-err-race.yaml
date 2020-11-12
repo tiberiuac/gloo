@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix an issue with consul EDS where error were sent to a closed channel.
-    issueLink: https://github.com/solo-io/gloo/issues/2736
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2736

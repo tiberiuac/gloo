@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: Enable random sampling for tracing.
-    issueLink: https://github.com/solo-io/gloo/pull/1081
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1081

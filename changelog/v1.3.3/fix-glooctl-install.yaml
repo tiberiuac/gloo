@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix `glooctl install` command when `-f` flag is omitted to no longer error erroneously.
-    issueLink: https://github.com/solo-io/gloo/issues/508
+    issueLink: https://github.com/solo-io/gloo-edge/issues/508

@@ -5,4 +5,4 @@ changelog:
       originally used for (and no longer needed by) subset routing. This can drastically reduce the number of upstreams
       created, which in turn will reduce the size of upstreams stored in Gloo in-memory, reducing Gloo's memory
       footprint.
-    issueLink: https://github.com/solo-io/gloo/issues/2619
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2619

@@ -20,6 +20,6 @@ extend google.protobuf.FieldOptions {
 extend google.protobuf.EnumValueOptions {
   bool disallowed_by_default_enum = 70100853;
 }
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/annotations";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/annotations";
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

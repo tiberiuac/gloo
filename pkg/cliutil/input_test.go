@@ -3,8 +3,8 @@ package cliutil_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/solo-io/gloo/pkg/cliutil"
-	"github.com/solo-io/gloo/pkg/cliutil/testutil"
+	. "github.com/solo-io/gloo-edge/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/testutil"
 )
 
 var _ = Describe("GetBoolInput", func() {

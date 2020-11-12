@@ -3,8 +3,8 @@ package selectionutils
 import (
 	"context"
 
-	"github.com/solo-io/gloo/pkg/listers"
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/pkg/listers"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-//go:generate mockgen -destination mocks/mock_virtual_service.go -package mocks github.com/solo-io/gloo/pkg/utils/selectionutils VirtualServiceSelector
+//go:generate mockgen -destination mocks/mock_virtual_service.go -package mocks github.com/solo-io/gloo-edge/pkg/utils/selectionutils VirtualServiceSelector
 
 type VirtualServiceSelector interface {
 	SelectOrBuildVirtualService(ctx context.Context, ref *core.ResourceRef) (*gatewayv1.VirtualService, error)

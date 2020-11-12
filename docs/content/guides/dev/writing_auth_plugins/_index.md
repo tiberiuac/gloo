@@ -632,5 +632,5 @@ passed to the next step.
 ## Conclusion
 If you got to this point, we hope that you have a good understanding of how the Gloo Edge Ext Auth plugin framework works and 
 that you are ready to start hacking away! If you have any questions or ideas about how to improve this guide, please 
-contact us on our [**Slack**](https://slack.solo.io) or open an issue in the [Gloo Edge repository](https://github.com/solo-io/gloo), 
+contact us on our [**Slack**](https://slack.solo.io) or open an issue in the [Gloo Edge repository](https://github.com/solo-io/gloo-edge), 
 adding the "**Area: Docs**" label.

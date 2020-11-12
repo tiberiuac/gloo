@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 )
 
 const (

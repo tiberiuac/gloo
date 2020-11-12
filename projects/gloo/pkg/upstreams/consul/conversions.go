@@ -4,12 +4,12 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	consulplugin "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/consul"
+	consulplugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/consul"
 )
 
 const UpstreamNamePrefix = "consul-svc:"

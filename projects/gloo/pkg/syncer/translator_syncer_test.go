@@ -2,16 +2,16 @@ package syncer_test
 
 import (
 	v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/xds"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/xds"
 
 	"context"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/syncer"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/syncer"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/memory"

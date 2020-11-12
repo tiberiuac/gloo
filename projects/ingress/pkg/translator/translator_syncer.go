@@ -3,13 +3,13 @@ package translator
 import (
 	"context"
 
-	"github.com/solo-io/gloo/pkg/utils/syncutil"
+	"github.com/solo-io/gloo-edge/pkg/utils/syncutil"
 	"github.com/solo-io/go-utils/hashutils"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/solo-io/gloo/projects/gateway/pkg/utils"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	v1 "github.com/solo-io/gloo/projects/ingress/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/utils"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/ingress/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )

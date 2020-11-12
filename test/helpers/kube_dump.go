@@ -6,7 +6,7 @@ import (
 	"io"
 	"os/exec"
 
-	"github.com/solo-io/gloo/pkg/cliutil/install"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/install"
 
 	errors "github.com/rotisserie/eris"
 )

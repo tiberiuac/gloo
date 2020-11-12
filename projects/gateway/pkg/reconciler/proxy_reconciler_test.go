@@ -7,14 +7,14 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	. "github.com/solo-io/gloo/projects/gateway/pkg/reconciler"
-	"github.com/solo-io/gloo/projects/gateway/pkg/translator"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	validationutils "github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
-	"github.com/solo-io/gloo/test/debugprint"
-	mock_validation "github.com/solo-io/gloo/test/mocks/gloo"
-	"github.com/solo-io/gloo/test/samples"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/projects/gateway/pkg/reconciler"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/translator"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	validationutils "github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
+	"github.com/solo-io/gloo-edge/test/debugprint"
+	mock_validation "github.com/solo-io/gloo-edge/test/mocks/gloo"
+	"github.com/solo-io/gloo-edge/test/samples"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/memory"
@@ -25,7 +25,7 @@ import (
 	"context"
 
 	errors "github.com/rotisserie/eris"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 var _ = Describe("ReconcileGatewayProxies", func() {

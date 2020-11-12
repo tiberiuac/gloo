@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/solo-io/gloo/test/helpers"
+	"github.com/solo-io/gloo-edge/test/helpers"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/go-utils/testutils"
 	"github.com/solo-io/go-utils/testutils/exec"

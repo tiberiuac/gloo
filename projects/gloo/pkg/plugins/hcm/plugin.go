@@ -8,13 +8,13 @@ import (
 	envoyhttp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 	errors "github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/hcm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/protocol_upgrade"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/utils/upgradeconfig"
-	translatorutil "github.com/solo-io/gloo/projects/gloo/pkg/translator"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/hcm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/protocol_upgrade"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/utils/upgradeconfig"
+	translatorutil "github.com/solo-io/gloo-edge/projects/gloo/pkg/translator"
 	"github.com/solo-io/go-utils/contextutils"
 )
 
@@ -148,7 +148,7 @@ func copyCoreHcmSettings(ctx context.Context, cfg *envoyhttp.HttpConnectionManag
 	webSocketUpgradeSpecified := false
 
 	// try to catch
-	// https://github.com/solo-io/gloo/issues/1979
+	// https://github.com/solo-io/gloo-edge/issues/1979
 	if len(cfg.UpgradeConfigs) != 0 {
 		contextutils.LoggerFrom(ctx).DPanic("upgrade configs is not empty", "upgrade_configs", cfg.UpgradeConfigs)
 	}

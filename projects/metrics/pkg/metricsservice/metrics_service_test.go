@@ -8,12 +8,12 @@ import (
 	v2 "github.com/envoyproxy/go-control-plane/envoy/service/metrics/v2"
 	"github.com/gogo/protobuf/proto"
 	_go "github.com/prometheus/client_model/go"
-	"github.com/solo-io/gloo/projects/metrics/pkg/metricsservice"
+	"github.com/solo-io/gloo-edge/projects/metrics/pkg/metricsservice"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/metrics/pkg/metricsservice/mocks"
+	"github.com/solo-io/gloo-edge/projects/metrics/pkg/metricsservice/mocks"
 )
 
 var _ = Describe("Metrics service", func() {

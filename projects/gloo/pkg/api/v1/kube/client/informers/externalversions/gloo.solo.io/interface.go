@@ -19,8 +19,8 @@ limitations under the License.
 package gloo
 
 import (
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/kube/client/informers/externalversions/gloo.solo.io/v1"
-	internalinterfaces "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/kube/client/informers/externalversions/internalinterfaces"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/kube/client/informers/externalversions/gloo.solo.io/v1"
+	internalinterfaces "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/kube/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

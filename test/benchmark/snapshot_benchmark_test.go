@@ -7,8 +7,8 @@ import (
 	"github.com/mitchellh/hashstructure"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/test/helpers"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/test/helpers"
 	"github.com/solo-io/go-utils/protoutils"
 )
 

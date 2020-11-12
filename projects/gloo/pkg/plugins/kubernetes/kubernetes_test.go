@@ -4,17 +4,17 @@ import (
 	"context"
 	"time"
 
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	kubepluginapi "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/kubernetes"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	kubepluginapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/kubernetes"
 	kubecache "github.com/solo-io/solo-kit/pkg/api/v1/clients/kube/cache"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"k8s.io/client-go/kubernetes/fake"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/discovery"
-	kubeplugin "github.com/solo-io/gloo/projects/gloo/pkg/plugins/kubernetes"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/discovery"
+	kubeplugin "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/kubernetes"
 	kubev1 "k8s.io/api/core/v1"
 
 	"os"

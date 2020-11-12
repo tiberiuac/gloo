@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 
@@ -16,11 +16,11 @@ import (
 	envoylistener "github.com/envoyproxy/go-control-plane/envoy/api/v2/listener"
 	envoyauth "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
 	"github.com/gogo/protobuf/types"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	validationapi "github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils/validation"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	validationapi "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/validation"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils/validation"
 	"github.com/solo-io/go-utils/contextutils"
 )
 
@@ -277,7 +277,7 @@ func sortListenerFilters(filters plugins.StagedListenerFilterList) []*envoyliste
 // https://github.com/envoyproxy/envoy/blob/50ef0945fa2c5da4bff7627c3abf41fdd3b7cffd/source/server/filter_chain_manager_impl.cc#L218-L354
 // Given the complexity of the overlap detection implementation, we don't want to duplicate that behavior here.
 // We may want to consider invoking envoy from a library to detect overlapping and other issues, which would build
-// off this discussion: https://github.com/solo-io/gloo/issues/2114
+// off this discussion: https://github.com/solo-io/gloo-edge/issues/2114
 // Visible for testing
 func CheckForDuplicateFilterChainMatches(filterChains []*envoylistener.FilterChain, listenerReport *validationapi.ListenerReport) {
 	for idx1, filterChain := range filterChains {

@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit "github.com/solo-io/gloo/projects/gloo/pkg/api/external/solo/ratelimit"
-	enterprise_gloo_solo_io "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
+	enterprise_gloo_solo_io "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 
 	"go.opencensus.io/stats"
 	"go.uber.org/zap"

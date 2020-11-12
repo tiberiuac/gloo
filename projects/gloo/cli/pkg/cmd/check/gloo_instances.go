@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/gogo/protobuf/jsonpb"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
 	"github.com/solo-io/solo-apis/pkg/api/fed.solo.io/v1/types"
 	"k8s.io/apimachinery/pkg/api/meta"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

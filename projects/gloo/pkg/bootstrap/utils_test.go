@@ -6,11 +6,11 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"github.com/solo-io/solo-kit/pkg/utils/protoutils"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
@@ -23,7 +23,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )

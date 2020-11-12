@@ -15,4 +15,4 @@ message VersioningAnnotation {
   // information is consumed by UDPA via proto descriptors.
   string previous_message_type = 1;
 }
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/udpa/annotations";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/udpa/annotations";

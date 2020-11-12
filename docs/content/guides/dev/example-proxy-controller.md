@@ -35,7 +35,7 @@ name of our managed `Proxy` custom resource (`my-cool-proxy`), and configure it 
 Tested with Gloo Edge v1.2.12 and Gloo Edge Enterprise v1.2.0.
 {{% /notice %}}
 
-You can view the complete code written in this section [here](https://github.com/solo-io/gloo/tree/master/example/proxycontroller).
+You can view the complete code written in this section [here](https://github.com/solo-io/gloo-edge/tree/master/example/proxycontroller).
 
 If you'd prefer, you can skip to [running the example](#run) and tinker with that as desired rather than follow along below.
 
@@ -60,7 +60,7 @@ module <your module name here>
 go 1.13
 
 require (
-	github.com/solo-io/gloo v1.2.12    // change to update Gloo Edge version to build against
+	github.com/solo-io/gloo-edge v1.2.12    // change to update Gloo Edge version to build against
 	github.com/solo-io/go-utils v0.11.5
 	github.com/solo-io/solo-kit v0.11.15
 	k8s.io/client-go v11.0.0+incompatible
@@ -104,7 +104,7 @@ replace (
 ```
 {{% /expand %}}
 
-The basis of this `go.mod` file is from the [`Gloo Edge go.mod file`](https://github.com/solo-io/gloo/blob/master/go.mod)
+The basis of this `go.mod` file is from the [`Gloo Edge go.mod file`](https://github.com/solo-io/gloo-edge/blob/master/go.mod)
 
 
 
@@ -126,8 +126,8 @@ import (
 	"os"
 	"time"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	matchers "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	matchers "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
@@ -393,7 +393,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
@@ -596,8 +596,8 @@ func must(err error) {
 
 ### Run
 
-While it's possible to package [this application in a Docker container](https://github.com/solo-io/gloo/tree/master/example/proxycontroller/Dockerfile)
-and [deploy it as a pod](https://github.com/solo-io/gloo/tree/master/example/proxycontroller/install/proxycontroller.yaml)
+While it's possible to package [this application in a Docker container](https://github.com/solo-io/gloo-edge/tree/master/example/proxycontroller/Dockerfile)
+and [deploy it as a pod](https://github.com/solo-io/gloo-edge/tree/master/example/proxycontroller/install/proxycontroller.yaml)
 inside of Kubernetes, let's just try running it locally. [Make sure you have Gloo Edge installed]({{% versioned_link_path fromRoot="/installation" %}})
 in your cluster so that Discovery will create some Upstreams for us.
 

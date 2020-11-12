@@ -1,4 +1,4 @@
 changelog:
   - type: HELM
     description: Add ability to supply arbitrary labels to gloo pods via helm configuration
-    issueLink: https://github.com/solo-io/gloo/issues/3441
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3441

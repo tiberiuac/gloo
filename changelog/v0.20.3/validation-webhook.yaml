@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: add ValidatingWebhook for Gateway resources
-    issueLink: https://github.com/solo-io/gloo/pull/1234
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1234

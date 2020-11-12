@@ -3,7 +3,7 @@ package translator
 import (
 	"sort"
 
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
 )
 
 type RouteTableIndexer interface {

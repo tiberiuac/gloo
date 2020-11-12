@@ -14,5 +14,5 @@ changelog:
 
       When referenced in yaml, each property is referenced as `options` under the appropriate containing resource.
 
-    issueLink: https://github.com/solo-io/gloo/issues/1171
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1171
     resolvesIssue: false

@@ -1,7 +1,7 @@
 changelog:
   - type: FIX
     description: consul client respects namespace
-    issueLink: https://github.com/solo-io/gloo/pull/1101
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1101
   - type: NON_USER_FACING
     description: fix ordering of steps in consul e2e test
   - type: NON_USER_FACING

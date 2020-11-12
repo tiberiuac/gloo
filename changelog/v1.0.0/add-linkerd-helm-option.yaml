@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: Added Helm `settings.linkerd` chart value
-    issueLink: https://github.com/solo-io/gloo/issues/1651
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1651

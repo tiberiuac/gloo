@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix non existent var when using extra annotations for service
-    issueLink: https://github.com/solo-io/gloo/issues/714
+    issueLink: https://github.com/solo-io/gloo-edge-edge/issues/714

@@ -3,10 +3,10 @@
   "version": "v1alpha1",
   "custom_resources": [
     {
-      "package": "github.com/solo-io/gloo/projects/gloo/api/external/solo/ratelimit",
+      "package": "github.com/solo-io/gloo-edge/projects/gloo/api/external/solo/ratelimit",
       "type": "RateLimitConfig",
       "plural_name": "ratelimitconfigs"
     }
   ],
-  "go_package": "github.com/solo-io/gloo/projects/gloo/pkg/api/external/solo/ratelimit"
+  "go_package": "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
 }

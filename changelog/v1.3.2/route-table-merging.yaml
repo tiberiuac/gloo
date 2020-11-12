@@ -19,5 +19,5 @@ changelog:
     all requests for a domain to any `RouteTables` that have the `domain: example.com` label (namespaces to search
     can be configured as well); this will allow users to add routes for that domain by creating their own `RouteTables`
     (with a `domain: example.com` label) without having to request updates to the parent `VirtualService`.
-  issueLink: https://github.com/solo-io/gloo/issues/2054
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2054
   resolvesIssue: false

@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	routehelpers "github.com/solo-io/gloo/test/helpers"
+	routehelpers "github.com/solo-io/gloo-edge/test/helpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/testutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/testutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 

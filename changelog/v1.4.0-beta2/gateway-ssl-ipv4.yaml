@@ -4,4 +4,4 @@ changelog:
       The helm chart value `gatewayProxies.$gatewayProxy.gatewaySettings.ipv4Only`
       changes the Gateway spec's bindAddress to '0.0.0.0' instead of '::' for both the non-ssl
       and ssl Gateways.
-    issueLink: https://github.com/solo-io/gloo/issues/2425
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2425

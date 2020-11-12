@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 	"github.com/solo-io/go-utils/testutils/exec"
 	"github.com/solo-io/go-utils/testutils/helper"
 

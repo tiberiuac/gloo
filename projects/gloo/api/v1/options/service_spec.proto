@@ -1,6 +1,6 @@
 syntax = "proto3";
 package options.gloo.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options";
 
 import "gogoproto/gogo.proto";
 

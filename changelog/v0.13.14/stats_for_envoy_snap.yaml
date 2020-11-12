@@ -2,4 +2,4 @@ changelog:
   - type: NON_USER_FACING
     description: Add stats to the snapshot going to envoy
     resolvesIssue: false
-    issueLink: https://github.com/solo-io/gloo/issues/660
+    issueLink: https://github.com/solo-io/gloo-edge/issues/660

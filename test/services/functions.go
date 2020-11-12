@@ -6,7 +6,7 @@ package services
 //	"os/exec"
 //	"path/filepath"
 //
-//	"github.com/solo-io/gloo/test/helpers"
+//	"github.com/solo-io/gloo-edge/test/helpers"
 //
 //	"github.com/onsi/ginkgo"
 //)

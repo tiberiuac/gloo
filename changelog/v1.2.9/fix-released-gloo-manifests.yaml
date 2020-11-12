@@ -2,4 +2,4 @@ changelog:
 - type: FIX
   description: >
     Add CRD resources back to the manifest files that are published as part of a Gloo release.
-  issueLink: https://github.com/solo-io/gloo/issues/1877
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1877

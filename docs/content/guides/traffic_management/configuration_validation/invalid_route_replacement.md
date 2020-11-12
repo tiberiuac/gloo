@@ -158,5 +158,5 @@ Great! We've just seen the benefits of enabling route replacement on our virtual
 
 Note that, when using route replacement, deleting an Upstream/Service object which has active routes pointing to it will cause those routes to fail. When enabling route replacement, be certain that this behavior is preferable to the default (halting configuration updates to the proxy). 
 
-We appreciate questions and feedback on Gloo Edge validation or any other feature on [the solo.io slack channel](https://slack.solo.io/) as well as our [GitHub issues page](https://github.com/solo-io/gloo).
+We appreciate questions and feedback on Gloo Edge validation or any other feature on [the solo.io slack channel](https://slack.solo.io/) as well as our [GitHub issues page](https://github.com/solo-io/gloo-edge).
 

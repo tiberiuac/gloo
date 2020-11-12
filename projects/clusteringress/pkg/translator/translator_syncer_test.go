@@ -8,9 +8,9 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/clusteringress/api/external/knative"
-	v1alpha1 "github.com/solo-io/gloo/projects/clusteringress/pkg/api/external/knative"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/clusteringress/api/external/knative"
+	v1alpha1 "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/memory"

@@ -9,9 +9,9 @@ import (
 
 	pb "github.com/envoyproxy/go-control-plane/envoy/service/accesslog/v2"
 	_struct "github.com/golang/protobuf/ptypes/struct"
-	"github.com/solo-io/gloo/pkg/utils"
-	"github.com/solo-io/gloo/projects/accesslogger/pkg/loggingservice"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/transformation"
+	"github.com/solo-io/gloo-edge/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/accesslogger/pkg/loggingservice"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/transformation"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/go-utils/healthchecker"
 	"github.com/solo-io/go-utils/stats"

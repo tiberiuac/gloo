@@ -1,4 +1,4 @@
 changelog:
 - type: NEW_FEATURE
   description: Add the ability to deploy the gateway-proxy as a DaemonSet rather than a deployment.
-  issueLink: https://github.com/solo-io/gloo/issues/842
+  issueLink: https://github.com/solo-io/gloo-edge/issues/842

@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"strings"
 
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/solo-io/go-utils/cliutils"
 
 	"github.com/gogo/protobuf/types"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 var routeActionType = struct {

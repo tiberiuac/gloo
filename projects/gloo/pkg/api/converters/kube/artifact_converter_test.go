@@ -6,7 +6,7 @@ import (
 	kubev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/api/converters/kube"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/converters/kube"
 )
 
 var _ = Describe("Artifact converters", func() {

@@ -3,8 +3,8 @@ package pluginutils
 import (
 	"fmt"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	usconversions "github.com/solo-io/gloo/projects/gloo/pkg/upstreams"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	usconversions "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )

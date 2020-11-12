@@ -1,6 +1,6 @@
 syntax = "proto3";
 package glooe.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise";
 
 import "envoy/api/v2/discovery.proto";
 import "google/api/annotations.proto";

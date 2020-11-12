@@ -9,14 +9,14 @@ import (
 	"path/filepath"
 	"strings"
 
-	installcmd "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/install"
+	installcmd "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/install"
 
-	"github.com/solo-io/gloo/pkg/cliutil/install"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/install"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 )
 
 var _ = Describe("Debug", func() {

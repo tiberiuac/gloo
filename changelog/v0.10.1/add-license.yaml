@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Add license file.
-    issueLink: https://github.com/solo-io/gloo/issues/489
+    issueLink: https://github.com/solo-io/gloo-edge-edge/issues/489

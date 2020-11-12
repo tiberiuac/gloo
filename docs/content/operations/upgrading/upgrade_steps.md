@@ -133,7 +133,7 @@ No problems detected.
 #### Download Release Asset
 
 You can find `glooctl` built for every platform in our release artifacts. For example, see our release assets for
-v1.0.0: https://github.com/solo-io/gloo/releases/tag/v1.0.0
+v1.0.0: https://github.com/solo-io/gloo-edge/releases/tag/v1.0.0
 
 ### Upgrading the Server Components
 

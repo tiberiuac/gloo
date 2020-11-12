@@ -95,6 +95,6 @@ While making minor edits and fixes works well on GitHub directly, more involved 
 ## Next Steps
 
 - Check out the [style guide]({{< versioned_link_path fromRoot="/contributing/documentation/style_guide/" >}})
-- Find [existing open](https://github.com/solo-io/gloo/labels/Area%3A%20Docs) issues
+- Find [existing open](https://github.com/solo-io/gloo-edge/labels/Area%3A%20Docs) issues
 - Participate in the [community Slack](https://slack.solo.io/)!
 

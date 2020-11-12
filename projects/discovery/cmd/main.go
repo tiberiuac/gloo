@@ -1,8 +1,8 @@
 package main
 
 import (
-	fdssetup "github.com/solo-io/gloo/projects/discovery/pkg/fds/setup"
-	uds "github.com/solo-io/gloo/projects/discovery/pkg/uds/setup"
+	fdssetup "github.com/solo-io/gloo-edge/projects/discovery/pkg/fds/setup"
+	uds "github.com/solo-io/gloo-edge/projects/discovery/pkg/uds/setup"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/go-utils/stats"
 )

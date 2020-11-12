@@ -9,7 +9,7 @@ changelog:
     Helm value, then you may end up with duplicate RBAC resources in your cluster (e.g.
     Roles/RoleBindings with and without the suffix). If this is the case, the old resources
     (without the suffix) can be safely cleaned up.
-  issueLink: https://github.com/solo-io/gloo/issues/1459
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1459
 - type: BREAKING_CHANGE
   description: >
     This release changes the names of Gloo's ClusterRoles. By default, cluster-scoped roles
@@ -21,4 +21,4 @@ changelog:
     To resolve this, you can delete the existing ClusterRoleBindings with
     "kubectl delete clusterrolebinding -l app=gloo" and they will be recreated correctly by
     the rest of the upgrade process.
-  issueLink: https://github.com/solo-io/gloo/issues/1459
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1459

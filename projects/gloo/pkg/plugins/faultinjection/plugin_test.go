@@ -3,7 +3,7 @@ package faultinjection
 import (
 	"reflect"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/internal/common"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/internal/common"
 
 	envoytype "github.com/envoyproxy/go-control-plane/envoy/type/v3"
 

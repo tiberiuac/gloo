@@ -4,9 +4,9 @@ import (
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/utils"
 
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/pluginutils"
 
 	envoyapi "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 )

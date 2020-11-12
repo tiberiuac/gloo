@@ -47,4 +47,4 @@ message FileMigrateAnnotation {
   // file path.
   string move_to_package = 2;
 }
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/udpa/annotations";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/udpa/annotations";

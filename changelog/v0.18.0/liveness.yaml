@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Make liveness work even when there is no gloo config.
-    issueLink: https://github.com/solo-io/gloo/issues/872
+    issueLink: https://github.com/solo-io/gloo-edge/issues/872

@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix rendering of DaemonSet
-    issueLink: https://github.com/solo-io/gloo/issues/1087
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1087

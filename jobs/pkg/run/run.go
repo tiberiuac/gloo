@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/jobs/pkg/certgen"
-	"github.com/solo-io/gloo/jobs/pkg/kube"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/jobs/pkg/certgen"
+	"github.com/solo-io/gloo-edge/jobs/pkg/kube"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/go-utils/contextutils"
 )
 

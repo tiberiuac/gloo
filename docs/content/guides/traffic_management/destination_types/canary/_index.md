@@ -38,7 +38,7 @@ To try Canary Releases with Gloo Edge, check out the following resources includi
  * Blog Part 2: [Scale canary release workflow across multiple services and teams](https://www.solo.io/blog/two-phased-canary-rollout-with-gloo-part-2/)
  * Blog Part 3: [Operationalize canary workflow with Helm and GitOps](https://www.solo.io/blog/two-phased-canary-releases-with-gloo-part-3/)
  * Watch the recorded webinar and dowload the presentation [here.](https://www.solo.io/blog/webinar-recap-canary-releases-with-gloo/)
- * Access the code for the demos [here.](https://github.com/solo-io/gloo-ref-arch/tree/master/two-phased-canary)
+ * Access the code for the demos [here.](https://github.com/solo-io/gloo-edge-ref-arch/tree/master/two-phased-canary)
  * Try in an online lab environment [here.](https://www.katacoda.com/solo-io/courses/gloo-routing/canary-routing)
  
 

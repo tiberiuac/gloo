@@ -1,6 +1,6 @@
 changelog:
 - type: NEW_FEATURE
-  issueLink: https://github.com/solo-io/gloo/issues/3141
+  issueLink: https://github.com/solo-io/gloo-edge/issues/3141
   resolvesIssue: false
   description: >
     Define the API to specify Prioritized Failover in Gloo. This API allows for a user to define a list of endpoint
@@ -8,6 +8,6 @@ changelog:
     locality weighted load balancing which assigns additional weighted load balancing based on the locality
     assigned to each of the endpoint sets.
 - type: NON_USER_FACING
-  issueLink: https://github.com/solo-io/gloo/issues/3169
+  issueLink: https://github.com/solo-io/gloo-edge/issues/3169
   description: >
     Call `EndpointPlugin` with all empty `ClusterLoadAssignment` bound for EDS.

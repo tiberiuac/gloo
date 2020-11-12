@@ -1,4 +1,4 @@
   changelog:
   - type: FIX
     description: fix append in hybridUpstreamSnapshot
-    issueLink: https://github.com/solo-io/gloo/issues/771
+    issueLink: https://github.com/solo-io/gloo-edge/issues/771

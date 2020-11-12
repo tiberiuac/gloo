@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Use underscores instead of dots in the cluster name, for better prometheus stats.
-    issueLink: https://github.com/solo-io/gloo/pull/712
+    issueLink: https://github.com/solo-io/gloo-edge-edge/pull/712

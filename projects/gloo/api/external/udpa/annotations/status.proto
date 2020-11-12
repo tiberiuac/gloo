@@ -32,4 +32,4 @@ message StatusAnnotation {
   // The entity belongs to a package with the given version status.
   PackageVersionStatus package_version_status = 2;
 }
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/udpa/annotations";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/udpa/annotations";

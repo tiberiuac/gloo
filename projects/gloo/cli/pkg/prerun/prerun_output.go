@@ -6,12 +6,12 @@ import (
 
 	"github.com/solo-io/reporting-client/pkg/signature"
 
-	"github.com/solo-io/gloo/pkg/utils/setuputils"
-	"github.com/solo-io/gloo/pkg/utils/usage"
+	"github.com/solo-io/gloo-edge/pkg/utils/setuputils"
+	"github.com/solo-io/gloo-edge/pkg/utils/usage"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/flagutils"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/printers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/flagutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/printers"
 	"github.com/spf13/cobra"
 )
 

@@ -13,7 +13,7 @@ import (
 	k8s "k8s.io/client-go/kubernetes/typed/core/v1"
 )
 
-//go:generate mockgen -destination mocks/mock_storage.go -package mocks github.com/solo-io/gloo/projects/metrics/pkg/metricsservice StorageClient
+//go:generate mockgen -destination mocks/mock_storage.go -package mocks github.com/solo-io/gloo-edge/projects/metrics/pkg/metricsservice StorageClient
 
 type StorageClient interface {
 	RecordUsage(usage *GlobalUsage) error

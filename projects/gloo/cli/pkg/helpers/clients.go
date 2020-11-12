@@ -7,21 +7,21 @@ import (
 	"sync"
 	"time"
 
-	v1alpha1 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/solo/ratelimit"
+	v1alpha1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
 
-	kubeconverters "github.com/solo-io/gloo/projects/gloo/pkg/api/converters/kube"
+	kubeconverters "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/converters/kube"
 
 	"github.com/hashicorp/consul/api"
 	vaultapi "github.com/hashicorp/vault/api"
-	"github.com/solo-io/gloo/pkg/listers"
+	"github.com/solo-io/gloo-edge/pkg/listers"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/kube/cache"
 	apiexts "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	"k8s.io/client-go/kubernetes/fake"
 
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	extauth "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	extauth "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/go-utils/log"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"

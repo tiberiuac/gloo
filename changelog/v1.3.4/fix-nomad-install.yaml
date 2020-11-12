@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix Gloo on Nomad example
-    issueLink: https://github.com/solo-io/gloo/issues/2157
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2157

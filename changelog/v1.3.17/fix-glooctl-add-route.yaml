@@ -10,4 +10,4 @@ changelog:
       permissions, but also only searches a single namespace for virtual services to add the route to, before creating
       a new virtual service. `glooctl add route` now supports the `cluster-scoped-vs-client` boolean flag, which
       supports the original, pre 1.3.16 behavior.
-    issueLink: https://github.com/solo-io/gloo/issues/2708
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2708

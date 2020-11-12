@@ -6,4 +6,4 @@ changelog:
     If the cluster contains a lot of services and the user does not take advantage of this feature, this results in
     unnecessary overhead. This change adds a new `disable_kubernetes_destinations` attribute to the `Settings` resource
     to allow disabling the feature.
-  issueLink: https://github.com/solo-io/gloo/issues/1466
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1466

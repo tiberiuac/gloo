@@ -2,7 +2,7 @@ package utils
 
 import (
 	route "github.com/envoyproxy/go-control-plane/envoy/api/v2/route"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
 )
 
 func PathAsString(matcher *matchers.Matcher) string {

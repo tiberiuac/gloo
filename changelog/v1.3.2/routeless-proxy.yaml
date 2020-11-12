@@ -8,6 +8,6 @@ changelog:
       Set to true if you wish to keep envoy serving the routes from the latest valid configuration.
       Set to false if you wish to reset the envoy configuration to a clean slate with no routes.
       disableProxyGarbageCollection defaults to 'false'.
-  issueLink: https://github.com/solo-io/gloo/issues/1245
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1245
 
 

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package gloo.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
@@ -448,9 +448,9 @@ message GlooOptions {
     // Set to true by default in versions > `v1.6.0`.
     // This setting is meant to solve the bug which causes updated upstreams to dissapear, or have 0 endpoints. 
     // Some examples are:
-    // 1. https://github.com/solo-io/gloo/issues/3673
-    // 2. https://github.com/solo-io/gloo/issues/3710
-    // 3. https://github.com/solo-io/gloo/issues/3219
+    // 1. https://github.com/solo-io/gloo-edge/issues/3673
+    // 2. https://github.com/solo-io/gloo-edge/issues/3710
+    // 3. https://github.com/solo-io/gloo-edge/issues/3219
     // Rest XDS, as opposed to grpc, uses http polling rather than streaming
     google.protobuf.BoolValue enable_rest_eds = 12;
 }

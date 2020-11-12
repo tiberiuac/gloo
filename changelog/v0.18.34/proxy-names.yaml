@@ -1,4 +1,4 @@
 changelog:
   - type: NEW_FEATURE
     description: support multiple proxy names on gateway
-    issueLink: https://github.com/solo-io/gloo/pull/1116
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1116

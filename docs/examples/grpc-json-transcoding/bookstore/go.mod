@@ -1,4 +1,4 @@
-module github.com/solo-io/gloo/examples/bookstore
+module github.com/solo-io/gloo-edge/examples/bookstore
 
 go 1.14
 

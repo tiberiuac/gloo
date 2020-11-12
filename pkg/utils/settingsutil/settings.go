@@ -3,7 +3,7 @@ package settingsutil
 import (
 	"context"
 
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 type settingsKeyStruct struct{}

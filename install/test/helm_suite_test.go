@@ -11,20 +11,20 @@ import (
 
 	"github.com/solo-io/go-utils/versionutils/git"
 
-	glooVersion "github.com/solo-io/gloo/pkg/version"
+	glooVersion "github.com/solo-io/gloo-edge/pkg/version"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/install"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/install"
 
 	"helm.sh/helm/v3/pkg/release"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 	helm2chartutil "k8s.io/helm/pkg/chartutil"
 	helm2renderutil "k8s.io/helm/pkg/renderutil"
 
-	"github.com/solo-io/gloo/pkg/cliutil/helm"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/helm"
 
 	"github.com/ghodss/yaml"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 	"helm.sh/helm/v3/pkg/action"
 	"helm.sh/helm/v3/pkg/chart/loader"
 	"helm.sh/helm/v3/pkg/strvals"

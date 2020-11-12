@@ -52,7 +52,7 @@ logoPath="/img/Gloo-Logo.svg"
 [[menu.shortcuts]]
 name = "<i class='fa fa-github'></i> Github Repo"
 identifier = "ds"
-url = "https://github.com/solo-io/gloo"
+url = "https://github.com/solo-io/gloo-edge"
 weight = 10
 
 # [[menu.shortcuts]]

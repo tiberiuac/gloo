@@ -8,7 +8,7 @@ package envoy.config.filter.http.aws_lambda.v2;
 option java_package = "io.envoyproxy.envoy.config.filter.http.aws_lambda.v2";
 option java_outer_classname = "AwsLambdaProto";
 option java_multiple_files = true;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/aws";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/aws";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

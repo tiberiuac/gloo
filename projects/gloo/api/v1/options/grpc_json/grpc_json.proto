@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package grpc_json.options.gloo.solo.io;
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/grpc_json";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/grpc_json";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

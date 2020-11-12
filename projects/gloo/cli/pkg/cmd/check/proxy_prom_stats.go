@@ -12,8 +12,8 @@ import (
 
 	v1 "k8s.io/api/apps/v1"
 
-	"github.com/solo-io/gloo/pkg/cliutil"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
 )
 
 const promStatsPath = "/stats/prometheus"

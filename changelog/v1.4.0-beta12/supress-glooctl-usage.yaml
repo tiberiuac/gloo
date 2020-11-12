@@ -2,4 +2,4 @@ changelog:
   - type: FIX
     description: >
       Suppress the usage message for glooctl on error. This makes error messages easier to find.
-    issueLink: https://github.com/solo-io/gloo/issues/2880
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2880

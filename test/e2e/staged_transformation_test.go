@@ -7,22 +7,22 @@ import (
 	"net/http"
 
 	"github.com/gogo/protobuf/types"
-	gatewaydefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	gatewaydefaults "github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	extauthv1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
-	"github.com/solo-io/gloo/test/services"
+	extauthv1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	"github.com/solo-io/gloo-edge/test/services"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
-	envoytransformation "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
-	gloov1static "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/static"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	"github.com/solo-io/gloo/test/v1helpers"
+	envoytransformation "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/core/matchers"
+	gloov1static "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/static"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/transformation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/test/v1helpers"
 )
 
 var _ = Describe("Staged Transformation", func() {

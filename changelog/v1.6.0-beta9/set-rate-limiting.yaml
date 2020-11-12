@@ -7,5 +7,5 @@ changelog:
     such that a given rule will apply if all the relevant descriptors match, regardless of the values of the other descriptors and regardless of descriptor order.
     For example, the rule may require `type: a` and `number: 1` but the `remote_address` descriptor can have any value.
     This can also be understood as `remote_address: *` where * is a wildcard.
-  issueLink: https://github.com/solo-io/gloo/issues/2695
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2695
   resolvesIssue: false

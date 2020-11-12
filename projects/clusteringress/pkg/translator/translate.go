@@ -3,9 +3,9 @@ package translator
 import (
 	"context"
 
-	v1 "github.com/solo-io/gloo/projects/clusteringress/pkg/api/v1"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/knative/pkg/translator"
+	v1 "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/knative/pkg/translator"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	knativev1alpha1 "knative.dev/serving/pkg/apis/networking/v1alpha1"
 )

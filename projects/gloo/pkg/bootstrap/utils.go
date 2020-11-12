@@ -10,9 +10,9 @@ import (
 
 	consulapi "github.com/hashicorp/consul/api"
 	vaultapi "github.com/hashicorp/vault/api"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	kubeconverters "github.com/solo-io/gloo/projects/gloo/pkg/api/converters/kube"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	kubeconverters "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/converters/kube"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/kubeutils"
 	"github.com/solo-io/solo-kit/pkg/api/external/kubernetes/service"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"

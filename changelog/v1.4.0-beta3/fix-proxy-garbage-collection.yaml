@@ -6,4 +6,4 @@ changelog:
     temporarily in the extauth and ratelimit services. This caused blips of invalid 403/429 responses. To fix
     this, Gloo now detects any valid `TranslatorSyncerExtension`'s Envoy Node ID keys through its `Sync()`
     function, so Gloo doesn't garbage collect these snapshots anymore.
-  issueLink: https://github.com/solo-io/gloo/issues/2721
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2721

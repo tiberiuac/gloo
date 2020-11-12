@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Check auth configs with glooctl check.
-    issueLink: https://github.com/solo-io/gloo/issues/2036
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2036

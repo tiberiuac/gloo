@@ -6,4 +6,4 @@ changelog:
       creating our default Settings and Gateways as Helm Hook resources, which means that they are not
       managed as a part of the Helm release lifecycle. This is fixed by no longer creating those resources
       if they do not exist when the pods start up.
-    issueLink: https://github.com/solo-io/gloo/issues/1828
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1828

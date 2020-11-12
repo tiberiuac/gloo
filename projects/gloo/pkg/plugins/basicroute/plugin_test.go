@@ -3,18 +3,18 @@ package basicroute_test
 import (
 	"time"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/protocol_upgrade"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/protocol_upgrade"
 
 	envoyroute "github.com/envoyproxy/go-control-plane/envoy/api/v2/route"
 	"github.com/gogo/protobuf/types"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/pkg/utils/gogoutils"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/retries"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	. "github.com/solo-io/gloo/projects/gloo/pkg/plugins/basicroute"
+	"github.com/solo-io/gloo-edge/pkg/utils/gogoutils"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/retries"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	. "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/basicroute"
 )
 
 var _ = Describe("prefix rewrite", func() {

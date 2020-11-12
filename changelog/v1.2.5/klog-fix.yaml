@@ -2,4 +2,4 @@ changelog:
   - type: FIX
     description: >
       Use klog shim so that klog doesn't attempt to write files.
-    issueLink: https://github.com/solo-io/gloo/issues/1039
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1039

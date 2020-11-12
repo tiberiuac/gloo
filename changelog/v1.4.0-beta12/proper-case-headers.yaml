@@ -9,4 +9,4 @@ changelog:
       For example, “content-type” becomes “Content-Type”, and “foo$b#$are” becomes “Foo$B#$Are”.
       Note that while this results in most headers following conventional casing, certain headers
       are not covered. For example, the “TE” header will be formatted as “Te”.
-    issueLink: https://github.com/solo-io/gloo/issues/2940
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2940

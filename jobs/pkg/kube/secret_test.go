@@ -9,7 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/fake"
 
-	. "github.com/solo-io/gloo/jobs/pkg/kube"
+	. "github.com/solo-io/gloo-edge/jobs/pkg/kube"
 )
 
 var _ = Describe("Secret", func() {

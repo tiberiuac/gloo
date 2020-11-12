@@ -1,8 +1,8 @@
 package argsutils
 
 import (
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/surveyutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/surveyutils"
 	"github.com/solo-io/solo-kit/pkg/errors"
 )
 

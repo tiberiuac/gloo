@@ -1,6 +1,6 @@
 changelog:
   - type: NEW_FEATURE
-    issueLink: https://github.com/solo-io/gloo/issues/3327
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3327
     description: >-
       Add new field `inheritableMatchers` boolean field (default false) to virtual services and route tables that,
       when true, changes how route delegation handles header, method, and query parameter matchers from the parent

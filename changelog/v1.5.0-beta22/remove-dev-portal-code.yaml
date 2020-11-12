@@ -2,5 +2,5 @@ changelog:
 - type: NON_USER_FACING
   description: >
     Remove Developer Portal related code from `glooctl`.
-  issueLink: https://github.com/solo-io/gloo/issues/3598
+  issueLink: https://github.com/solo-io/gloo-edge/issues/3598
   resolvesIssue: false

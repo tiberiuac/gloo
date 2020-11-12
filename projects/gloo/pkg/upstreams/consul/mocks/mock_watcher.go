@@ -10,7 +10,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	api "github.com/hashicorp/consul/api"
-	consul "github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
+	consul "github.com/solo-io/gloo-edge/projects/gloo/pkg/upstreams/consul"
 )
 
 // MockConsulWatcher is a mock of ConsulWatcher interface

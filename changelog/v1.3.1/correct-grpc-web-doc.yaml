@@ -2,4 +2,4 @@ changelog:
 - type: FIX
   description: >
     Correct grpc-web disable yaml in doc
-  issueLink: https://github.com/solo-io/gloo/issues/2079
+  issueLink: https://github.com/solo-io/gloo-edge/issues/2079

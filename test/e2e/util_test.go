@@ -3,13 +3,13 @@ package e2e_test
 import (
 	"context"
 
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	gwdefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
-	"github.com/solo-io/gloo/test/helpers"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	gwdefaults "github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
+	"github.com/solo-io/gloo-edge/test/helpers"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 
-	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
-	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/defaults"
+	"github.com/solo-io/gloo-edge/test/services"
 
 	. "github.com/onsi/gomega"
 )

@@ -26,7 +26,7 @@ for gloo_version in $GLOO_VERSIONS; do
 
 tmp=$(mktemp -d /tmp/gloo.XXXXXX)
 filename="glooctl-${OS}-${GOARCH}"
-url="https://github.com/solo-io/gloo/releases/download/${gloo_version}/${filename}"
+url="https://github.com/solo-io/gloo-edge/releases/download/${gloo_version}/${filename}"
 
 if curl -f ${url} >/dev/null 2>&1; then
   echo "Attempting to download glooctl version ${gloo_version}"

@@ -6,8 +6,8 @@ import (
 
 	v1 "k8s.io/api/core/v1"
 
-	"github.com/solo-io/gloo/jobs/pkg/run"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	"github.com/solo-io/gloo-edge/jobs/pkg/run"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/spf13/cobra"
 )

@@ -7,9 +7,9 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "github.com/solo-io/gloo/pkg/utils/regexutils"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	. "github.com/solo-io/gloo-edge/pkg/utils/regexutils"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 var _ = Describe("Regex", func() {

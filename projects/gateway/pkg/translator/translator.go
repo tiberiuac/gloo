@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strings"
 
-	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
 	"github.com/solo-io/go-utils/hashutils"
 
-	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
+	"github.com/solo-io/gloo-edge/projects/gateway/pkg/defaults"
 
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"github.com/solo-io/solo-kit/pkg/api/v2/reporter"
@@ -23,7 +23,7 @@ type ListenerFactory interface {
 	GenerateListeners(ctx context.Context, snap *v1.ApiSnapshot, filteredGateways []*v1.Gateway, reports reporter.ResourceReports) []*gloov1.Listener
 }
 
-//go:generate mockgen -destination mocks/mock_translator.go -package mocks github.com/solo-io/gloo/projects/gateway/pkg/translator Translator
+//go:generate mockgen -destination mocks/mock_translator.go -package mocks github.com/solo-io/gloo-edge/projects/gateway/pkg/translator Translator
 type Translator interface {
 	Translate(ctx context.Context, proxyName, namespace string, snap *v1.ApiSnapshot, filteredGateways v1.GatewayList) (*gloov1.Proxy, reporter.ResourceReports)
 }

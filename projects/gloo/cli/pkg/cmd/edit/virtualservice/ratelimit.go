@@ -1,8 +1,8 @@
 package virtualservice
 
 import (
-	editOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/constants"
+	editOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/constants"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/spf13/cobra"
 )

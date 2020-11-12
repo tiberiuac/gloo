@@ -6,7 +6,7 @@ changelog:
     description: >
       Upgrade envoy-gloo version to fix seg fault in aws lambda filter
   - type: FIX
-    issueLink: https://github.com/solo-io/gloo/issues/3684
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3684
     resolvesIssue: false
     description: >
       Upgrade envoy-gloo version to fix seg fault in aws lambda filter

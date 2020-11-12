@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Fix cert-gen job for clusters using non-default domain suffix.
-    issueLink: https://github.com/solo-io/gloo/issues/2288
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2288

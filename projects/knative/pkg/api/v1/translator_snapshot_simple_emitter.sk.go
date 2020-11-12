@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	github_com_solo_io_gloo_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo/projects/knative/pkg/api/external/knative"
+	github_com_solo_io_gloo_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/pkg/api/external/knative"
 
 	"go.opencensus.io/stats"
 	"go.uber.org/zap"

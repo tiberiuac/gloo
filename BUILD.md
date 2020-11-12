@@ -5,13 +5,13 @@ To build Gloo Edge locally, follow [these steps](https://docs.solo.io/gloo-edge/
 Checkout gloo:
 
 ```bash
-go get github.com/solo-io/gloo
+go get github.com/solo-io/gloo-edge
 ```
 
 Navigate to the source directory:
 
 ```bash
-cd $GOPATH/src/github.com/solo-io/gloo
+cd $GOPATH/src/github.com/solo-io/gloo-edge
 ```
 
 Gloo Edge uses [go modules](https://github.com/golang/go/wiki/Modules) for dependency management. Ensure you have go 1.13+ installed.

@@ -3,4 +3,4 @@ changelog:
     description: >
       The loadBalancerIP for the ingress-proxy service can now be configured in helm.
       This is controlled through the new Helm string value `ingressProxy.service.loadBalancerIP`.
-    issueLink: https://github.com/solo-io/gloo/issues/3184
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3184

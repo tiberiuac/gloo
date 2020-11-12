@@ -5,18 +5,18 @@ import (
 	"net"
 	"sort"
 
-	"github.com/solo-io/gloo/pkg/utils/syncutil"
+	"github.com/solo-io/gloo-edge/pkg/utils/syncutil"
 	"github.com/solo-io/go-utils/hashutils"
 	"go.uber.org/zap/zapcore"
 
 	"github.com/gogo/protobuf/proto"
 	errors "github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/ingress/pkg/api/ingress"
-	"github.com/solo-io/gloo/projects/ingress/pkg/api/service"
+	"github.com/solo-io/gloo-edge/projects/ingress/pkg/api/ingress"
+	"github.com/solo-io/gloo-edge/projects/ingress/pkg/api/service"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	kubev1 "k8s.io/api/core/v1"
 
-	v1 "github.com/solo-io/gloo/projects/ingress/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/ingress/pkg/api/v1"
 	"github.com/solo-io/go-utils/contextutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )

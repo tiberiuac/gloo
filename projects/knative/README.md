@@ -139,7 +139,7 @@ curl -H "Host: helloworld-go.default.example.com" $INGRESS
 Hello Go Sample v1!
 ```
 
-Everything should be up and running. If this process does not work, please [open an issue](https://github.com/solo-io/gloo/issues/new). We are happy to answer
+Everything should be up and running. If this process does not work, please [open an issue](https://github.com/solo-io/gloo-edge/issues/new). We are happy to answer
 questions on our [diligently staffed Slack channel](https://slack.solo.io/).
 
 

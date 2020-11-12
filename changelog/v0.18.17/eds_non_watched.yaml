@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Make eds ignore upstreams in non watched namespaces 
-    issueLink: https://github.com/solo-io/gloo/pull/1034
+    issueLink: https://github.com/solo-io/gloo-edge/pull/1034

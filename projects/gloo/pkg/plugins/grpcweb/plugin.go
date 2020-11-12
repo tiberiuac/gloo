@@ -2,8 +2,8 @@ package grpcweb
 
 import (
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 )
 
 // filter info

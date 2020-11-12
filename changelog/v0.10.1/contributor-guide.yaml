@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: Added back a CONTRIBUTING.md guide.
-    issueLink: https://github.com/solo-io/gloo/issues/490
+    issueLink: https://github.com/solo-io/gloo-edge-edge/issues/490

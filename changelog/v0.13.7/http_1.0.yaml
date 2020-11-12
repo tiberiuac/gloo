@@ -2,4 +2,4 @@ changelog:
   - type: NEW_FEATURE
     description: Allow enabled http 1.0 support in Envoy.
     resolvesIssue: false
-    issueLink: https://github.com/solo-io/gloo/issues/635
+    issueLink: https://github.com/solo-io/gloo-edge/issues/635

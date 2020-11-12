@@ -1,11 +1,11 @@
 package ratelimit
 
 import (
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
-	editRouteOptions "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/edit/route/options"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmdutils"
-	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	ratelimitpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1"
+	editRouteOptions "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/edit/route/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmdutils"
+	gloov1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	ratelimitpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/ratelimit"
 	"github.com/solo-io/go-utils/cliutils"
 	"github.com/spf13/cobra"
 )

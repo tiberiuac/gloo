@@ -5,5 +5,5 @@ changelog:
     addition add the `UseHttp2` option to the list of checked fields. Part of this involved switching the UseHttp2
     option on the Upstream to a `wrappers.BoolValue`. This has no impact on the API itself, but only on the Go
     implementations.
-  issueLink: https://github.com/solo-io/gloo/issues/3216
+  issueLink: https://github.com/solo-io/gloo-edge/issues/3216
   resolvesIssue: false

@@ -9,14 +9,14 @@ import (
 	"sync"
 
 	"github.com/gogo/protobuf/types"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/wasm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/wasm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 	"github.com/solo-io/wasm/tools/wasme/pkg/defaults"
 
-	configcore "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/config/core/v3"
-	wasmv3 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/filters/http/wasm/v3"
-	wasmv3ext "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/wasm/v3"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	configcore "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/config/core/v3"
+	wasmv3 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/filters/http/wasm/v3"
+	wasmv3ext "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/wasm/v3"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 const (

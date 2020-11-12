@@ -4,5 +4,5 @@ changelog:
     Update enterprise API to support strongly typed external auth configurations in settings, virtual hosts, routes,
     and weighted destinations. The current format based on opaque extensions has been deprecated but is still fully
     supported.
-  issueLink: https://github.com/solo-io/gloo/issues/1171
+  issueLink: https://github.com/solo-io/gloo-edge/issues/1171
   resolvesIssue: false

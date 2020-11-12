@@ -1,6 +1,6 @@
 changelog:
   - type: FIX
-    issueLink: https://github.com/solo-io/gloo/issues/3344
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3344
     description: >
       URL-encoded data can now be extracted verbatim by path and
       header extractors.

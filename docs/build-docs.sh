@@ -49,7 +49,7 @@ repoDir=$workingDir/gloo-temp
 mkdir -p $docsSiteDir
 echo $firebaseJson > $docsSiteDir/firebase.json
 
-git clone https://github.com/solo-io/gloo.git $repoDir
+git clone https://github.com/solo-io/gloo-edge.git $repoDir
 
 export PATH=$workingDir/_output/.bin:$PATH
 

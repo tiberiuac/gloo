@@ -2,4 +2,4 @@ changelog:
   - type: FIX
     description: >
       `glooctl uninstall --all` will now properly delete ClusterRoles and ClusterRoleBindings associated with prometheus.
-    issueLink: https://github.com/solo-io/gloo/issues/2419
+    issueLink: https://github.com/solo-io/gloo-edge/issues/2419

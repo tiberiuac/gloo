@@ -5,13 +5,13 @@ import (
 	"io"
 	"os"
 
-	"github.com/solo-io/gloo/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/yaml"
 
-	"github.com/solo-io/gloo/pkg/cliutil/install"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
+	"github.com/solo-io/gloo-edge/pkg/cliutil/install"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
 )
 
 func Uninstall(opts *options.Options, cli install.KubeCli, mode Mode) error {

@@ -6,11 +6,11 @@ import (
 	envoytracing "github.com/envoyproxy/go-control-plane/envoy/type/tracing/v3"
 	envoy_type "github.com/envoyproxy/go-control-plane/envoy/type/v3"
 	"github.com/gogo/protobuf/types"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/hcm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	hcmp "github.com/solo-io/gloo/projects/gloo/pkg/plugins/hcm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/internal/common"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/hcm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	hcmp "github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/hcm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/internal/common"
 )
 
 // default all tracing percentages to 100%

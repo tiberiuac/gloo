@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package headers.options.gloo.solo.io;
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/headers";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/headers";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

@@ -3,7 +3,7 @@ package check_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/check"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/check"
 )
 
 var _ = Describe("Gloo Stats", func() {

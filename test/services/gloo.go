@@ -9,11 +9,11 @@ package services
 //	"path/filepath"
 //	"time"
 //
-//	"github.com/solo-io/gloo/pkg/api/types/v1"
-//	"github.com/solo-io/gloo/pkg/storage"
-//	"github.com/solo-io/gloo/pkg/storage/file"
+//	"github.com/solo-io/gloo-edge/pkg/api/types/v1"
+//	"github.com/solo-io/gloo-edge/pkg/storage"
+//	"github.com/solo-io/gloo-edge/pkg/storage/file"
 //
-//	"github.com/solo-io/gloo/test/helpers"
+//	"github.com/solo-io/gloo-edge/test/helpers"
 //
 //	"github.com/onsi/ginkgo"
 //

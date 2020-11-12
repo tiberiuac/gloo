@@ -16,7 +16,7 @@ This tutorial uses files stored on the Gloo Edge GitHub repository.
 In order to install on Nomad, we'll want to clone the repository:
 
 ```shell
-git clone https://github.com/solo-io/gloo
+git clone https://github.com/solo-io/gloo-edge
 cd gloo/install/nomad
 ```
 

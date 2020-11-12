@@ -7,10 +7,10 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/rotisserie/eris"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
-	mock_version "github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/version/mocks"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/printers"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/version"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/options"
+	mock_version "github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/cmd/version/mocks"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/printers"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/grpc/version"
 )
 
 var _ = Describe("version command", func() {

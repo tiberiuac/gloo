@@ -19,9 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/clientset/versioned"
-	gatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/typed/gateway.solo.io/v1"
-	fakegatewayv1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/typed/gateway.solo.io/v1/fake"
+	clientset "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/clientset/versioned"
+	gatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/typed/gateway.solo.io/v1"
+	fakegatewayv1 "github.com/solo-io/gloo-edge/projects/gateway/pkg/api/v1/kube/client/clientset/versioned/typed/gateway.solo.io/v1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

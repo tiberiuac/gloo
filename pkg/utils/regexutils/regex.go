@@ -5,8 +5,8 @@ import (
 
 	envoy_type_matcher "github.com/envoyproxy/go-control-plane/envoy/type/matcher"
 	wrappers "github.com/golang/protobuf/ptypes/wrappers"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/pkg/utils/settingsutil"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 func NewRegex(ctx context.Context, regex string) *envoy_type_matcher.RegexMatcher {

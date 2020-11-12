@@ -3,8 +3,8 @@ package v1
 import (
 	"sort"
 
-	"github.com/solo-io/gloo/projects/gloo/constants"
-	plugins "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/constants"
+	plugins "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options"
 )
 
 /*

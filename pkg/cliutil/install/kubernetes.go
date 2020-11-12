@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/solo-io/gloo/pkg/cliutil"
+	"github.com/solo-io/gloo-edge/pkg/cliutil"
 )
 
 func KubectlApply(manifest []byte, extraArgs ...string) error {

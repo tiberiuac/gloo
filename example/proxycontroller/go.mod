@@ -3,7 +3,7 @@ module proxycontroller
 go 1.13
 
 require (
-	github.com/solo-io/gloo v1.2.12 // change to update Gloo version to build against
+	github.com/solo-io/gloo-edge v1.2.12 // change to update Gloo version to build against
 	github.com/solo-io/go-utils v0.11.5
 	github.com/solo-io/solo-kit v0.11.15
 	k8s.io/client-go v11.0.0+incompatible

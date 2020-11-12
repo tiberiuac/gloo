@@ -1,6 +1,6 @@
 changelog:
     - type: NON_USER_FACING
       description: Serve files on https://docs.solo.io with gzip compression.
-      issueLink: https://github.com/solo-io/gloo/issues/3075
+      issueLink: https://github.com/solo-io/gloo-edge/issues/3075
       resolvesIssue: true
   

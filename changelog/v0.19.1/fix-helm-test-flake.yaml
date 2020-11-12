@@ -1,4 +1,4 @@
 changelog:
   - type: NON_USER_FACING
     description: Fix helm test flake in CI
-    issueLink: https://github.com/solo-io/gloo/issues/1239
+    issueLink: https://github.com/solo-io/gloo-edge/issues/1239

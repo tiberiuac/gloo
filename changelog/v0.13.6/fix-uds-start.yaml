@@ -1,4 +1,4 @@
 changelog:
   - type: FIX
     description: fix uds race with multiple starts
-    issueLink: https://github.com/solo-io/gloo/issues/631
+    issueLink: https://github.com/solo-io/gloo-edge/issues/631

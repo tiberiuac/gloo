@@ -6,7 +6,7 @@ weight: 5
 
 ## Intro
 
-Gloo Edge uses the [v1.Upstream]({{% versioned_link_path fromRoot="/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/upstream.proto.sk" %}}) config object to define routable destinations for Gloo Edge. These are converted inside Gloo Edge
+Gloo Edge uses the [v1.Upstream]({{% versioned_link_path fromRoot="/reference/api/github.com/solo-io/gloo-edge/projects/gloo/api/v1/upstream.proto.sk" %}}) config object to define routable destinations for Gloo Edge. These are converted inside Gloo Edge
 
 This tutorial will show how we can add an *Upstream Plugin* to Gloo Edge to extend Gloo Edge with service discovery data.
 
@@ -49,7 +49,7 @@ We'll write a simple `UpstreamSpec` proto for the new `gce` upstream type:
 syntax = "proto3";
 package gce.options.gloo.solo.io;
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/plugins/gce";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/plugins/gce";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
@@ -74,7 +74,7 @@ Let's follow the established convention and place our proto code into a new `gce
 
 ```bash
 # cd to the gloo directory
-cd ${GOPATH}/src/github.com/solo-io/gloo
+cd ${GOPATH}/src/github.com/solo-io/gloo-edge
 # make the new gce plugin directory
 mkdir -p projects/gloo/api/v1/plugins/gce
 # paste the proto code from above to projects/gloo/api/v1/plugins/gce/gce.proto 
@@ -82,7 +82,7 @@ cat > projects/gloo/api/v1/plugins/gce/gce.proto <<EOF
 syntax = "proto3";
 package gce.options.gloo.solo.io;
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/plugins/gce";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/plugins/gce";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
@@ -116,36 +116,36 @@ First, we'll add an import to the top of the file
 {{< highlight proto "hl_lines=31-32" >}}
 syntax = "proto3";
 package gloo.solo.io;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1";
 
 import "google/protobuf/struct.proto";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;
 
-import "github.com/solo-io/gloo/projects/gloo/api/v1/ssl.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/extensions.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/circuit_breaker.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/load_balancer.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/connection.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/ssl.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/extensions.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/circuit_breaker.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/load_balancer.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/connection.proto";
 
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/aws/aws.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/rest/rest.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/grpc/grpc.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/grpc_web/grpc_web.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/hcm/hcm.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/tcp/tcp.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/azure/azure.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/consul/consul.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/kubernetes/kubernetes.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/retries/retries.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/static/static.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/stats/stats.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/transformation/prefix_rewrite.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/transformation/transformation.proto";
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/faultinjection/fault.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/aws/aws.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/rest/rest.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/grpc/grpc.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/grpc_web/grpc_web.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/hcm/hcm.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/tcp/tcp.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/azure/azure.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/consul/consul.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/kubernetes/kubernetes.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/retries/retries.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/static/static.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/stats/stats.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/transformation/prefix_rewrite.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/transformation/transformation.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/faultinjection/fault.proto";
 // add the following line:
-import "github.com/solo-io/gloo/projects/gloo/api/v1/plugins/gce/gce.proto";
+import "github.com/solo-io/gloo-edge/projects/gloo/api/v1/plugins/gce/gce.proto";
 
 {{< /highlight >}}
 
@@ -198,7 +198,7 @@ To (re)generate code:
 
 ```bash
 # go to gloo root dir
-cd ${GOPATH}/src/github.com/solo-io/gloo
+cd ${GOPATH}/src/github.com/solo-io/gloo-edge
 # run code generation 
 make generated-code # add -B if you need to re-run 
 
@@ -215,7 +215,7 @@ Let's start writing our plugin!
 We'll start by creating a new package/directory for our code to live in. Following the convention in Gloo Edge, we'll create our new package at `projects/gloo/pkg/plugins/gce`:
 
 ```bash
-cd ${GOPATH}/src/github.com/solo-io/gloo
+cd ${GOPATH}/src/github.com/solo-io/gloo-edge
 mkdir -p projects/gloo/pkg/plugins/gce
 touch projects/gloo/pkg/plugins/gce/plugin.go
 ```
@@ -233,7 +233,7 @@ func NewPlugin() *plugin {
 
 ```
 
-So far, our plugin is just a plain go struct with no features. In order to provide service discovery for Gloo Edge, our plugin needs to implement two interfaces: the [`plugins.UpstreamPlugin`](https://github.com/solo-io/gloo/blob/master//projects/gloo/pkg/plugins/plugin_interface.go#L43) and [`discovery.DiscoveryPlugin`](https://github.com/solo-io/gloo/blob/master/projects/gloo/pkg/discovery/discovery.go#L21) interfaces.
+So far, our plugin is just a plain go struct with no features. In order to provide service discovery for Gloo Edge, our plugin needs to implement two interfaces: the [`plugins.UpstreamPlugin`](https://github.com/solo-io/gloo-edge/blob/master//projects/gloo/pkg/plugins/plugin_interface.go#L43) and [`discovery.DiscoveryPlugin`](https://github.com/solo-io/gloo-edge/blob/master/projects/gloo/pkg/discovery/discovery.go#L21) interfaces.
 
 Let's add the functions necessary to implement these interfaces:
 
@@ -242,9 +242,9 @@ package gce
 
 import (
 	"github.com/envoyproxy/go-control-plane/envoy/api/v2"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
-	"github.com/solo-io/gloo/projects/gloo/pkg/discovery"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/discovery"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 
@@ -364,7 +364,7 @@ Gloo Edge now uses go modules, so these should automatically be pulled into your
 on older versions of Gloo Edge that use dep, we can download these imports to our project with `dep ensure`:
 
 ```bash
-cd ${GOPATH}/src/github.com/solo-io/gloo
+cd ${GOPATH}/src/github.com/solo-io/gloo-edge
 dep ensure -v
 ```
 
@@ -762,7 +762,7 @@ Our `WatchEndpoints` is now finished, along with our plugin!
 We are not finished, however. The task remains to wire our plugin 
 into the Gloo Edge core, then rebuild Gloo Edge and deploy to Kubernetes!
 
-All Gloo Edge plugins are registered inside of a `registry` subpackage within the `plugins` directory. See [the registry.go file on GitHub here](https://github.com/solo-io/gloo/blob/master/projects/gloo/pkg/plugins/registry/registry.go).
+All Gloo Edge plugins are registered inside of a `registry` subpackage within the `plugins` directory. See [the registry.go file on GitHub here](https://github.com/solo-io/gloo-edge/blob/master/projects/gloo/pkg/plugins/registry/registry.go).
 
 We need to add our plugin (and its import) to `registry.go`:
 
@@ -771,27 +771,27 @@ We need to add our plugin (and its import) to `registry.go`:
 package registry
 
 import (
-	"github.com/solo-io/gloo/projects/gloo/pkg/bootstrap"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/aws"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/azure"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/basicroute"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/cors"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/faultinjection"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/bootstrap"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/aws"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/azure"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/basicroute"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/consul"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/cors"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/faultinjection"
 	// add our plugin's import here:
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/gce"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/grpc"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/hcm"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/kubernetes"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/linkerd"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/loadbalancer"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/rest"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/static"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/stats"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/transformation"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/upstreamconn"
-	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/upstreamssl"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/gce"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/grpc"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/hcm"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/kubernetes"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/linkerd"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/loadbalancer"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/rest"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/static"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/stats"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/transformation"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/upstreamconn"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/plugins/upstreamssl"
 )
 
 type registry struct {

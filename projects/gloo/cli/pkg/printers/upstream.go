@@ -6,13 +6,13 @@ import (
 	"os"
 	"sort"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/xdsinspection"
-	plugins "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options"
-	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/aws/ec2"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/xdsinspection"
+	plugins "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options"
+	"github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/options/aws/ec2"
 	"github.com/solo-io/go-utils/cliutils"
 
 	"github.com/olekukonko/tablewriter"
-	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	v1 "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1"
 )
 
 func PrintUpstreams(upstreams v1.UpstreamList, outputType OutputType, xdsDump *xdsinspection.XdsDump) error {

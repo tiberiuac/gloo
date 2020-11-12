@@ -59,7 +59,7 @@ If you need more fine-grained control configuring websockets, you can use the {{
       - websocket: {}
 {{< /highlight >}}
 
-Please reach out to us on [Slack](https://slack.solo.io) or [File an Issue](https://github.com/solo-io/gloo/issues/new) if you're having trouble configuring websockets. 
+Please reach out to us on [Slack](https://slack.solo.io) or [File an Issue](https://github.com/solo-io/gloo-edge/issues/new) if you're having trouble configuring websockets. 
 
 ---
 

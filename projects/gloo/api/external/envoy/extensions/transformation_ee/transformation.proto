@@ -5,7 +5,7 @@ package envoy.config.filter.http.transformation_ee.v2;
 option java_package = "io.envoyproxy.envoy.config.filter.http.transformation_ee.v2";
 option java_outer_classname = "TransformationEEFilterProto";
 option java_multiple_files = true;
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation_ee";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/envoy/extensions/transformation_ee";
 
 import "validate/validate.proto";
 

@@ -3,7 +3,7 @@ package waf.options.gloo.solo.io;
 
 import "gloo/projects/gloo/api/external/envoy/extensions/waf/waf.proto";
 
-option go_package = "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/waf";
+option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/waf";
 
 import "gogoproto/gogo.proto";
 option (gogoproto.equal_all) = true;

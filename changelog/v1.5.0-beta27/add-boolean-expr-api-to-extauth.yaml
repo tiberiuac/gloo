@@ -1,6 +1,6 @@
 changelog:
   - type: NEW_FEATURE
-    issueLink: https://github.com/solo-io/gloo/issues/3207
+    issueLink: https://github.com/solo-io/gloo-edge/issues/3207
     description: >-
       Add API to `AuthConfig` that allows users to specify a boolean expression to determine how to evaluate auth
       configs within an auth chain. Previously, each config on an auth config must be authorized for the entire request

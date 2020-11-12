@@ -5,14 +5,14 @@ import (
 
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/argsutils"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/argsutils"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
-	"github.com/solo-io/gloo/projects/gloo/cli/pkg/testutils"
-	extauthpb "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/helpers"
+	"github.com/solo-io/gloo-edge/projects/gloo/cli/pkg/testutils"
+	extauthpb "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 )
 
 var _ = Describe("ExtauthOauth", func() {

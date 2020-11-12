@@ -6,7 +6,7 @@ changelog:
       gloo custom resource definitions, and any associated objects (virtual services, etc). `--delete-namespace` will
       remove the namespace and anything inside it. `--all` will delete the namespace, CRDs, and any gloo cluster
       roles or cluster role bindings.
-    issueLink: https://github.com/solo-io/gloo/issues/433
+    issueLink: https://github.com/solo-io/gloo-edge/issues/433
   - type: FIX
     description: Fixes issue where the glooctl pre-install step could silently fail, causing custom settings to not be installed.
-    issueLink: https://github.com/solo-io/gloo/issues/571
+    issueLink: https://github.com/solo-io/gloo-edge/issues/571
