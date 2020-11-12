@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	github_com_solo_io_gloo_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/pkg/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/pkg/api/external/knative"
 
 	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
@@ -82,14 +82,14 @@ type TranslatorSnapshotEmitter interface {
 type TranslatorEmitter interface {
 	TranslatorSnapshotEmitter
 	Register() error
-	Ingress() github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressClient
+	Ingress() github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressClient
 }
 
-func NewTranslatorEmitter(ingressClient github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressClient) TranslatorEmitter {
+func NewTranslatorEmitter(ingressClient github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressClient) TranslatorEmitter {
 	return NewTranslatorEmitterWithEmit(ingressClient, make(chan struct{}))
 }
 
-func NewTranslatorEmitterWithEmit(ingressClient github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressClient, emit <-chan struct{}) TranslatorEmitter {
+func NewTranslatorEmitterWithEmit(ingressClient github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressClient, emit <-chan struct{}) TranslatorEmitter {
 	return &translatorEmitter{
 		ingress:   ingressClient,
 		forceEmit: emit,
@@ -98,7 +98,7 @@ func NewTranslatorEmitterWithEmit(ingressClient github_com_solo_io_gloo_projects
 
 type translatorEmitter struct {
 	forceEmit <-chan struct{}
-	ingress   github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressClient
+	ingress   github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressClient
 }
 
 func (c *translatorEmitter) Register() error {
@@ -108,7 +108,7 @@ func (c *translatorEmitter) Register() error {
 	return nil
 }
 
-func (c *translatorEmitter) Ingress() github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressClient {
+func (c *translatorEmitter) Ingress() github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressClient {
 	return c.ingress
 }
 
@@ -130,12 +130,12 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 	ctx := opts.Ctx
 	/* Create channel for Ingress */
 	type ingressListWithNamespace struct {
-		list      github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressList
+		list      github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressList
 		namespace string
 	}
 	ingressChan := make(chan ingressListWithNamespace)
 
-	var initialIngressList github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressList
+	var initialIngressList github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressList
 
 	currentSnapshot := TranslatorSnapshot{}
 
@@ -208,7 +208,7 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 				stats.Record(ctx, mTranslatorSnapshotMissed.M(1))
 			}
 		}
-		ingressesByNamespace := make(map[string]github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressList)
+		ingressesByNamespace := make(map[string]github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressList)
 
 		for {
 			record := func() { stats.Record(ctx, mTranslatorSnapshotIn.M(1)) }
@@ -238,7 +238,7 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 
 				// merge lists by namespace
 				ingressesByNamespace[namespace] = ingressNamespacedList.list
-				var ingressList github_com_solo_io_gloo_projects_knative_pkg_api_external_knative.IngressList
+				var ingressList github_com_solo_io_gloo_edge_projects_knative_pkg_api_external_knative.IngressList
 				for _, ingresses := range ingressesByNamespace {
 					ingressList = append(ingressList, ingresses...)
 				}

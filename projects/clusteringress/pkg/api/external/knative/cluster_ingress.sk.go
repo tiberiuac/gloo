@@ -9,7 +9,7 @@ import (
 	"log"
 	"sort"
 
-	github_com_solo_io_gloo_projects_clusteringress_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_clusteringress_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/api/external/knative"
 
 	"github.com/solo-io/go-utils/hashutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"
@@ -31,13 +31,13 @@ func NewClusterIngress(namespace, name string) *ClusterIngress {
 
 type CloneableClusterIngress interface {
 	resources.Resource
-	Clone() *github_com_solo_io_gloo_projects_clusteringress_api_external_knative.ClusterIngress
+	Clone() *github_com_solo_io_gloo_edge_projects_clusteringress_api_external_knative.ClusterIngress
 }
 
-var _ CloneableClusterIngress = &github_com_solo_io_gloo_projects_clusteringress_api_external_knative.ClusterIngress{}
+var _ CloneableClusterIngress = &github_com_solo_io_gloo_edge_projects_clusteringress_api_external_knative.ClusterIngress{}
 
 type ClusterIngress struct {
-	github_com_solo_io_gloo_projects_clusteringress_api_external_knative.ClusterIngress
+	github_com_solo_io_gloo_edge_projects_clusteringress_api_external_knative.ClusterIngress
 }
 
 func (r *ClusterIngress) Clone() resources.Resource {

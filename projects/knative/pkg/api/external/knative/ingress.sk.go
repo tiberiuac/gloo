@@ -9,7 +9,7 @@ import (
 	"log"
 	"sort"
 
-	github_com_solo_io_gloo_projects_knative_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_knative_api_external_knative "github.com/solo-io/gloo-edge/projects/knative/api/external/knative"
 
 	"github.com/solo-io/go-utils/hashutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"
@@ -31,13 +31,13 @@ func NewIngress(namespace, name string) *Ingress {
 
 type CloneableIngress interface {
 	resources.Resource
-	Clone() *github_com_solo_io_gloo_projects_knative_api_external_knative.Ingress
+	Clone() *github_com_solo_io_gloo_edge_projects_knative_api_external_knative.Ingress
 }
 
-var _ CloneableIngress = &github_com_solo_io_gloo_projects_knative_api_external_knative.Ingress{}
+var _ CloneableIngress = &github_com_solo_io_gloo_edge_projects_knative_api_external_knative.Ingress{}
 
 type Ingress struct {
-	github_com_solo_io_gloo_projects_knative_api_external_knative.Ingress
+	github_com_solo_io_gloo_edge_projects_knative_api_external_knative.Ingress
 }
 
 func (r *Ingress) Clone() resources.Resource {

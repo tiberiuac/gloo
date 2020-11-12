@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	"time"
 
-	github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
 
 	"go.opencensus.io/stats"
 	"go.uber.org/zap"
@@ -90,7 +90,7 @@ func (c *translatorSimpleEmitter) Snapshots(ctx context.Context) (<-chan *Transl
 				currentSnapshot = TranslatorSnapshot{}
 				for _, res := range untypedList {
 					switch typed := res.(type) {
-					case *github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngress:
+					case *github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngress:
 						currentSnapshot.Clusteringresses = append(currentSnapshot.Clusteringresses, typed)
 					default:
 						select {

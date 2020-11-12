@@ -9,7 +9,7 @@ import (
 	"log"
 	"sort"
 
-	github_com_solo_io_gloo_projects_gloo_api_external_solo_ratelimit "github.com/solo-io/gloo-edge/projects/gloo/api/external/solo/ratelimit"
+	github_com_solo_io_gloo_edge_projects_gloo_api_external_solo_ratelimit "github.com/solo-io/gloo-edge/projects/gloo/api/external/solo/ratelimit"
 
 	"github.com/solo-io/go-utils/hashutils"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources"
@@ -31,13 +31,13 @@ func NewRateLimitConfig(namespace, name string) *RateLimitConfig {
 
 type CloneableRateLimitConfig interface {
 	resources.Resource
-	Clone() *github_com_solo_io_gloo_projects_gloo_api_external_solo_ratelimit.RateLimitConfig
+	Clone() *github_com_solo_io_gloo_edge_projects_gloo_api_external_solo_ratelimit.RateLimitConfig
 }
 
-var _ CloneableRateLimitConfig = &github_com_solo_io_gloo_projects_gloo_api_external_solo_ratelimit.RateLimitConfig{}
+var _ CloneableRateLimitConfig = &github_com_solo_io_gloo_edge_projects_gloo_api_external_solo_ratelimit.RateLimitConfig{}
 
 type RateLimitConfig struct {
-	github_com_solo_io_gloo_projects_gloo_api_external_solo_ratelimit.RateLimitConfig
+	github_com_solo_io_gloo_edge_projects_gloo_api_external_solo_ratelimit.RateLimitConfig
 }
 
 func (r *RateLimitConfig) Clone() resources.Resource {

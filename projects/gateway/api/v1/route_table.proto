@@ -13,7 +13,7 @@ import "solo-kit/api/v1/metadata.proto";
 import "solo-kit/api/v1/status.proto";
 import "solo-kit/api/v1/solo-kit.proto";
 
-import "gloo/projects/gateway/api/v1/virtual_service.proto";
+import "gloo-edge/projects/gateway/api/v1/virtual_service.proto";
 
 /*
 *

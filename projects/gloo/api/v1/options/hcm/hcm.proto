@@ -6,8 +6,8 @@ option go_package = "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/optio
 import "gogoproto/gogo.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/duration.proto";
-import "gloo/projects/gloo/api/v1/options/tracing/tracing.proto";
-import "gloo/projects/gloo/api/v1/options/protocol_upgrade/protocol_upgrade.proto";
+import "gloo-edge/projects/gloo/api/v1/options/tracing/tracing.proto";
+import "gloo-edge/projects/gloo/api/v1/options/protocol_upgrade/protocol_upgrade.proto";
 
 option (gogoproto.equal_all) = true;
 import "extproto/ext.proto";

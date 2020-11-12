@@ -8,7 +8,7 @@ import (
 	"hash/fnv"
 	"log"
 
-	github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
 
 	"github.com/rotisserie/eris"
 	"github.com/solo-io/go-utils/hashutils"
@@ -16,7 +16,7 @@ import (
 )
 
 type TranslatorSnapshot struct {
-	Clusteringresses github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
+	Clusteringresses github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
 }
 
 func (s TranslatorSnapshot) Clone() TranslatorSnapshot {

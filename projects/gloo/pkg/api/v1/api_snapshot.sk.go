@@ -8,7 +8,7 @@ import (
 	"hash/fnv"
 	"log"
 
-	github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
+	github_com_solo_io_gloo_edge_projects_gloo_pkg_api_external_solo_ratelimit "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/external/solo/ratelimit"
 	enterprise_gloo_solo_io "github.com/solo-io/gloo-edge/projects/gloo/pkg/api/v1/enterprise/options/extauth/v1"
 
 	"github.com/rotisserie/eris"
@@ -24,7 +24,7 @@ type ApiSnapshot struct {
 	Secrets          SecretList
 	Upstreams        UpstreamList
 	AuthConfigs      enterprise_gloo_solo_io.AuthConfigList
-	Ratelimitconfigs github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList
+	Ratelimitconfigs github_com_solo_io_gloo_edge_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList
 }
 
 func (s ApiSnapshot) Clone() ApiSnapshot {

@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
+	github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative "github.com/solo-io/gloo-edge/projects/clusteringress/pkg/api/external/knative"
 
 	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
@@ -82,14 +82,14 @@ type TranslatorSnapshotEmitter interface {
 type TranslatorEmitter interface {
 	TranslatorSnapshotEmitter
 	Register() error
-	ClusterIngress() github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient
+	ClusterIngress() github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient
 }
 
-func NewTranslatorEmitter(clusterIngressClient github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient) TranslatorEmitter {
+func NewTranslatorEmitter(clusterIngressClient github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient) TranslatorEmitter {
 	return NewTranslatorEmitterWithEmit(clusterIngressClient, make(chan struct{}))
 }
 
-func NewTranslatorEmitterWithEmit(clusterIngressClient github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient, emit <-chan struct{}) TranslatorEmitter {
+func NewTranslatorEmitterWithEmit(clusterIngressClient github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient, emit <-chan struct{}) TranslatorEmitter {
 	return &translatorEmitter{
 		clusterIngress: clusterIngressClient,
 		forceEmit:      emit,
@@ -98,7 +98,7 @@ func NewTranslatorEmitterWithEmit(clusterIngressClient github_com_solo_io_gloo_p
 
 type translatorEmitter struct {
 	forceEmit      <-chan struct{}
-	clusterIngress github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient
+	clusterIngress github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient
 }
 
 func (c *translatorEmitter) Register() error {
@@ -108,7 +108,7 @@ func (c *translatorEmitter) Register() error {
 	return nil
 }
 
-func (c *translatorEmitter) ClusterIngress() github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient {
+func (c *translatorEmitter) ClusterIngress() github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressClient {
 	return c.clusterIngress
 }
 
@@ -130,12 +130,12 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 	ctx := opts.Ctx
 	/* Create channel for ClusterIngress */
 	type clusterIngressListWithNamespace struct {
-		list      github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
+		list      github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
 		namespace string
 	}
 	clusterIngressChan := make(chan clusterIngressListWithNamespace)
 
-	var initialClusterIngressList github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
+	var initialClusterIngressList github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
 
 	currentSnapshot := TranslatorSnapshot{}
 
@@ -208,7 +208,7 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 				stats.Record(ctx, mTranslatorSnapshotMissed.M(1))
 			}
 		}
-		clusteringressesByNamespace := make(map[string]github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressList)
+		clusteringressesByNamespace := make(map[string]github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressList)
 
 		for {
 			record := func() { stats.Record(ctx, mTranslatorSnapshotIn.M(1)) }
@@ -238,7 +238,7 @@ func (c *translatorEmitter) Snapshots(watchNamespaces []string, opts clients.Wat
 
 				// merge lists by namespace
 				clusteringressesByNamespace[namespace] = clusterIngressNamespacedList.list
-				var clusterIngressList github_com_solo_io_gloo_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
+				var clusterIngressList github_com_solo_io_gloo_edge_projects_clusteringress_pkg_api_external_knative.ClusterIngressList
 				for _, clusteringresses := range clusteringressesByNamespace {
 					clusterIngressList = append(clusterIngressList, clusteringresses...)
 				}

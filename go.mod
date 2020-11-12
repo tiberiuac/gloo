@@ -3,7 +3,6 @@ module github.com/solo-io/gloo-edge
 go 1.14
 
 require (
-	contrib.go.opencensus.io/exporter/stackdriver v0.12.5 // indirect
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/semver/v3 v3.0.3
 	github.com/Netflix/go-expect v0.0.0-20180928190340-9d1f4485533b
@@ -12,8 +11,6 @@ require (
 	github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354
 	github.com/cratonica/2goarray v0.0.0-20190331194516-514510793eaa
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/elazarl/goproxy v0.0.0-20190711103511-473e67f1d7d2 // indirect
-	github.com/elazarl/goproxy/ext v0.0.0-20190711103511-473e67f1d7d2 // indirect
 	github.com/envoyproxy/go-control-plane v0.9.6-0.20200529035633-fc42e08917e9
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/fgrosse/zaptest v1.1.0
@@ -27,7 +24,6 @@ require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/mock v1.4.4
 	github.com/golang/protobuf v1.4.3
-	github.com/google/go-containerregistry v0.1.3 // indirect
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-github/v31 v31.0.0
 	github.com/gorilla/mux v1.7.3
@@ -42,9 +38,6 @@ require (
 	github.com/k0kubun/pp v2.3.0+incompatible
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/keybase/go-ps v0.0.0-20190827175125-91aafc93ba19
-	github.com/mattbaird/jsonpatch v0.0.0-20200820163806-098863c1fc24 // indirect
-	github.com/mattn/go-colorable v0.1.8 // indirect
-	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/mitchellh/reflectwalk v1.0.1
 	github.com/olekukonko/tablewriter v0.0.4
@@ -58,8 +51,8 @@ require (
 	github.com/prometheus/prometheus v2.5.0+incompatible
 	github.com/rotisserie/eris v0.4.0
 	github.com/sergi/go-diff v1.0.0
-	github.com/sirupsen/logrus v1.7.0 // indirect
 	github.com/solo-io/envoy-operator v0.1.4
+	github.com/solo-io/gloo v1.5.9
 	github.com/solo-io/go-list-licenses v0.0.0-20191023220251-171e4740d00f
 	github.com/solo-io/go-utils v0.16.6
 	github.com/solo-io/protoc-gen-ext v0.0.9
@@ -75,7 +68,6 @@ require (
 	go.opencensus.io v0.22.4
 	go.uber.org/multierr v1.5.0
 	go.uber.org/zap v1.15.0
-	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897 // indirect
 	golang.org/x/mod v0.3.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
@@ -91,7 +83,6 @@ require (
 	k8s.io/client-go v11.0.0+incompatible
 	k8s.io/code-generator v0.18.2
 	k8s.io/helm v2.16.1+incompatible
-	k8s.io/kube-openapi v0.0.0-20200121204235-bf4fb3bd569c // indirect
 	k8s.io/kubectl v0.17.2
 	k8s.io/kubernetes v1.17.1
 	k8s.io/utils v0.17.1
