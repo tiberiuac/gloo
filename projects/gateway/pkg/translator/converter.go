@@ -139,6 +139,98 @@ func (r *reporterHelper) addWarning(resource resources.InputResource, err error)
 	}
 }
 
+// Helper object for reporting errors and warnings
+type matcherTracker map[string]map[resources.InputResource][]*matchersv1.Matcher
+
+func (m matcherTracker) addMatchers(res resources.InputResource, matchers []*matchersv1.Matcher) {
+	for _, matcher := range matchers {
+		var matcherKey string
+		switch matcher.GetPathSpecifier().(type) {
+		case *matchersv1.Matcher_Prefix:
+			matcherKey = fmt.Sprintf("prefix:%s", matcher.GetPrefix())
+		case *matchersv1.Matcher_Exact:
+			matcherKey = fmt.Sprintf("exact:%s", matcher.GetExact())
+		case *matchersv1.Matcher_Regex:
+			matcherKey = fmt.Sprintf("regex:%s", matcher.GetRegex())
+		}
+		pathMatchers, present := m[matcherKey]
+		if !present {
+			m[matcherKey] = map[resources.InputResource][]*matchersv1.Matcher{
+				res: {
+					matcher,
+				},
+			}
+			continue
+		}
+
+		pathMatchers[res] = append(pathMatchers[res], matcher)
+	}
+}
+
+type resourceWithMatcher struct {
+	res      resources.InputResource
+	matcher *matchersv1.Matcher
+}
+
+func (m matcherTracker) process() {
+	for uriKey, resourceMap := range m {
+		// Get uri from key
+		uri := strings.SplitN(uriKey, ":", 2)[0]
+		// Flatted resourceMap
+		var resourcesWithMatchers []*resourceWithMatcher
+
+		for resource, matchers := range resourceMap {
+			for _, matcher := range matchers {
+				resourcesWithMatchers = append(resourcesWithMatchers, &resourceWithMatcher{
+					res:     resource,
+					matcher: matcher,
+				})
+			}
+		}
+
+		var conflictGroups [][]*resourceWithMatcher
+		// Need to iterate through each twice to make sure each item doesn't have conflict with any other
+		for _, outerResource := range resourcesWithMatchers {
+				for _, innerResource := range resourcesWithMatchers {
+					// Skip  self
+					if outerResource == innerResource {
+						continue
+					}
+
+					if possibleConflict(outerResource.matcher, innerResource.matcher) {
+						conflictGroups
+					}
+
+				}
+		}
+		for resource, matchers := range resourceMap {
+			// Check to see if http protocols have overlap
+			for idx, matcher := range matchers {
+
+				sets.NewString(matcher.Methods...)
+			}
+		}
+	}
+}
+
+// Returns the conflicting matcher
+func possibleConflict(matcher1, matcher2 *matchersv1.Matcher) *matchersv1.Matcher {
+	var conflictingMatcher *matchersv1.Matcher
+	// If the matchers have any common methods, or either are empty
+	methodsIntersection := sets.NewString(matcher1.GetMethods()...).Intersection(sets.NewString(matcher2.GetMethods()...))
+	if len(matcher1.GetMethods()) == 0 || len(matcher2.GetMethods()) == 0 {
+		conflictingMatcher = &matchersv1.Matcher{}
+	} else if methodsIntersection.Len() > 0 {
+		conflictingMatcher = &matchersv1.Matcher{
+			Methods: methodsIntersection.List(),
+		}
+	}
+
+	// TODO: Check for possible conflicts in header and query parameters
+
+	return conflictingMatcher
+}
+
 func (rv *routeVisitor) ConvertVirtualService(virtualService *gatewayv1.VirtualService, reports reporter.ResourceReports) ([]*gloov1.Route, error) {
 	wrapper := &visitableVirtualService{VirtualService: virtualService}
 	return rv.visit(
@@ -149,6 +241,7 @@ func (rv *routeVisitor) ConvertVirtualService(virtualService *gatewayv1.VirtualS
 			reports:                reports,
 			topLevelVirtualService: virtualService,
 		},
+		make(matcherTracker),
 	)
 }
 
@@ -159,6 +252,7 @@ func (rv *routeVisitor) visit(
 	parentRoute *routeInfo,
 	visitedRouteTables gatewayv1.RouteTableList,
 	reporterHelper *reporterHelper,
+	resourcesByMatcher matcherTracker,
 ) ([]*gloov1.Route, error) {
 	var routes []*gloov1.Route
 
@@ -241,6 +335,7 @@ func (rv *routeVisitor) visit(
 						currentRouteInfo,
 						visitedRtCopy,
 						reporterHelper,
+						resourcesByMatcher,
 					)
 					if err != nil {
 						return nil, err
@@ -285,7 +380,16 @@ func (rv *routeVisitor) visit(
 				continue
 			}
 			routes = append(routes, glooRoute)
+
+			// Append matchers
+			resourcesByMatcher.addMatchers(resource.InputResource(), glooRoute.GetMatchers())
 		}
+	}
+
+	// Parent route is nil, therefore we are dealing with a Virtual Service.
+	// Matcher validation should take place at the top level so that the warnings are only added to the VS one time
+	if parentRoute == nil {
+		resourcesByMatcher.process()
 	}
 
 	// Append source metadata to all the routes
