@@ -34,8 +34,7 @@ jobs:
       - name: Update solo-apis
         run: |
           cd solo-apis
-          go mod download
-          ./hack/sync-gloo-apis.sh; make generate -B
+          make mod-download update-deps; ./hack/sync-gloo-apis.sh; make generate -B
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b update-solo-apis
