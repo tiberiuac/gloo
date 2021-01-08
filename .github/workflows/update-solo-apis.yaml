@@ -40,4 +40,4 @@ jobs:
           git checkout -b update-solo-apis
           git add .
           git commit -m "Sync Gloo APIs to test"
-          git push
+          git push --set-upstream origin update-solo-apis
