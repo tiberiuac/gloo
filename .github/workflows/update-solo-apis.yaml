@@ -1,0 +1,34 @@
+name: Update solo-apis
+on: pull_request
+#on:
+#  release:
+#    types: [created]'
+jobs:
+  publish-apis:
+    name: Publish Gloo APIs
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          path: gloo
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          repository: solo-io/solo-apis
+          path: solo-apis
+      - name: Update solo-apis
+        run: |
+          cd solo-apis
+          ./hack/sync-gloo-apis.sh; make generate -B
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b update-solo-apis
+          git add .
+          git commit -m "Sync Gloo APIs to test"
+          git push
