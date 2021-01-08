@@ -24,7 +24,10 @@ jobs:
           path: solo-apis
       - name: Update solo-apis
         run: |
+          ls
           cd solo-apis
+          ls
+          go mod download
           ./hack/sync-gloo-apis.sh; make generate -B
           git config user.name github-actions
           git config user.email github-actions@github.com
