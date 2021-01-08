@@ -39,5 +39,5 @@ jobs:
           git config user.email github-actions@github.com
           git checkout -b update-solo-apis
           git add .
-          git commit -m "Sync Gloo APIs to test"
+          git commit -m "Sync Gloo APIs to ${{ github.event.release.tag_name }}"
           git push --set-upstream origin update-solo-apis
