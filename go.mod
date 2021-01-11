@@ -89,7 +89,6 @@ require (
 	golang.org/x/mod v0.3.0
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
-	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418 // indirect
 	golang.org/x/tools v0.0.0-20201027213030-631220838841
 	google.golang.org/genproto v0.0.0-20200904004341-0bd0a958aa1d
 	google.golang.org/grpc v1.33.1
@@ -98,14 +97,13 @@ require (
 	gopkg.in/ini.v1 v1.56.0 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
 	helm.sh/helm/v3 v3.2.4
-	k8s.io/api v0.18.8
-	k8s.io/apiextensions-apiserver v0.18.8
-	k8s.io/apimachinery v0.18.8
-	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
-	k8s.io/code-generator v0.18.8
-	k8s.io/component-base v0.18.8 // indirect
+	k8s.io/api v0.19.6
+	k8s.io/apiextensions-apiserver v0.19.6
+	k8s.io/apimachinery v0.19.6
+	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible // v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
+	k8s.io/code-generator v0.19.6
 	k8s.io/helm v2.17.0+incompatible
-	k8s.io/kubectl v0.18.6
+	k8s.io/kubectl v0.19.6
 	k8s.io/kubernetes v1.18.6
 	k8s.io/utils v0.0.0-20200729134348-d5654de09c73
 	knative.dev/networking v0.0.0-20201103163404-b9f80f4537af
@@ -131,34 +129,34 @@ replace (
 
 	// kube 0.18: redirects needed for most k8s.io dependencies because
 	// k8s.io/kubernetes tries to import v0.0.0 of everything.
-	k8s.io/api => k8s.io/api v0.18.6
-	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.18.6
-	k8s.io/apimachinery => k8s.io/apimachinery v0.18.6
-	k8s.io/apiserver => k8s.io/apiserver v0.18.6
-	k8s.io/cli-runtime => k8s.io/cli-runtime v0.18.6
-	k8s.io/client-go => k8s.io/client-go v0.18.6
-	k8s.io/cloud-provider => k8s.io/cloud-provider v0.18.6
-	k8s.io/cluster-bootstrap => k8s.io/cluster-bootstrap v0.18.6
-	k8s.io/code-generator => k8s.io/code-generator v0.18.6
-	k8s.io/component-base => k8s.io/component-base v0.18.6
-	k8s.io/cri-api => k8s.io/cri-api v0.18.6
-	k8s.io/csi-translation-lib => k8s.io/csi-translation-lib v0.18.6
+	k8s.io/api => k8s.io/api v0.19.6
+	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.19.6
+	k8s.io/apimachinery => k8s.io/apimachinery v0.19.6
+	k8s.io/apiserver => k8s.io/apiserver v0.19.6
+	k8s.io/cli-runtime => k8s.io/cli-runtime v0.19.6
+	k8s.io/client-go => k8s.io/client-go v0.19.6
+	k8s.io/cloud-provider => k8s.io/cloud-provider v0.19.6
+	k8s.io/cluster-bootstrap => k8s.io/cluster-bootstrap v0.19.6
+	k8s.io/code-generator => k8s.io/code-generator v0.19.6
+	k8s.io/component-base => k8s.io/component-base v0.19.6
+	k8s.io/cri-api => k8s.io/cri-api v0.19.6
+	k8s.io/csi-translation-lib => k8s.io/csi-translation-lib v0.19.6
 	k8s.io/gengo => k8s.io/gengo v0.0.0-20190822140433-26a664648505
 	k8s.io/heapster => k8s.io/heapster v1.2.0-beta.1
 	k8s.io/klog => github.com/stefanprodan/klog v0.0.0-20190418165334-9cbb78b20423
-	k8s.io/kube-aggregator => k8s.io/kube-aggregator v0.18.6
-	k8s.io/kube-controller-manager => k8s.io/kube-controller-manager v0.18.6
-	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20190816220812-743ec37842bf
-	k8s.io/kube-proxy => k8s.io/kube-proxy v0.18.6
-	k8s.io/kube-scheduler => k8s.io/kube-scheduler v0.18.6
-	k8s.io/kubectl => k8s.io/kubectl v0.18.6
-	k8s.io/kubelet => k8s.io/kubelet v0.18.6
-	k8s.io/legacy-cloud-providers => k8s.io/legacy-cloud-providers v0.18.6
-	k8s.io/metrics => k8s.io/metrics v0.18.6
-	k8s.io/node-api => k8s.io/node-api v0.18.6
+	k8s.io/kube-aggregator => k8s.io/kube-aggregator v0.19.6
+	k8s.io/kube-controller-manager => k8s.io/kube-controller-manager v0.19.6
+	k8s.io/kube-openapi => k8s.io/kube-openapi v0.19.6 //v0.0.0-20190816220812-743ec37842bf
+	k8s.io/kube-proxy => k8s.io/kube-proxy v0.19.6
+	k8s.io/kube-scheduler => k8s.io/kube-scheduler v0.19.6
+	k8s.io/kubectl => k8s.io/kubectl v0.19.6
+	k8s.io/kubelet => k8s.io/kubelet v0.19.6
+	k8s.io/legacy-cloud-providers => k8s.io/legacy-cloud-providers v0.19.6
+	k8s.io/metrics => k8s.io/metrics v0.19.6
+	k8s.io/node-api => k8s.io/node-api v0.19.6
 	k8s.io/repo-infra => k8s.io/repo-infra v0.0.0-20181204233714-00fe14e3d1a3
-	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.18.6
-	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.18.6
-	k8s.io/sample-controller => k8s.io/sample-controller v0.18.6
+	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.19.6
+	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.19.6
+	k8s.io/sample-controller => k8s.io/sample-controller v0.19.6
 	k8s.io/utils => k8s.io/utils v0.0.0-20190801114015-581e00157fb1
 )
