@@ -157,5 +157,4 @@ replace (
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.19.6
 	k8s.io/sample-controller => k8s.io/sample-controller v0.19.6
 	k8s.io/utils => k8s.io/utils v0.0.0-20190801114015-581e00157fb1
-//sigs.k8s.io/controller-runtime =>  sigs.k8s.io/controller-runtime v0.6.4 //v0.6.2
 )
