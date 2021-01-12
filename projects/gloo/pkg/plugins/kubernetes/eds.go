@@ -302,6 +302,11 @@ func createEndpoint(namespace, name string, upstreams []*core.ResourceRef, addre
 
 	if pod != nil {
 		ep.Metadata.Labels = pod.Labels
+		ep.Metadata.Annotations = map[string]string{
+			"podName":      pod.Name,
+			"podNamespace": pod.Namespace,
+			"podeName":     pod.Spec.NodeName,
+		}
 	}
 	return ep
 }
