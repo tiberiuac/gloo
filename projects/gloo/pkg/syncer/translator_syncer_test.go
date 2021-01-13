@@ -1,4 +1,4 @@
-package syncer
+package syncer_test
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
 	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
+	. "github.com/solo-io/gloo/projects/gloo/pkg/syncer"
 	"github.com/solo-io/gloo/projects/gloo/pkg/xds"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/factory"
@@ -23,7 +24,7 @@ import (
 var _ = Describe("Translate Proxy", func() {
 
 	var (
-		xdsCache    *MockXdsCache
+		xdsCache    *mockXdsCache
 		sanitizer   *mockXdsSanitizer
 		syncer      v1.ApiSyncer
 		snap        *v1.ApiSnapshot
@@ -37,7 +38,7 @@ var _ = Describe("Translate Proxy", func() {
 	)
 
 	BeforeEach(func() {
-		xdsCache = &MockXdsCache{}
+		xdsCache = &mockXdsCache{}
 		sanitizer = &mockXdsSanitizer{}
 		ctx, cancel = context.WithCancel(context.Background())
 
@@ -158,7 +159,7 @@ var _ = Describe("Translate Proxy", func() {
 var _ = Describe("Translate mulitple proxies with errors", func() {
 
 	var (
-		xdsCache       *MockXdsCache
+		xdsCache       *mockXdsCache
 		sanitizer      *mockXdsSanitizer
 		syncer         v1.ApiSyncer
 		snap           *v1.ApiSnapshot
@@ -203,7 +204,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 
 	BeforeEach(func() {
 		var err error
-		xdsCache = &MockXdsCache{}
+		xdsCache = &mockXdsCache{}
 		sanitizer = &mockXdsSanitizer{}
 
 		resourceClientFactory := &factory.MemoryResourceClientFactory{
@@ -341,9 +342,9 @@ func (t *mockTranslator) Translate(params plugins.Params, proxy *v1.Proxy) (envo
 	return envoycache.NilSnapshot{}, nil, &validation.ProxyReport{}, nil
 }
 
-var _ envoycache.SnapshotCache = &MockXdsCache{}
+var _ envoycache.SnapshotCache = &mockXdsCache{}
 
-type MockXdsCache struct {
+type mockXdsCache struct {
 	called bool
 	// snap that is set
 	setSnap envoycache.Snapshot
@@ -351,36 +352,36 @@ type MockXdsCache struct {
 	getSnap envoycache.Snapshot
 }
 
-func (*MockXdsCache) CreateWatch(envoycache.Request) (value chan envoycache.Response, cancel func()) {
+func (*mockXdsCache) CreateWatch(envoycache.Request) (value chan envoycache.Response, cancel func()) {
 	panic("implement me")
 }
 
-func (*MockXdsCache) Fetch(context.Context, envoycache.Request) (*envoycache.Response, error) {
+func (*mockXdsCache) Fetch(context.Context, envoycache.Request) (*envoycache.Response, error) {
 	panic("implement me")
 }
 
-func (*MockXdsCache) GetStatusInfo(string) envoycache.StatusInfo {
+func (*mockXdsCache) GetStatusInfo(string) envoycache.StatusInfo {
 	panic("implement me")
 }
 
-func (c *MockXdsCache) GetStatusKeys() []string {
+func (c *mockXdsCache) GetStatusKeys() []string {
 	return []string{}
 }
 
-func (c *MockXdsCache) SetSnapshot(node string, snapshot envoycache.Snapshot) error {
+func (c *mockXdsCache) SetSnapshot(node string, snapshot envoycache.Snapshot) error {
 	c.called = true
 	c.setSnap = snapshot
 	return nil
 }
 
-func (c *MockXdsCache) GetSnapshot(node string) (envoycache.Snapshot, error) {
+func (c *mockXdsCache) GetSnapshot(node string) (envoycache.Snapshot, error) {
 	if c.getSnap != nil {
 		return c.getSnap, nil
 	}
 	return &envoycache.NilSnapshot{}, nil
 }
 
-func (*MockXdsCache) ClearSnapshot(node string) {
+func (*mockXdsCache) ClearSnapshot(node string) {
 	panic("implement me")
 }
 
