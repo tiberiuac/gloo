@@ -94,20 +94,20 @@ require (
 	gopkg.in/AlecAivazis/survey.v1 v1.8.7
 	gopkg.in/ini.v1 v1.56.0 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
-	helm.sh/helm/v3 v3.4.2 //v3.2.4
+	helm.sh/helm/v3 v3.4.2
 	k8s.io/api v0.19.6
 	k8s.io/apiextensions-apiserver v0.19.6
 	k8s.io/apimachinery v0.19.6
-	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible // v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
+	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
 	k8s.io/code-generator v0.19.6
 	k8s.io/helm v2.17.0+incompatible
 	k8s.io/kubectl v0.19.6
-	k8s.io/kubernetes v1.19.6 //v1.18.6
+	k8s.io/kubernetes v1.19.6
 	k8s.io/utils v0.0.0-20200912215256-4140de9c8800
 	knative.dev/networking v0.0.0-20201103163404-b9f80f4537af
 	knative.dev/pkg v0.0.0-20201104085304-8224d1a794f2
 	rsc.io/letsencrypt v0.0.3 // indirect
-	sigs.k8s.io/controller-runtime v0.7.0 //v0.6.4 //v0.6.2
+	sigs.k8s.io/controller-runtime v0.7.0
 	sigs.k8s.io/yaml v1.2.0
 	vbom.ml/util v0.0.0-20180919145318-efcd4e0f9787 // indirect
 )
@@ -144,7 +144,7 @@ replace (
 	k8s.io/klog => github.com/stefanprodan/klog v0.0.0-20190418165334-9cbb78b20423
 	k8s.io/kube-aggregator => k8s.io/kube-aggregator v0.19.6
 	k8s.io/kube-controller-manager => k8s.io/kube-controller-manager v0.19.6
-	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd //v0.0.0-20190816220812-743ec37842bf
+	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
 	k8s.io/kube-proxy => k8s.io/kube-proxy v0.19.6
 	k8s.io/kube-scheduler => k8s.io/kube-scheduler v0.19.6
 	k8s.io/kubectl => k8s.io/kubectl v0.19.6
