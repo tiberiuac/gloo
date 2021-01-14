@@ -31,6 +31,12 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
+      - name: Setup Private Repo Permissions
+        env:
+          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          cd solo-apis
+          git config --global url."https://${TOKEN}@github.com/solo-io/".insteadOf "https://github.com/solo-io/"
       - name: Update solo-apis
         run: |
           cd solo-apis
@@ -47,5 +53,5 @@ jobs:
         with:
           repository: solo-io/solo-apis
           directory: solo-apis
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           branch: update-gloo-apis-github-action
