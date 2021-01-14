@@ -12,6 +12,9 @@ jobs:
         uses: styfle/cancel-workflow-action@0.4.1
         with:
           access_token: ${{ github.token }}
+      - uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SOLO_API_DEPLOY_KEY }}
       - name: Set up Go 1.14
         uses: actions/setup-go@v1
         with:
@@ -31,15 +34,6 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
-      - name: Setup SSH Keys and known_hosts
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          DEPLOY_KEY: ${{ secrets.SOLO_API_DEPLOY_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "$DEPLOY_KEY"
       - name: Update solo-apis
         run: |
           cd solo-apis
