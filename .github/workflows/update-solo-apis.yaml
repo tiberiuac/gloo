@@ -38,9 +38,10 @@ jobs:
       - name: Commit files
         run: |
           cd solo-apis
+          git add .
           git config --local user.name github-actions
           git config --local user.email github-actions@github.com
-          git commit -m "Sync Gloo APIs to" -a
+          git commit -m "Sync Gloo APIs to"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
