@@ -31,16 +31,14 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
-      - name: "Set up SSH agent"
-        uses: webfactory/ssh-agent@v0.1.1
-        with:
-          ssh-private-key: ${{ secrets.SOLO_API_DEPLOY_KEY }}
-      - name: "Add GitHub to the SSH known hosts file"
+      - name: Setup SSH Keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          for ip in $(dig @8.8.8.8 github.com +short); do \
-            ssh-keyscan github.com,$ip; \
-            ssh-keyscan $ip; \
-          done 2>/dev/null >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SOLO_API_DEPLOY_KEY }}"
       - name: Update solo-apis
         run: |
           cd solo-apis
