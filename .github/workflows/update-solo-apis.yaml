@@ -31,12 +31,13 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
-      - name: Setup Private Repo Permissions
+      - name: Add SSH Deploy Key to solo-apis
         env:
-          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          DEPLOY_KEY: ${{ secrets.SOLO_API_DEPLOY_KEY }}
+          GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
         run: |
-          cd solo-apis
-          git config --global url."https://${TOKEN}@github.com/solo-io/".insteadOf "https://github.com/solo-io/"
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${DEPLOY_KEY}"
       - name: Update solo-apis
         run: |
           cd solo-apis
@@ -49,4 +50,5 @@ jobs:
           git config --local user.email github-actions@github.com
           git commit -m "Sync Gloo APIs"
           git checkout -b update-apis
-          git push --set-upstream origin update-apis
+          git remote add solo-apis git@github.com:solo-io/solo-apis.git
+          git push solo-apis update-apis
