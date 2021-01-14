@@ -35,6 +35,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SOLO_API_DEPLOY_KEY }}
+          known_hosts: ""
       - name: Update solo-apis
         run: |
           cd solo-apis
