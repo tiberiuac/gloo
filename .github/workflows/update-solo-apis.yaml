@@ -47,5 +47,5 @@ jobs:
         with:
           repository: solo-io/solo-apis
           directory: solo-apis
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-gloo-apis-github-action
