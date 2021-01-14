@@ -31,20 +31,14 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
-      - name: Add SSH Deploy Key to solo-apis
-        env:
-          DEPLOY_KEY: ${{ secrets.SOLO_API_DEPLOY_KEY }}
-          GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add - <<< "${DEPLOY_KEY}"
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SOLO_API_DEPLOY_KEY }}
       - name: Update solo-apis
         run: |
           cd solo-apis
           touch a.txt
-      - name: Commit files
-        run: |
-          cd solo-apis
           git add .
           git config --local user.name github-actions
           git config --local user.email github-actions@github.com
