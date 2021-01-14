@@ -34,11 +34,12 @@ jobs:
       - name: Setup SSH Keys and known_hosts
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          DEPLOY_KEY: ${{ secrets.SOLO_API_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SOLO_API_DEPLOY_KEY }}"
+          ssh-add - <<< "$DEPLOY_KEY"
       - name: Update solo-apis
         run: |
           cd solo-apis
