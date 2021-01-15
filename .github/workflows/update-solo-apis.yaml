@@ -44,8 +44,8 @@ jobs:
           else
             echo "Changes found"
             git commit -m "Sync Gloo APIs"
-            git config --local user.name github-actions
-            git config --local user.email github-actions@github.com
+            git config --local user.name soloio-bot
+            git config --local user.email soloio-botgithub.com
             git checkout -b update-gloo-apis
             git remote add solo-apis git@github.com:solo-io/solo-apis.git
             git push solo-apis update-gloo-apis
