@@ -71,9 +71,9 @@ require (
 	github.com/solo-io/k8s-utils v0.0.3
 	github.com/solo-io/protoc-gen-ext v0.0.14
 	github.com/solo-io/reporting-client v0.2.0
-	github.com/solo-io/skv2 v0.15.2
+	github.com/solo-io/skv2 v0.16.2
 	github.com/solo-io/solo-apis v0.0.0-20201208172621-1ef725df2bff
-	github.com/solo-io/solo-kit v0.16.3
+	github.com/solo-io/solo-kit v0.16.1
 	github.com/solo-io/wasm/tools/wasme/pkg v0.0.0-20201021213306-77f82bdc3cc3
 	github.com/spf13/afero v1.3.4
 	github.com/spf13/cobra v1.0.0
@@ -88,7 +88,7 @@ require (
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 	golang.org/x/tools v0.0.0-20201027213030-631220838841
-	google.golang.org/genproto v0.0.0-20200904004341-0bd0a958aa1d
+	google.golang.org/genproto v0.0.0-20201019141844-1ed22bb0c154
 	google.golang.org/grpc v1.33.1
 	google.golang.org/protobuf v1.25.0
 	gopkg.in/AlecAivazis/survey.v1 v1.8.7
@@ -103,7 +103,7 @@ require (
 	k8s.io/helm v2.17.0+incompatible
 	k8s.io/kubectl v0.19.6
 	k8s.io/kubernetes v1.19.6
-	k8s.io/utils v0.0.0-20200912215256-4140de9c8800
+	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 	knative.dev/networking v0.0.0-20201103163404-b9f80f4537af
 	knative.dev/pkg v0.0.0-20201104085304-8224d1a794f2
 	rsc.io/letsencrypt v0.0.3 // indirect
