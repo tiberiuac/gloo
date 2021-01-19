@@ -9,8 +9,10 @@ import (
 	v1 "github.com/solo-io/gloo/projects/gateway/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gateway/pkg/defaults"
 	"github.com/solo-io/gloo/projects/gateway/pkg/translator"
+	"github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
 	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
+	transformation1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"github.com/solo-io/solo-kit/pkg/api/v2/reporter"
 )
@@ -595,6 +597,123 @@ var _ = Describe("Route converter", func() {
 				Expect(converted[0].Matchers[0].GetPrefix()).To(Equal("/foo"))
 			})
 
+		})
+
+		Context("transformation inheritance mode", func() {
+
+			var (
+				rtOnlyTransformation *transformation.Transformation
+				vsOnlyTransformation *transformation.Transformation
+				vs                   *v1.VirtualService
+				rt                   *v1.RouteTable
+				rv                   translator.RouteConverter
+			)
+
+			BeforeEach(func() {
+				rtOnlyTransformation = &transformation.Transformation{
+					TransformationType: &transformation.Transformation_TransformationTemplate{
+						TransformationTemplate: &transformation.TransformationTemplate{
+							Headers: map[string]*transformation.InjaTemplate{
+								"route-header": {
+									Text: "route header",
+								},
+							},
+						},
+					},
+				}
+				vsOnlyTransformation = &transformation.Transformation{
+					TransformationType: &transformation.Transformation_TransformationTemplate{
+						TransformationTemplate: &transformation.TransformationTemplate{
+							Headers: map[string]*transformation.InjaTemplate{
+								"vs-header": {
+									Text: "vs header",
+								},
+							},
+						},
+					},
+				}
+
+				rt = &v1.RouteTable{
+					Metadata: &core.Metadata{
+						Name:      "rt",
+						Namespace: "default",
+					},
+					Routes: []*v1.Route{{
+						Options: &gloov1.RouteOptions{
+							StagedTransformations: &transformation1.TransformationStages{
+								Regular: &transformation1.RequestResponseTransformations{
+									RequestTransforms: []*transformation1.RequestMatch{
+										{
+											RequestTransformation: rtOnlyTransformation,
+										},
+									},
+								},
+							},
+						},
+						Name: "route-1",
+						Action: &v1.Route_DirectResponseAction{
+							DirectResponseAction: &gloov1.DirectResponseAction{
+								Status: 200,
+								Body:   "foo",
+							},
+						},
+					}},
+				}
+
+				vs = &v1.VirtualService{
+					Metadata: &core.Metadata{
+						Name:      "vs",
+						Namespace: "default",
+					},
+					VirtualHost: &v1.VirtualHost{
+						Options: &gloov1.VirtualHostOptions{
+							StagedTransformations: &transformation1.TransformationStages{
+								Regular: &transformation1.RequestResponseTransformations{
+									RequestTransforms: []*transformation1.RequestMatch{
+										{
+											RequestTransformation: vsOnlyTransformation,
+										},
+									},
+								},
+							},
+						},
+						Routes: []*v1.Route{
+							{
+								Matchers: []*matchers.Matcher{{
+									PathSpecifier: &matchers.Matcher_Prefix{
+										Prefix: "/foo",
+									},
+								}},
+								InheritableStagedTransformation: &wrappers.BoolValue{Value: true},
+								Action: &v1.Route_DelegateAction{
+									DelegateAction: &v1.DelegateAction{
+										DelegationType: &v1.DelegateAction_Ref{
+											Ref: &core.ResourceRef{
+												Name:      "rt",
+												Namespace: "default",
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				}
+
+				rv = translator.NewRouteConverter(
+					translator.NewRouteTableSelector(v1.RouteTableList{rt}),
+					translator.NewRouteTableIndexer(),
+				)
+
+			})
+
+			FIt("assigns vhost transformation config to route level", func() {
+				rpt := reporter.ResourceReports{}
+				converted, err := rv.ConvertVirtualService(vs, rpt)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(converted).To(HaveLen(1))
+				Expect(rpt).To(HaveLen(0))
+			})
 		})
 	})
 

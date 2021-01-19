@@ -249,6 +249,53 @@ var _ = Describe("Staged Transformation", func() {
 			fmt.Printf("%+v\n", res.Header)
 			Expect(res.Header["X-Custom-Header"]).To(ContainElements("original header", "APPENDED HEADER 1", "APPENDED HEADER 2"))
 		})
+
+		FIt("should apply transforms from vhost and route level", func() {
+			setProxyWithModifier(&transformation.TransformationStages{
+				Regular: &transformation.RequestResponseTransformations{
+					ResponseTransforms: []*transformation.ResponseMatch{{
+						ResponseTransformation: &envoytransformation.Transformation{
+							TransformationType: &envoytransformation.Transformation_TransformationTemplate{
+								TransformationTemplate: &envoytransformation.TransformationTemplate{
+									ParseBodyBehavior: envoytransformation.TransformationTemplate_DontParse,
+									Headers: map[string]*envoytransformation.InjaTemplate{
+										"x-solo-1": {Text: "vhost header"},
+									},
+								},
+							},
+						},
+					}},
+				},
+			}, func(vhost *gloov1.VirtualHost) {
+				vhost.GetRoutes()[0].Options = &gloov1.RouteOptions{
+					StagedTransformations: &transformation.TransformationStages{
+						Regular: &transformation.RequestResponseTransformations{
+							ResponseTransforms: []*transformation.ResponseMatch{{
+								ResponseTransformation: &envoytransformation.Transformation{
+									TransformationType: &envoytransformation.Transformation_TransformationTemplate{
+										TransformationTemplate: &envoytransformation.TransformationTemplate{
+											ParseBodyBehavior: envoytransformation.TransformationTemplate_DontParse,
+											Headers: map[string]*envoytransformation.InjaTemplate{
+												"x-solo-2": {Text: "route header"},
+											},
+										},
+									},
+								},
+							}},
+						},
+					},
+				}
+			})
+			TestUpstreamReachable()
+			var response *http.Response
+			Eventually(func() error {
+				var err error
+				response, err = http.DefaultClient.Get(fmt.Sprintf("http://localhost:%d/1", envoyPort))
+				return err
+			}, "30s", "1s").ShouldNot(HaveOccurred())
+			//Expect(response.Header.Get("x-solo-1")).NotTo(BeEmpty())
+			Expect(response.Header.Get("x-solo-2")).NotTo(BeEmpty())
+		})
 	})
 
 	Context("with auth", func() {

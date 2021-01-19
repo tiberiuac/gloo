@@ -213,6 +213,16 @@ func (m *Route) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetInheritableStagedTransformation()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetInheritableStagedTransformation()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetInheritableStagedTransformation(), target.GetInheritableStagedTransformation()) {
+			return false
+		}
+	}
+
 	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetOptions()) {
 			return false
