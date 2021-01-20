@@ -602,14 +602,26 @@ var _ = Describe("Route converter", func() {
 		Context("transformation inheritance mode", func() {
 
 			var (
-				rtOnlyTransformation *transformation.Transformation
-				vsOnlyTransformation *transformation.Transformation
-				vs                   *v1.VirtualService
-				rt                   *v1.RouteTable
-				rv                   translator.RouteConverter
+				routeOnlyTransformation *transformation.Transformation
+				rtOnlyTransformation    *transformation.Transformation
+				vsOnlyTransformation    *transformation.Transformation
+				vs                      *v1.VirtualService
+				rt                      *v1.RouteTable
+				rv                      translator.RouteConverter
 			)
 
 			BeforeEach(func() {
+				rtOnlyTransformation = &transformation.Transformation{
+					TransformationType: &transformation.Transformation_TransformationTemplate{
+						TransformationTemplate: &transformation.TransformationTemplate{
+							Headers: map[string]*transformation.InjaTemplate{
+								"route-table-header": {
+									Text: "route table header",
+								},
+							},
+						},
+					},
+				}
 				rtOnlyTransformation = &transformation.Transformation{
 					TransformationType: &transformation.Transformation_TransformationTemplate{
 						TransformationTemplate: &transformation.TransformationTemplate{
@@ -639,12 +651,17 @@ var _ = Describe("Route converter", func() {
 						Namespace: "default",
 					},
 					Routes: []*v1.Route{{
+						Matchers: []*matchers.Matcher{{
+							PathSpecifier: &matchers.Matcher_Prefix{
+								Prefix: "/foo/1",
+							},
+						}},
 						Options: &gloov1.RouteOptions{
 							StagedTransformations: &transformation1.TransformationStages{
 								Regular: &transformation1.RequestResponseTransformations{
 									RequestTransforms: []*transformation1.RequestMatch{
 										{
-											RequestTransformation: rtOnlyTransformation,
+											RequestTransformation: routeOnlyTransformation,
 										},
 									},
 								},
@@ -666,6 +683,7 @@ var _ = Describe("Route converter", func() {
 						Namespace: "default",
 					},
 					VirtualHost: &v1.VirtualHost{
+						InheritableStagedTransformation: &wrappers.BoolValue{Value: true},
 						Options: &gloov1.VirtualHostOptions{
 							StagedTransformations: &transformation1.TransformationStages{
 								Regular: &transformation1.RequestResponseTransformations{
@@ -684,13 +702,23 @@ var _ = Describe("Route converter", func() {
 										Prefix: "/foo",
 									},
 								}},
-								InheritableStagedTransformation: &wrappers.BoolValue{Value: true},
 								Action: &v1.Route_DelegateAction{
 									DelegateAction: &v1.DelegateAction{
 										DelegationType: &v1.DelegateAction_Ref{
 											Ref: &core.ResourceRef{
 												Name:      "rt",
 												Namespace: "default",
+											},
+										},
+									},
+								},
+								Options: &gloov1.RouteOptions{
+									StagedTransformations: &transformation1.TransformationStages{
+										Regular: &transformation1.RequestResponseTransformations{
+											RequestTransforms: []*transformation1.RequestMatch{
+												{
+													RequestTransformation: rtOnlyTransformation,
+												},
 											},
 										},
 									},
@@ -710,9 +738,23 @@ var _ = Describe("Route converter", func() {
 			FIt("assigns vhost transformation config to route level", func() {
 				rpt := reporter.ResourceReports{}
 				converted, err := rv.ConvertVirtualService(vs, rpt)
+				Expect(rpt).To(HaveLen(0))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(converted).To(HaveLen(1))
-				Expect(rpt).To(HaveLen(0))
+				transforms := converted[0].GetOptions().GetStagedTransformations().GetRegular().GetRequestTransforms()
+				Expect(transforms).To(HaveLen(3))
+
+				By("verify order of transformations, child first")
+				Expect(transforms[0]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: routeOnlyTransformation,
+				}))
+				Expect(transforms[1]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: rtOnlyTransformation,
+				}))
+				Expect(transforms[2]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: vsOnlyTransformation,
+				}))
+
 			})
 		})
 	})
