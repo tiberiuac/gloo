@@ -156,5 +156,5 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.19.6
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.19.6
 	k8s.io/sample-controller => k8s.io/sample-controller v0.19.6
-	k8s.io/utils => k8s.io/utils v0.0.0-20190801114015-581e00157fb1
+	k8s.io/utils => k8s.io/utils v0.0.0-20200729134348-d5654de09c73
 )
