@@ -735,7 +735,7 @@ var _ = Describe("Route converter", func() {
 
 			})
 
-			FIt("assigns vhost transformation config to route level", func() {
+			It("assigns vhost transformation config to route level", func() {
 				rpt := reporter.ResourceReports{}
 				converted, err := rv.ConvertVirtualService(vs, rpt)
 				Expect(rpt).To(HaveLen(0))

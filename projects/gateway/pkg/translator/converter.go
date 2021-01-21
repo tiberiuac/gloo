@@ -2,6 +2,7 @@ package translator
 
 import (
 	"fmt"
+	transformation2 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
 	"strings"
 
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
@@ -561,7 +562,6 @@ func buildCycleInfoString(routeTables gatewayv1.RouteTableList) string {
 func inheritableTransformations(child *gatewayv1.Route, parentTransformationStages *transformation.TransformationStages) {
 	// inherit transformation config from parent
 	if child.GetInheritableStagedTransformation().GetValue() {
-		// TODO: support deprecated transformations api (?)
 		mergeTransformations(child.GetOptions().GetStagedTransformations().GetRegular(),
 			parentTransformationStages.GetRegular())
 		mergeTransformations(child.GetOptions().GetStagedTransformations().GetEarly(),
@@ -586,4 +586,30 @@ func mergeTransformations(childTransformations *transformation.RequestResponseTr
 		parentTransformations.GetResponseTransforms()...)
 	childTransformations.RequestTransforms = append(childTransformations.GetRequestTransforms(),
 		parentTransformations.GetRequestTransforms()...)
+}
+
+func mergeResponseMatches(child, parent []*transformation.ResponseMatch) {
+	headers := map[string]*transformation2.InjaTemplate{}
+	for _, responseMatch := range child {
+		// only merge actual transformation if transformation doesn't have matcher
+		if responseMatch.Matchers == nil {
+			if transform := responseMatch.ResponseTransformation.GetTransformationTemplate(); transform != nil {
+				for header, template := range transform.Headers {
+					headers[header] = template
+				}
+				break
+			}
+		}
+	}
+	for _, responseMatch := range parent {
+		// only merge actual transformation if transformation doesn't have matcher
+		if responseMatch.Matchers == nil {
+			if transform := responseMatch.ResponseTransformation.GetTransformationTemplate(); transform != nil {
+				for header, template := range transform.Headers {
+					headers[header] = template
+				}
+				break
+			}
+		}
+	}
 }
