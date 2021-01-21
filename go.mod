@@ -121,6 +121,7 @@ replace (
 	// required for ci
 	github.com/containerd/containerd => github.com/containerd/containerd v1.3.3
 	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309
+	github.com/opencontainers/go-digest => github.com/opencontainers/go-digest v1.0.0-rc1
 	// Required for proper serialization of CRDs
 	github.com/renstrom/dedent => github.com/lithammer/dedent v1.0.0
 
