@@ -147,7 +147,7 @@ replace (
 	k8s.io/klog => github.com/stefanprodan/klog v0.0.0-20190418165334-9cbb78b20423
 	k8s.io/kube-aggregator => k8s.io/kube-aggregator v0.19.6
 	k8s.io/kube-controller-manager => k8s.io/kube-controller-manager v0.19.6
-	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
+	k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20200805222855-6aeccd4b50c6
 	k8s.io/kube-proxy => k8s.io/kube-proxy v0.19.6
 	k8s.io/kube-scheduler => k8s.io/kube-scheduler v0.19.6
 	k8s.io/kubectl => k8s.io/kubectl v0.19.6
