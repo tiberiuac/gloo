@@ -111,6 +111,21 @@ static_resources:
                     port_value: {{.Port}}
     http2_protocol_options: {}
     type: STATIC
+  - name: rest_xds_cluster
+    connect_timeout: 5.000s
+    load_assignment:
+      cluster_name: rest_xds_cluster
+      endpoints:
+        - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: {{.GlooAddr}}
+                    port_value: 9976
+    upstream_connection_options:
+      tcp_keepalive: {}
+    type: STRICT_DNS
+    respect_dns_ttl: true
 {{if .RatelimitAddr}}
   - name: ratelimit_cluster
     connect_timeout: 5.000s
