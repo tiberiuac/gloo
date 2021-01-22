@@ -121,7 +121,7 @@ static_resources:
                 address:
                   socket_address:
                     address: {{.GlooAddr}}
-                    port_value: 9976
+                    port_value: {{.RestXdsPort}}
     upstream_connection_options:
       tcp_keepalive: {}
     type: STRICT_DNS
@@ -345,6 +345,7 @@ type EnvoyInstance struct {
 	UseDocker     bool
 	GlooAddr      string // address for gloo and services
 	Port          uint32
+	RestXdsPort   uint32
 	AdminPort     uint32
 	// Path to access logs for binary run
 	AccessLogs string
