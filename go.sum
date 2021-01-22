@@ -733,7 +733,6 @@ github.com/googleapis/gnostic v0.5.1/go.mod h1:6U4PtQXGIEt/Z3h5MAT7FNofLnw9vXk2c
 github.com/goph/emperror v0.17.1 h1:6lOybhIvG/BB6VGoWfdv30FVZeZFBBZ9VvgzGXLVkyY=
 github.com/goph/emperror v0.17.1/go.mod h1:+ZbQ+fUNO/6FNiUo0ujtMjhgad9Xa6fQL9KhH4LNHic=
 github.com/gophercloud/gophercloud v0.1.0/go.mod h1:vxM41WHh5uqHVBMZHzuwNOHh8XEoIEcSTewFxm1c5g8=
-github.com/gophercloud/gophercloud v0.2.0/go.mod h1:vxM41WHh5uqHVBMZHzuwNOHh8XEoIEcSTewFxm1c5g8=
 github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1 h1:EGx4pi6eqNxGaHF6qqu48+N2wcFQ5qg5FXgOdqsJ5d8=
 github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gorilla/context v1.1.1/go.mod h1:kBGZzfjB9CEq2AlWe17Uuf7NDRt0dE0s8S51q0aT7Yg=
@@ -1350,11 +1349,10 @@ github.com/solo-io/protoc-gen-ext v0.0.14 h1:NTdfALCSuA1MT6XOi2zjArrGloZjdGI7qOq
 github.com/solo-io/protoc-gen-ext v0.0.14/go.mod h1:ch1ZUyVtN45zxAVwpuZUW+F1IR7aG0rCVAp2JrWKDCc=
 github.com/solo-io/reporting-client v0.2.0 h1:v4NheU8EQL9G7kC3qrsKvC/sJzydrJyVr/sW4QN/owk=
 github.com/solo-io/reporting-client v0.2.0/go.mod h1:FmBDzwc1zEwayCCrlP+1w7NcpM0FIuvU+NSePj4wJq8=
-github.com/solo-io/skv2 v0.14.1/go.mod h1:m1a3AUh8D+49AO6kwD0yUnOJGSzekiPq/6TUoXueeuk=
 github.com/solo-io/skv2 v0.17.0 h1:vvVEOhJbWv/MXaMEahf68PQU+nct1EOOMAOFeHcZxy4=
 github.com/solo-io/skv2 v0.17.0/go.mod h1:52/0ETq6fkr/abuoUYd3qgV8DEFBI72Sd5frl2dFGJs=
-github.com/solo-io/solo-apis v0.0.0-20201208172621-1ef725df2bff h1:bZlxXxgFqBEFj0I+lKVBaoqv48+JgRLsTqlEeM+tecQ=
-github.com/solo-io/solo-apis v0.0.0-20201208172621-1ef725df2bff/go.mod h1:4y0+gYZPdlNDPQ09waJs25QjTjht03dkmGUi28AgIrU=
+github.com/solo-io/solo-apis v0.0.0-20210122142844-ac0df2dce136 h1:f3zMNnJn2BpQVziFpIs7VyL2T4pk2MjzdH9ygcflnlc=
+github.com/solo-io/solo-apis v0.0.0-20210122142844-ac0df2dce136/go.mod h1:pAKKsh7pWK1nkzSfSV67RlmiynYzZlu+IWAylvEqkUI=
 github.com/solo-io/solo-kit v0.16.0/go.mod h1:zf+vof9HAavbFKRgL80jJ24SeE9PvoB8ooQ7DACtK8I=
 github.com/solo-io/solo-kit v0.17.1 h1:GX+2IR0K5xIBGSqGXQsi9R6uIEVRVB5RGeqkfw4Xl/k=
 github.com/solo-io/solo-kit v0.17.1/go.mod h1:3p9X8edqLS4KokXBZ+4txX+cxGJqtZlBqFEdDD/x1HQ=
