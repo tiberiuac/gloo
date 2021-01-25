@@ -389,7 +389,6 @@ func (ef *EnvoyFactory) NewEnvoyInstance() (*EnvoyInstance, error) {
 		GlooAddr:      gloo,
 		AccessLogAddr: gloo,
 		AdminPort:     atomic.AddUint32(&adminPort, 1) + uint32(config.GinkgoConfig.ParallelNode*1000),
-		RestXdsPort:   uint32(defaults.GlooRestXdsPort),
 		ApiVersion:    "V3",
 	}
 	ef.instances = append(ef.instances, ei)

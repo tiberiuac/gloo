@@ -18,7 +18,7 @@ import (
 	"github.com/solo-io/solo-kit/pkg/utils/prototime"
 )
 
-var _ = Describe("Fault Injection", func() {
+var _ = FDescribe("Fault Injection", func() {
 
 	var (
 		testClients services.TestClients
@@ -77,6 +77,7 @@ var _ = Describe("Fault Injection", func() {
 			var err error
 			envoyInstance, err = envoyFactory.NewEnvoyInstance()
 			Expect(err).NotTo(HaveOccurred())
+			envoyInstance.RestXdsPort = uint32(testClients.RestXdsPort)
 
 			err = envoyInstance.Run(testClients.GlooPort)
 			Expect(err).NotTo(HaveOccurred())
@@ -91,7 +92,7 @@ var _ = Describe("Fault Injection", func() {
 			}
 		})
 
-		It("should cause envoy abort fault", func() {
+		FIt("should cause envoy abort fault", func() {
 			abort := &fault.RouteAbort{
 				HttpStatus: uint32(503),
 				Percentage: float32(100),
