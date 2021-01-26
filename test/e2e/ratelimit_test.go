@@ -147,7 +147,7 @@ var _ = Describe("Rate Limit", func() {
 
 		BeforeEach(func() {
 			var err error
-			envoyInstance, err = envoyFactory.NewEnvoyInstance()
+			envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 			Expect(err).NotTo(HaveOccurred())
 			// add the rl service as a static upstream
 			rlserver := &gloov1.Upstream{

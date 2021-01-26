@@ -63,7 +63,7 @@ var _ = Describe("CORS", func() {
 
 		BeforeEach(func() {
 			var err error
-			td.per.envoyInstance, err = envoyFactory.NewEnvoyInstance()
+			td.per.envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(td.testClients.RestXdsPort))
 			Expect(err).NotTo(HaveOccurred())
 			td.per.envoyAdminUrl = fmt.Sprintf("http://%s:%d/config_dump",
 				td.per.envoyInstance.LocalAddr(),

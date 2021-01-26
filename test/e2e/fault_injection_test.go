@@ -75,9 +75,8 @@ var _ = Describe("Fault Injection", func() {
 
 		BeforeEach(func() {
 			var err error
-			envoyInstance, err = envoyFactory.NewEnvoyInstance()
+			envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 			Expect(err).NotTo(HaveOccurred())
-			envoyInstance.RestXdsPort = uint32(testClients.RestXdsPort)
 
 			err = envoyInstance.Run(testClients.GlooPort)
 			Expect(err).NotTo(HaveOccurred())

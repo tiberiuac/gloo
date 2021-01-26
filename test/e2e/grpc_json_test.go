@@ -40,7 +40,7 @@ var _ = Describe("GRPC to JSON Transcoding Plugin - Envoy API", func() {
 		defaults.HttpsPort = services.NextBindPort()
 
 		var err error
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 
 		writeNamespace = defaults.GlooSystem

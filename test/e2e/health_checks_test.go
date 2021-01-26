@@ -42,7 +42,7 @@ var _ = Describe("Health Checks", func() {
 		defaults.HttpsPort = services.NextBindPort()
 
 		var err error
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 
 		writeNamespace = defaults.GlooSystem

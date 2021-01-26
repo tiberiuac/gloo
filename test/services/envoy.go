@@ -396,6 +396,13 @@ func (ef *EnvoyFactory) NewEnvoyInstance() (*EnvoyInstance, error) {
 
 }
 
+func (ef *EnvoyFactory) NewEnvoyInstanceWithRestXdsPort(restXdsPort uint32) (*EnvoyInstance, error) {
+	ei, err := ef.NewEnvoyInstance()
+	ei.RestXdsPort = restXdsPort
+	return ei, err
+
+}
+
 func (ei *EnvoyInstance) RunWithId(id string) error {
 	ei.ID = id
 	return ei.RunWithRole("default~proxy", 8081)

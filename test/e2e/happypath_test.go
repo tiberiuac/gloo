@@ -92,7 +92,7 @@ var _ = Describe("Happy path", func() {
 		defaults.HttpsPort = services.NextBindPort()
 
 		var err error
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 
 		tu = v1helpers.NewTestHttpUpstream(ctx, envoyInstance.LocalAddr())

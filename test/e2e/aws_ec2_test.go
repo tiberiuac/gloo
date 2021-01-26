@@ -237,7 +237,7 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 		testClients = services.RunGateway(ctx, false)
 
 		var err error
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 
 		addCredentials()

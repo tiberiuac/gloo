@@ -41,7 +41,7 @@ var _ = Describe("CustomAuth", func() {
 
 		// Initialize Envoy instance
 		var err error
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 
 		// Start custom extauth server and create upstream for it

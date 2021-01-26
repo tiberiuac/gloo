@@ -142,9 +142,8 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 		}()
 
 		// Start Envoy
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(restXdsPort))
 		Expect(err).NotTo(HaveOccurred())
-		envoyInstance.RestXdsPort = uint32(restXdsPort)
 		err = envoyInstance.RunWithRole(writeNamespace+"~"+gatewaydefaults.GatewayProxyName, glooPort)
 		Expect(err).NotTo(HaveOccurred())
 

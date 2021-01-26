@@ -65,7 +65,7 @@ var _ = Describe("AWS Lambda", func() {
 		err := helpers.WriteDefaultGateways(defaults.GlooSystem, testClients.GatewayClient)
 		Expect(err).NotTo(HaveOccurred(), "Should be able to write default gateways")
 
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 	}
 
@@ -494,7 +494,7 @@ var _ = Describe("AWS Lambda", func() {
 			err := helpers.WriteDefaultGateways(defaults.GlooSystem, testClients.GatewayClient)
 			Expect(err).NotTo(HaveOccurred(), "Should be able to write default gateways")
 
-			envoyInstance, err = envoyFactory.NewEnvoyInstance()
+			envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 			Expect(err).NotTo(HaveOccurred())
 		}
 

@@ -91,7 +91,7 @@ var _ = Describe("Consul e2e", func() {
 
 		// Start Envoy
 		envoyPort = defaults.HttpPort
-		envoyInstance, err = envoyFactory.NewEnvoyInstance()
+		envoyInstance, err = envoyFactory.NewEnvoyInstanceWithRestXdsPort(uint32(testClients.RestXdsPort))
 		Expect(err).NotTo(HaveOccurred())
 		envoyInstance.RestXdsPort = uint32(testClients.RestXdsPort)
 		err = envoyInstance.RunWithRole(writeNamespace+"~"+gatewaydefaults.GatewayProxyName, testClients.GlooPort)
