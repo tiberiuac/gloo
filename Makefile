@@ -146,7 +146,7 @@ clean:
 #----------------------------------------------------------------------------------
 
 .PHONY: generated-code
-generated-code: $(OUTPUT_DIR)/.generated-code verify-enterprise-protos update-licenses generate-helm-files init update-licenses
+generated-code: $(OUTPUT_DIR)/.generated-code verify-enterprise-protos generate-helm-files init
 
 # Note: currently we generate CLI docs, but don't push them to the consolidated docs repo (gloo-docs). Instead, the
 # Glooctl enterprise docs are pushed from the private repo.
@@ -604,13 +604,6 @@ build-test-chart:
 	helm package --destination $(TEST_ASSET_DIR) $(HELM_DIR)
 	helm repo index $(TEST_ASSET_DIR)
 
-#----------------------------------------------------------------------------------
-# Third Party License Management
-#----------------------------------------------------------------------------------
-.PHONY: update-licenses
-update-licenses:
-	cd hack/utils/oss_compliance; GO111MODULE=on go run main.go osagen -s "Mozilla Public License 2.0,GNU General Public License v2.0,GNU General Public License v3.0,GNU Lesser General Public License v2.1,GNU Lesser General Public License v3.0,GNU Affero General Public License v3.0"> ../../../docs/content/static/content/osa_provided.docgen
-	cd hack/utils/oss_compliance; GO111MODULE=on go run main.go osagen -i "Mozilla Public License 2.0,GNU General Public License v2.0,GNU General Public License v3.0,GNU Lesser General Public License v2.1,GNU Lesser General Public License v3.0,GNU Affero General Public License v3.0"> ../../../docs/content/static/content/osa_included.docgen
 
 #----------------------------------------------------------------------------------
 # Printing makefile variables utility

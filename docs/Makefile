@@ -17,7 +17,7 @@ SOLO_HUGO_THEME_REVISION := 5a29d20f92fabafb2e41ec0576320e284b624c5e
 #----------------------------------------------------------------------------------
 
 .PHONY: site-common
-site-common: clean
+site-common: clean update-licenses
 	if [ ! -d themes/hugo-theme-soloio ]; then git clone https://github.com/solo-io/hugo-theme-soloio themes/hugo-theme-soloio; fi
 	git -C themes/hugo-theme-soloio checkout $(SOLO_HUGO_THEME_REVISION)
 	GO111MODULE=on go run cmd/generate_changelog_doc.go gen-changelog-md gloo > content/static/content/gloo-changelog.docgen
@@ -67,6 +67,15 @@ check-links:
 # to install html-proofer deps (only works with gcc, not clang!)
 install-tools:
 	gem install html-proofer
+
+#----------------------------------------------------------------------------------
+# Third Party License Management
+#----------------------------------------------------------------------------------
+.PHONY: update-licenses
+update-licenses:
+	GO111MODULE=on go run cmd/oss_compliance.go osagen -s "Mozilla Public License 2.0,GNU General Public License v2.0,GNU General Public License v3.0,GNU Lesser General Public License v2.1,GNU Lesser General Public License v3.0,GNU Affero General Public License v3.0" > content/static/content/osa_provided.docgen
+	GO111MODULE=on go run cmd/oss_compliance.go osagen -i "Mozilla Public License 2.0,GNU General Public License v2.0,GNU General Public License v3.0,GNU Lesser General Public License v2.1,GNU Lesser General Public License v3.0,GNU Affero General Public License v3.0" > content/static/content/osa_included.docgen
+
 
 .PHONY: build-site
 build-site: clean
