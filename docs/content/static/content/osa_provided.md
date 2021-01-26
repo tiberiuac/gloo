@@ -64,7 +64,6 @@ Name|Version|License
 [mattn/go-colorable](https://github.com/mattn/go-colorable)|v0.1.8|MIT License
 [mattn/go-isatty](https://github.com/mattn/go-isatty)|v0.0.12|MIT License
 [golang_protobuf_extensions/pbutil](https://github.com/matttproud/golang_protobuf_extensions)|v1.0.2-0.20181231171920-c182affec369|Apache License 2.0
-[mitchellh/go-homedir](https://github.com/mitchellh/go-homedir)|v1.1.0|MIT License
 [mitchellh/hashstructure](https://github.com/mitchellh/hashstructure)|v1.0.0|MIT License
 [mitchellh/mapstructure](https://github.com/mitchellh/mapstructure)|v1.3.1|MIT License
 [modern-go/concurrent](https://github.com/modern-go/concurrent)|v0.0.0-20180306012644-bacd9c7ef1dd|Apache License 2.0
