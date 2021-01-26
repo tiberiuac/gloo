@@ -154,7 +154,7 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 			}
 
 			return string(body), nil
-		}, "10s", "1s").Should(ContainSubstring(substring))
+		}, "50s", "1s").Should(ContainSubstring(substring))
 	}
 
 	validateEc2Endpoint := func(envoyPort uint32, substring string) {
