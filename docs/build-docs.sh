@@ -124,6 +124,7 @@ function generateSiteForVersion() {
   cp -a $workingDir/layouts/partials/. layouts/partials/
   cp -f $workingDir/Makefile Makefile
   cp -f $workingDir/cmd/generate_changelog_doc.go cmd/generate_changelog_doc.go
+  cp -f $workingDir/cmd/oss_compliance.go cmd/oss_compliance.go
   cp -a $workingDir/cmd/changelogutils/. cmd/changelogutils/
   # Generate the versioned static site.
   make site-release
