@@ -121,7 +121,7 @@ var _ = FDescribe("Consul e2e", func() {
 		cancel()
 	})
 
-	FIt("works as expected", func() {
+	It("works as expected", func() {
 		_, err := testClients.ProxyClient.Write(getProxyWithConsulRoute(writeNamespace, envoyPort), clients.WriteOpts{Ctx: ctx})
 		Expect(err).NotTo(HaveOccurred())
 
@@ -181,7 +181,7 @@ var _ = FDescribe("Consul e2e", func() {
 
 	})
 
-	FIt("resolves consul services with hostname addresses (as opposed to IPs addresses)", func() {
+	It("resolves consul services with hostname addresses (as opposed to IPs addresses)", func() {
 		err = consulInstance.RegisterService("my-svc", "my-svc-1", "my-svc.service.dc1.consul", []string{"svc", "1"}, svc1.Port)
 		Expect(err).NotTo(HaveOccurred())
 

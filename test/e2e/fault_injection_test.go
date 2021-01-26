@@ -92,7 +92,7 @@ var _ = FDescribe("Fault Injection", func() {
 			}
 		})
 
-		FIt("should cause envoy abort fault", func() {
+		It("should cause envoy abort fault", func() {
 			abort := &fault.RouteAbort{
 				HttpStatus: uint32(503),
 				Percentage: float32(100),
