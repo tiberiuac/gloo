@@ -196,7 +196,7 @@ var _ = Describe("Consul e2e", func() {
 				return false
 			}
 			return proxy.GetStatus().GetState() == core.Status_Accepted
-		}, "50s", "0.2s").Should(BeTrue())
+		}, "20s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)
 
@@ -207,7 +207,7 @@ var _ = Describe("Consul e2e", func() {
 				return svc1.C, err
 			}
 			return svc1.C, nil
-		}, "50s", "0.2s").Should(Receive())
+		}, "20s", "0.2s").Should(Receive())
 
 		By("requests only go to service with tag '1'")
 
