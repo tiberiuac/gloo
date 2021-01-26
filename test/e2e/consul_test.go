@@ -7,22 +7,18 @@ import (
 	"net/http"
 	"time"
 
-	consul2 "github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul"
-
-	gatewaydefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
-
-	"github.com/rotisserie/eris"
-
-	"github.com/hashicorp/consul/api"
-
-	"github.com/solo-io/gloo/test/v1helpers"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+
+	"github.com/hashicorp/consul/api"
+	"github.com/rotisserie/eris"
+	gatewaydefaults "github.com/solo-io/gloo/projects/gateway/pkg/defaults"
 	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
+	consul2 "github.com/solo-io/gloo/projects/gloo/pkg/plugins/consul"
 	"github.com/solo-io/gloo/projects/gloo/pkg/upstreams/consul"
 	"github.com/solo-io/gloo/test/services"
+	"github.com/solo-io/gloo/test/v1helpers"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 )
@@ -200,9 +196,18 @@ var _ = FDescribe("Consul e2e", func() {
 				return false
 			}
 			return proxy.GetStatus().GetState() == core.Status_Accepted
-		}, "10s", "0.2s").Should(BeTrue())
+		}, "50s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)
+
+		// Wait for endpoints to be discovered
+		Eventually(func() (<-chan *v1helpers.ReceivedRequest, error) {
+			_, err := queryService()
+			if err != nil {
+				return svc1.C, err
+			}
+			return svc1.C, nil
+		}, "50s", "0.2s").Should(Receive())
 
 		By("requests only go to service with tag '1'")
 
