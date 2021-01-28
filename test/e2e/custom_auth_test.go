@@ -144,7 +144,7 @@ var _ = Describe("CustomAuth", func() {
 					return 0, err
 				}
 				return resp.StatusCode, nil
-			}, "5s", "0.5s").Should(Equal(expectedStatus))
+			}, "10s", "0.5s").Should(Equal(expectedStatus))
 		}
 		publicRoute := getRequest("public")
 		userRoute := getRequest("user")
