@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestExtAuth(t *testing.T) {
+func TestLeftmostXffAddress(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "SoloXffOffset Suite")
+	RunSpecs(t, "LeftmostXffAddress Suite")
 }
