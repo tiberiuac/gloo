@@ -43,7 +43,7 @@ ifeq ($(ON_DEFAULT_BRANCH), true)
 endif
 
 OCI_NAME := $(VERSION)
-ifeq ($(RELEASE), false)
+ifeq ($(RELEASE), "false")
 	OCI_NAME = $(BRANCH_NAME)
 endif
 
@@ -54,6 +54,7 @@ print-git-info:
 	@echo EMPTY_IF_NOT_DEFAULT: $(EMPTY_IF_NOT_DEFAULT)
 	@echo ON_DEFAULT_BRANCH: $(ON_DEFAULT_BRANCH)
 	@echo ASSETS_ONLY_RELEASE: $(ASSETS_ONLY_RELEASE)
+	@echo BRANCH_NAME: $(BRANCH_NAME)
 
 LDFLAGS := "-X github.com/solo-io/gloo/pkg/version.Version=$(VERSION)"
 GCFLAGS := all="-N -l"
