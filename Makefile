@@ -43,7 +43,7 @@ ifeq ($(ON_DEFAULT_BRANCH), true)
 endif
 
 OCI_NAME := $(VERSION)
-ifeq ($(RELEASE),"false")
+ifeq ($(RELEASE), false)
 	OCI_NAME = $(BRANCH_NAME)
 endif
 
