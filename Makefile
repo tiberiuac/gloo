@@ -42,6 +42,11 @@ ifeq ($(ON_DEFAULT_BRANCH), true)
     ASSETS_ONLY_RELEASE = false
 endif
 
+OCI_NAME := $(VERSION)
+ifeq ($(RELEASE),"false")
+	OCI_NAME = $(BRANCH_NAME)
+endif
+
 .PHONY: print-git-info
 print-git-info:
 	@echo CHECKED_OUT_SHA: $(CHECKED_OUT_SHA)
@@ -452,10 +457,6 @@ package-chart: generate-helm-files
 
 .PHONY: push-chart-to-registry
 push-chart-to-registry: generate-helm-files
-OCI_NAME := $(VERSION)
-ifeq ($(RELEASE),"false")
-	OCI_NAME = $(BRANCH_NAME)
-endif
 	mkdir -p $(HELM_REPOSITORY_CACHE)
 	cp $(DOCKER_CONFIG)/config.json $(HELM_REPOSITORY_CACHE)/config.json
 	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(OCI_NAME)
