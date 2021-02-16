@@ -460,6 +460,7 @@ endif
 	cp $(DOCKER_CONFIG)/config.json $(HELM_REPOSITORY_CACHE)/config.json
 	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(OCI_NAME)
 	HELM_EXPERIMENTAL_OCI=1 helm chart push gcr.io/solo-public/gloo-helm:$(OCI_NAME)
+
 .PHONY: fetch-package-and-save-helm
 fetch-package-and-save-helm: generate-helm-files
 ifeq ($(RELEASE),"true")
