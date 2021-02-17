@@ -2,6 +2,7 @@ package test
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -43,6 +44,7 @@ func TestHelm(t *testing.T) {
 
 var _ = BeforeSuite(func() {
 	version = os.Getenv("TAGGED_VERSION")
+	fmt.Println("THIS IS THE HEAD BRANCH", os.Getenv("HEAD_BRANCH"))
 	if !glooVersion.IsReleaseVersion() {
 		gitInfo, err := git.GetGitRefInfo("./")
 		Expect(err).NotTo(HaveOccurred())
