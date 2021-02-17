@@ -42,11 +42,6 @@ ifeq ($(ON_DEFAULT_BRANCH), true)
     ASSETS_ONLY_RELEASE = false
 endif
 
-OCI_NAME := $(VERSION)
-ifeq ($(RELEASE), "false")
-	OCI_NAME = $(git branch --show-current)
-endif
-
 .PHONY: print-git-info
 print-git-info:
 	@echo CHECKED_OUT_SHA: $(CHECKED_OUT_SHA)
@@ -54,7 +49,6 @@ print-git-info:
 	@echo EMPTY_IF_NOT_DEFAULT: $(EMPTY_IF_NOT_DEFAULT)
 	@echo ON_DEFAULT_BRANCH: $(ON_DEFAULT_BRANCH)
 	@echo ASSETS_ONLY_RELEASE: $(ASSETS_ONLY_RELEASE)
-	@echo BRANCH_NAME: $(OCI_NAME)
 
 LDFLAGS := "-X github.com/solo-io/gloo/pkg/version.Version=$(VERSION)"
 GCFLAGS := all="-N -l"
@@ -461,8 +455,8 @@ package-chart: generate-helm-files
 push-chart-to-registry: generate-helm-files
 	mkdir -p $(HELM_REPOSITORY_CACHE)
 	cp $(DOCKER_CONFIG)/config.json $(HELM_REPOSITORY_CACHE)/config.json
-	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(OCI_NAME)
-	HELM_EXPERIMENTAL_OCI=1 helm chart push gcr.io/solo-public/gloo-helm:$(OCI_NAME)
+	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(VERSION)
+	HELM_EXPERIMENTAL_OCI=1 helm chart push gcr.io/solo-public/gloo-helm:$(VERSION)
 
 BUCKET = $(HELM_BUCKET)
 # If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
