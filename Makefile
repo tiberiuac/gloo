@@ -441,6 +441,7 @@ generate-helm-files: $(OUTPUT_DIR)/.helm-prepared
 
 HELM_PREPARED_INPUT := $(HELM_DIR)/generate.go $(wildcard $(HELM_DIR)/generate/*.go)
 $(OUTPUT_DIR)/.helm-prepared: $(HELM_PREPARED_INPUT)
+	echo "VERSION IS $(VERSION)"
 	mkdir -p $(HELM_SYNC_DIR)/charts
 	go run $(HELM_DIR)/generate.go --version $(VERSION) --generate-helm-docs
 	touch $@
