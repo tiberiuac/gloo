@@ -466,7 +466,7 @@ ifeq ($(RELEASE), "false")
   BUCKET = $(HELM_BUCKET_TAGGED)
   # make pr-specific version for non-release chart to be pushed to solo-public-tagged-helm
   ifneq ($(TEST_ASSET_ID),)
-    VERSION = "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(TEST_ASSET_ID)"
+    VERSION = $(shell git describe --tags --abbrev=0 | cut -c 2-)-$(TEST_ASSET_ID)
   endif
 endif
 
@@ -564,6 +564,7 @@ docker: discovery-docker gateway-docker gloo-docker \
 # docker-push is intended to be run by CI
 .PHONY: docker-push
 docker-push: $(DOCKER_IMAGES)
+	echo $(VERSION)
 	docker push $(IMAGE_REPO)/gateway:$(VERSION) && \
 	docker push $(IMAGE_REPO)/ingress:$(VERSION) && \
 	docker push $(IMAGE_REPO)/discovery:$(VERSION) && \
