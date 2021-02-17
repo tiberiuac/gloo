@@ -460,13 +460,13 @@ push-chart-to-registry: generate-helm-files
 
 BUCKET = $(HELM_BUCKET)
 # If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
-# name gloo-{{VERSION}}-{{BRANCH_NAME}}
-# e.g. gloo-v1.7.0-beta19-fix-helm-chart
+# name gloo-{{VERSION}}-{{TEST_ASSET_ID}}
+# e.g. gloo-v1.7.0-4300
 ifeq ($(RELEASE), "false")
   BUCKET = $(HELM_BUCKET_TAGGED)
   # make pr-specific version for non-release chart to be pushed to solo-public-tagged-helm
-  ifneq ($(PR_NUM),)
-    VERSION =  "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(PR_NUM)"
+  ifneq ($(TEST_ASSET_ID),)
+    VERSION = "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(TEST_ASSET_ID)"
   endif
 endif
 
@@ -564,7 +564,6 @@ docker: discovery-docker gateway-docker gloo-docker \
 # docker-push is intended to be run by CI
 .PHONY: docker-push
 docker-push: $(DOCKER_IMAGES)
-ifeq ($(RELEASE),"true")
 	docker push $(IMAGE_REPO)/gateway:$(VERSION) && \
 	docker push $(IMAGE_REPO)/ingress:$(VERSION) && \
 	docker push $(IMAGE_REPO)/discovery:$(VERSION) && \
@@ -573,7 +572,6 @@ ifeq ($(RELEASE),"true")
 	docker push $(IMAGE_REPO)/certgen:$(VERSION) && \
 	docker push $(IMAGE_REPO)/sds:$(VERSION) && \
 	docker push $(IMAGE_REPO)/access-logger:$(VERSION)
-endif
 
 .PHONY: docker-push-extended
 docker-push-extended:
