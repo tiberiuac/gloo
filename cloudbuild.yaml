@@ -15,7 +15,7 @@ steps:
     - "."
   env:
     - 'GIT_SSH_CONFIG=FALSE'
-    - 'PR_NUM=$PR_NUM'
+    - 'PR_NUM=$_PR_NUM'
   id: 'prepare-workspace'
 
 - name: 'gcr.io/cloud-builders/wget'
