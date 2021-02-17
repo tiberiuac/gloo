@@ -576,9 +576,7 @@ docker-push: $(DOCKER_IMAGES)
 
 .PHONY: docker-push-extended
 docker-push-extended:
-ifeq ($(RELEASE),"true")
 	ci/extended-docker/extended-docker.sh
-endif
 
 CLUSTER_NAME ?= kind
 
