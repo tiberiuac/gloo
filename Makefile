@@ -44,7 +44,7 @@ endif
 
 OCI_NAME := $(VERSION)
 ifeq ($(RELEASE), "false")
-	OCI_NAME = $(BRANCH_NAME)
+	OCI_NAME = $(git branch --show-current)
 endif
 
 .PHONY: print-git-info
@@ -54,7 +54,7 @@ print-git-info:
 	@echo EMPTY_IF_NOT_DEFAULT: $(EMPTY_IF_NOT_DEFAULT)
 	@echo ON_DEFAULT_BRANCH: $(ON_DEFAULT_BRANCH)
 	@echo ASSETS_ONLY_RELEASE: $(ASSETS_ONLY_RELEASE)
-	@echo BRANCH_NAME: $(BRANCH_NAME)
+	@echo BRANCH_NAME: $(OCI_NAME)
 
 LDFLAGS := "-X github.com/solo-io/gloo/pkg/version.Version=$(VERSION)"
 GCFLAGS := all="-N -l"
@@ -439,6 +439,7 @@ build: gloo glooctl gateway discovery envoyinit certgen ingress
 HELM_SYNC_DIR := $(OUTPUT_DIR)/helm
 HELM_DIR := install/helm/gloo
 HELM_BUCKET := gs://solo-public-helm
+HELM_BUCKET_TAGGED := gs://solo-public-tagged-helm
 
 # Creates Chart.yaml and values.yaml. See install/helm/README.md for more info.
 .PHONY: generate-helm-files
@@ -463,19 +464,27 @@ push-chart-to-registry: generate-helm-files
 	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(OCI_NAME)
 	HELM_EXPERIMENTAL_OCI=1 helm chart push gcr.io/solo-public/gloo-helm:$(OCI_NAME)
 
+BUCKET = $(HELM_BUCKET)
+# If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
+# name gloo-{{VERSION}}-{{BRANCH_NAME}}
+# e.g. gloo-v1.7.0-beta19-
+ifeq ($(RELEASE), "false")
+  BUCKET = $(HELM_BUCKET_TAGGED)
+  VERSION =  "$(shell git describe --tags --abbrev)-$(shell git branch --show-current)"
+endif
+
 .PHONY: fetch-package-and-save-helm
 fetch-package-and-save-helm: generate-helm-files
-ifeq ($(RELEASE),"true")
-	until $$(GENERATION=$$(gsutil ls -a $(HELM_BUCKET)/index.yaml | tail -1 | cut -f2 -d '#') && \
-					gsutil cp -v $(HELM_BUCKET)/index.yaml $(HELM_SYNC_DIR)/index.yaml && \
+	@echo $(VERSION)
+	until $$(GENERATION=$$(gsutil ls -a $(BUCKET)/index.yaml | tail -1 | cut -f2 -d '#') && \
+					gsutil cp -v $(BUCKET)/index.yaml $(HELM_SYNC_DIR)/index.yaml && \
 					helm package --destination $(HELM_SYNC_DIR)/charts $(HELM_DIR) >> /dev/null && \
 					helm repo index $(HELM_SYNC_DIR) --merge $(HELM_SYNC_DIR)/index.yaml && \
-					gsutil -m rsync $(HELM_SYNC_DIR)/charts $(HELM_BUCKET)/charts && \
-					gsutil -h x-goog-if-generation-match:"$$GENERATION" cp $(HELM_SYNC_DIR)/index.yaml $(HELM_BUCKET)/index.yaml); do \
+					gsutil -m rsync $(HELM_SYNC_DIR)/charts $(BUCKET)/charts && \
+					gsutil -h x-goog-if-generation-match:"$$GENERATION" cp $(HELM_SYNC_DIR)/index.yaml $(BUCKET)/index.yaml); do \
 		echo "Failed to upload new helm index (updated helm index since last download?). Trying again"; \
 		sleep 2; \
 	done
-endif
 
 #----------------------------------------------------------------------------------
 # Build the Gloo Edge Manifests that are published as release assets
