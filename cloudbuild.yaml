@@ -15,7 +15,7 @@ steps:
     - "."
   env:
     - 'GIT_SSH_CONFIG=FALSE'
-    - 'HEAD_BRANCH=$_HEAD_BRANCH'
+    - 'HEAD_BRANCH=$BRANCH_NAME'
   id: 'prepare-workspace'
 
 - name: 'gcr.io/cloud-builders/wget'
