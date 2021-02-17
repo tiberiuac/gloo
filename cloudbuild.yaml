@@ -15,7 +15,7 @@ steps:
     - "."
   env:
     - 'GIT_SSH_CONFIG=FALSE'
-    - 'HEAD_BRANCH=$BRANCH_NAME'
+    - 'PR_NUM=$PR_NUM'
   id: 'prepare-workspace'
 
 - name: 'gcr.io/cloud-builders/wget'
@@ -134,7 +134,7 @@ steps:
     - 'DOCKER_CONFIG=/workspace/docker-config'
     - 'HELM_REPOSITORY_CACHE=/builder/home/.cache/helm/registry'
     - 'TAGGED_VERSION=$TAG_NAME'
-    - 'HEAD_BRANCH=$_HEAD_BRANCH'
+    - 'PR_NUM=$PR_NUM'
     - 'GCLOUD_PROJECT_ID=$PROJECT_ID'
   dir: *dir
   secretEnv: ['GITHUB_TOKEN']

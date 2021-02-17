@@ -441,7 +441,6 @@ generate-helm-files: $(OUTPUT_DIR)/.helm-prepared
 
 HELM_PREPARED_INPUT := $(HELM_DIR)/generate.go $(wildcard $(HELM_DIR)/generate/*.go)
 $(OUTPUT_DIR)/.helm-prepared: $(HELM_PREPARED_INPUT)
-	echo "VERSION IS $(VERSION)"
 	mkdir -p $(HELM_SYNC_DIR)/charts
 	go run $(HELM_DIR)/generate.go --version $(VERSION) --generate-helm-docs
 	touch $@
@@ -465,8 +464,10 @@ BUCKET = $(HELM_BUCKET)
 # e.g. gloo-v1.7.0-beta19-fix-helm-chart
 ifeq ($(RELEASE), "false")
   BUCKET = $(HELM_BUCKET_TAGGED)
-  # replace any illegal semver characters from branch name with a hyphen
-  VERSION =  "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(shell git branch --show-current | sed 's/[^A-Za-z0-9]/-/g')"
+  # make pr-specific version for non-release chart to be pushed to solo-public-tagged-helm
+  ifneq ($(PR_NUM),)
+    VERSION =  "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(PR_NUM)"
+  endif
 endif
 
 .PHONY: fetch-package-and-save-helm
