@@ -465,7 +465,7 @@ BUCKET = $(HELM_BUCKET)
 ifeq ($(RELEASE), "false")
   BUCKET = $(HELM_BUCKET_TAGGED)
   # replace any illegal semver characters from branch name with a hyphen
-  VERSION =  "$(shell git describe --tags --abbrev=0)-$(shell git branch --show-current | sed 's/[^A-Za-z0-9]/-/g')"
+  VERSION =  "$(shell git describe --tags --abbrev=0 | cut -c 2-)-$(shell git branch --show-current | sed 's/[^A-Za-z0-9]/-/g')"
 endif
 
 .PHONY: fetch-package-and-save-helm
