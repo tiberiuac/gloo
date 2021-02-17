@@ -467,10 +467,11 @@ push-chart-to-registry: generate-helm-files
 BUCKET = $(HELM_BUCKET)
 # If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
 # name gloo-{{VERSION}}-{{BRANCH_NAME}}
-# e.g. gloo-v1.7.0-beta19-
+# e.g. gloo-v1.7.0-beta19-fix-helm-chart
 ifeq ($(RELEASE), "false")
   BUCKET = $(HELM_BUCKET_TAGGED)
-  VERSION =  "$(shell git describe --tags --abbrev)-$(shell git branch --show-current)"
+  # replace any illegal semver characters from branch name with a hyphen
+  VERSION =  "$(shell git describe --tags --abbrev=0)-$(shell git branch --show-current | sed 's/[^A-Za-z0-9]/-/g')"
 endif
 
 .PHONY: fetch-package-and-save-helm
