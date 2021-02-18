@@ -562,7 +562,7 @@ docker: testing-sai discovery-docker gateway-docker gloo-docker \
 .PHONY: testing-sai
 testing-sai:
 	echo "hello testing this too"
-	echo $(DOCKER_IMAGES) $(RELEASE)
+	echo $(TAGGED_VERSION) $(RELEASE)
 	echo "should have just printed docker images"
 	echo $(VERSION)
 
