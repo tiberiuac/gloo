@@ -15,8 +15,10 @@ z := $(shell mkdir -p $(OUTPUT_DIR))
 
 SOURCES := $(shell find . -name "*.go" | grep -v test.go)
 RELEASE := "true"
+TEST_TEST := "what"
 ifeq ($(TAGGED_VERSION),)
 	TAGGED_VERSION := $(shell git describe --tags --dirty)
+	TEST_TEST := "whats going on"
 	RELEASE := "false"
 endif
 VERSION ?= $(shell echo $(TAGGED_VERSION) | cut -c 2-)
@@ -436,6 +438,18 @@ HELM_DIR := install/helm/gloo
 HELM_BUCKET := gs://solo-public-helm
 HELM_BUCKET_TAGGED := gs://solo-public-tagged-helm
 
+BUCKET = $(HELM_BUCKET)
+# If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
+# name gloo-{{VERSION}}-{{TEST_ASSET_ID}}
+# e.g. gloo-v1.7.0-4300
+ifeq ($(RELEASE), "false")
+  BUCKET = $(HELM_BUCKET_TAGGED)
+  # make pr-specific version for non-release chart to be pushed to solo-public-tagged-helm
+  ifneq ($(TEST_ASSET_ID),)
+    VERSION = $(shell git describe --tags --abbrev=0 | cut -c 2-)-$(TEST_ASSET_ID)
+  endif
+endif
+
 # Creates Chart.yaml and values.yaml. See install/helm/README.md for more info.
 .PHONY: generate-helm-files
 generate-helm-files: $(OUTPUT_DIR)/.helm-prepared
@@ -458,18 +472,6 @@ push-chart-to-registry: generate-helm-files
 	cp $(DOCKER_CONFIG)/config.json $(HELM_REPOSITORY_CACHE)/config.json
 	HELM_EXPERIMENTAL_OCI=1 helm chart save $(HELM_DIR) gcr.io/solo-public/gloo-helm:$(VERSION)
 	HELM_EXPERIMENTAL_OCI=1 helm chart push gcr.io/solo-public/gloo-helm:$(VERSION)
-
-BUCKET = $(HELM_BUCKET)
-# If this is not a release commit, push up helm chart to solo-public-tagged-helm chart repo with
-# name gloo-{{VERSION}}-{{TEST_ASSET_ID}}
-# e.g. gloo-v1.7.0-4300
-ifeq ($(RELEASE), "false")
-  BUCKET = $(HELM_BUCKET_TAGGED)
-  # make pr-specific version for non-release chart to be pushed to solo-public-tagged-helm
-  ifneq ($(TEST_ASSET_ID),)
-    VERSION = $(shell git describe --tags --abbrev=0 | cut -c 2-)-$(TEST_ASSET_ID)
-  endif
-endif
 
 .PHONY: fetch-package-and-save-helm
 fetch-package-and-save-helm: generate-helm-files
@@ -555,9 +557,7 @@ ifeq ($(RELEASE),"true")
 endif
 
 .PHONY: docker docker-push
-docker: testing-sai discovery-docker gateway-docker gloo-docker \
-		gloo-envoy-wrapper-docker certgen-docker sds-docker \
-		ingress-docker access-logger-docker
+docker: testing-sai
 
 .PHONY: testing-sai
 testing-sai:
