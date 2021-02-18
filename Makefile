@@ -562,6 +562,8 @@ docker: testing-sai discovery-docker gateway-docker gloo-docker \
 .PHONY: testing-sai
 testing-sai:
 	echo "hello testing this too"
+	echo $(DOCKER_IMAGES) $(RELEASE)
+	echo "should have just printed docker images"
 	echo $(VERSION)
 
 # Depends on DOCKER_IMAGES, which is set to docker if RELEASE is "true", otherwise empty (making this a no-op).
