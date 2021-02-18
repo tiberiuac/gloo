@@ -4,7 +4,6 @@
 # write the output to a temp file so that we can grab the image names out of it
 # also ensure we clean up the file once we're done
 TEMP_FILE=$(mktemp)
-echo "$TAGGED_VERSION" "helloooo" "$RELEASE" "what" "$TEST_TEST"
 make docker-push | tee ${TEMP_FILE}
 
 cleanup() {
