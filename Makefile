@@ -45,7 +45,6 @@ else
   endif
 endif
 
-
 ENVOY_GLOO_IMAGE ?= quay.io/solo-io/envoy-gloo:1.17.0-rc4
 
 # The full SHA of the currently checked out commit
@@ -577,7 +576,9 @@ ifeq ($(RELEASE),"true")
 endif
 
 .PHONY: docker docker-push
-docker: testing-sai
+docker: discovery-docker gateway-docker gloo-docker \
+        		gloo-envoy-wrapper-docker certgen-docker sds-docker \
+        		ingress-docker access-logger-docker
 
 
 # Depends on DOCKER_IMAGES, which is set to docker if RELEASE is "true", otherwise empty (making this a no-op).
