@@ -16,11 +16,11 @@ z := $(shell mkdir -p $(OUTPUT_DIR))
 SOURCES := $(shell find . -name "*.go" | grep -v test.go)
 RELEASE := "true"
 TEST_TEST := "what"
-ifeq ($(TAGGED_VERSION),)
-	TAGGED_VERSION := $(shell git describe --tags --dirty)
-	TEST_TEST := "whats going on"
-	RELEASE := "false"
-endif
+#ifeq ($(TAGGED_VERSION),)
+#	TAGGED_VERSION := $(shell git describe --tags --dirty)
+#	TEST_TEST := "whats going on"
+#	RELEASE := "false"
+#endif
 VERSION ?= $(shell echo $(TAGGED_VERSION) | cut -c 2-)
 
 ENVOY_GLOO_IMAGE ?= quay.io/solo-io/envoy-gloo:1.17.0-rc4
@@ -563,7 +563,6 @@ docker: testing-sai
 testing-sai:
 	echo "hello testing this too"
 	echo $(TAGGED_VERSION) $(RELEASE) "test" $(TEST_TEST) "test" $(shell echo $(TEST_TEST)) "test1" $(shell echo $(TAG_NAME))
-	echo "should have just printed docker images"
 	echo $(VERSION)
 
 # Depends on DOCKER_IMAGES, which is set to docker if RELEASE is "true", otherwise empty (making this a no-op).
