@@ -562,7 +562,7 @@ docker: testing-sai
 .PHONY: testing-sai
 testing-sai:
 	echo "hello testing this too"
-	echo $(TAGGED_VERSION) $(RELEASE) "test" $(TEST_TEST) "test" $(shell echo $(TEST_TEST)) "test"
+	echo $(TAGGED_VERSION) $(RELEASE) "test" $(TEST_TEST) "test" $(shell echo $(TEST_TEST)) "test1" $(shell echo $(TAG_NAME))
 	echo "should have just printed docker images"
 	echo $(VERSION)
 
