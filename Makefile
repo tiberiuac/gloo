@@ -16,6 +16,7 @@ z := $(shell mkdir -p $(OUTPUT_DIR))
 SOURCES := $(shell find . -name "*.go" | grep -v test.go)
 RELEASE := "true"
 TEST_TEST := "what"
+TAGGED_VERSION := "beep boop"
 #ifeq ($(TAGGED_VERSION),)
 #	TAGGED_VERSION := $(shell git describe --tags --dirty)
 #	TEST_TEST := "whats going on"
@@ -562,7 +563,7 @@ docker: testing-sai
 .PHONY: testing-sai
 testing-sai:
 	echo "hello testing this too"
-	echo $(TAGGED_VERSION) $(RELEASE) "test" $(TEST_TEST) "test" $(shell echo $(TEST_TEST)) "test1" $(shell echo $(TAG_NAME))
+	echo $(TAGGED_VERSION) $(RELEASE) "test" $(TEST_TEST) "test" $(shell echo $(TEST_TEST)) "test1" $(shell echo $(TAGGED_VERSION))
 	echo $(VERSION)
 
 # Depends on DOCKER_IMAGES, which is set to docker if RELEASE is "true", otherwise empty (making this a no-op).
