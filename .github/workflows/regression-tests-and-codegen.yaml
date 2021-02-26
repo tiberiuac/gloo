@@ -43,11 +43,6 @@ jobs:
       run: |
           echo "Pull Request is from a fork. Setting IS_COMMUNITY_PR to true"
           echo "::set-output name=IS_COMMUNITY_PR::true"
-    - name: Generate versioned docs site
-      run: make -C docs build-site
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        SKIP_CHANGELOG_GENERATION: ${{ steps.community-pr-check.outputs.IS_COMMUNITY_PR }}
   regression_tests:
     name: k8s regression tests
     runs-on: ubuntu-18.04
