@@ -33,6 +33,8 @@ type Global struct {
 	GlooMtls         Mtls             `json:"glooMtls,omitempty" desc:"Config used to enable internal mtls authentication"`
 	IstioSDS         IstioSDS         `json:"istioSDS,omitempty" desc:"Config used for installing Gloo Edge with Istio SDS cert rotation features to facilitate Istio mTLS"`
 	IstioIntegration IstioIntegration `json:"istioIntegration,omitempty" desc:"Configs user to manage Gloo pod visibility for Istio's' automatic discovery and sidecar injection."`
+	AddEnterpriseSettings bool `json:"addEnterpriseSettings" desc:"Add additional values to be uses in the settings manifest. Defaults to false in open source, and true in enterprise."`
+	ExtauthCustomYaml  bool `json:"extauthCustomYaml" desc:"Inject whatever yaml exists in .Values.global.extensions.extAuth into settings.spec.extauth, instead of structured yaml (which is enterprise only). Defaults to true in open source, and false in enterprise"`
 }
 
 type Namespace struct {
