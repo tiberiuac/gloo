@@ -5,7 +5,9 @@
 {{- $global := .Values.global }}
 {{- $settings := .Values.settings }}
 {{- $isUpgrade := .Values.gateway.upgrade }}
-{{- range $name, $spec := .Values.gatewayProxies }}
+{{- $gatewayProxy := .Values.gatewayProxies.gatewayProxy -}}
+{{- range $name, $gatewaySpec := .Values.gatewayProxies }}
+{{- $spec := deepCopy $gatewayProxy | merge $gatewaySpec -}}
 {{- $image := $spec.podTemplate.image }}
 {{- if $global }}
 {{- $image = merge $spec.podTemplate.image $global.image }}
@@ -117,6 +119,9 @@ spec:
       containers:
       - args:
           - --disable-hot-restart
+        {{- if $spec.envoyLogLevel }}
+          - --log-level {{ $spec.envoyLogLevel }}
+        {{- end}}
           {{- with $spec.extraEnvoyArgs}}
             {{- range . }}
           - {{ . | quote }}
@@ -136,6 +141,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+      {{- if $spec.logLevel }}
+        - name: LOG_LEVEL
+          value: {{ $spec.logLevel }}
+      {{- end}}
         image: {{ template "gloo.image" $image }}
         imagePullPolicy: {{ $image.pullPolicy }}
         {{- if $spec.podTemplate.gracefulShutdown }}
@@ -352,9 +361,9 @@ spec:
           - name: CA_ADDR
             value: istiod.istio-system.svc:15012
           - name: ISTIO_META_MESH_ID
-            value: cluster.local
+            value: {{ $spec.istioMetaMeshId | default "cluster.local"}}
           - name: ISTIO_META_CLUSTER_ID
-            value: Kubernetes
+            value: {{ $spec.istioMetaClusterId | default "Kubernetes"}}
           - name: POD_NAME
             valueFrom:
               fieldRef:
@@ -404,7 +413,7 @@ spec:
         - mountPath: /etc/istio-certs/
           name: istio-certs
         - mountPath: /var/run/secrets/tokens
-          name: istio-token 
+          name: istio-token
 {{- end}}
 {{- end}}
       volumes:

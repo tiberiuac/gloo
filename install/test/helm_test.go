@@ -62,6 +62,13 @@ func GetPodNameEnvVar() v1.EnvVar {
 	}
 }
 
+func GetLogLevelEnvVar() v1.EnvVar {
+	return v1.EnvVar{
+		Name:  "LOG_LEVEL",
+		Value: "debug",
+	}
+}
+
 func GetTestExtraEnvVar() v1.EnvVar {
 	return v1.EnvVar{
 		Name:  "TEST_EXTRA_ENV_VAR",
@@ -999,7 +1006,7 @@ metadata:
 spec:
   bindAddress: '::'
   bindPort: ` + bindPort + `
-  proxyNames: 
+  proxyNames:
   - gateway-proxy
   httpGateway: {}
   options:
@@ -1028,7 +1035,7 @@ metadata:
 spec:
   bindAddress: '::'
   bindPort: ` + bindPort + `
-  proxyNames: 
+  proxyNames:
   - gateway-proxy
   httpGateway: {}
   options:
@@ -1043,6 +1050,141 @@ apiVersion: gateway.solo.io/v1
 `)
 
 						testManifest.ExpectUnstructured("Gateway", namespace, defaults.GatewayProxyName+"-ssl").To(BeEquivalentTo(gw))
+					})
+
+					It("gwp hpa disabled by default", func() {
+
+						testManifest.ExpectUnstructured("HorizontalPodAutoscaler", namespace, defaults.GatewayProxyName+"-hpa").To(BeNil())
+					})
+
+					It("can create gwp autoscaling/v1 hpa", func() {
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"gatewayProxies.gatewayProxy.horizontalPodAutoscaler.apiVersion=autoscaling/v1",
+								"gatewayProxies.gatewayProxy.horizontalPodAutoscaler.minReplicas=1",
+								"gatewayProxies.gatewayProxy.horizontalPodAutoscaler.maxReplicas=2",
+								"gatewayProxies.gatewayProxy.horizontalPodAutoscaler.targetCPUUtilizationPercentage=75",
+							},
+						})
+
+						hpa := makeUnstructured(`
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    gateway-proxy-id: gateway-proxy
+    gloo: gateway-proxy
+    app: gloo
+  name: gateway-proxy-hpa
+  namespace: gloo-system
+spec:
+  maxReplicas: 2
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway-proxy
+  targetCPUUtilizationPercentage: 75
+apiVersion: autoscaling/v1
+`)
+
+						testManifest.ExpectUnstructured("HorizontalPodAutoscaler", namespace, defaults.GatewayProxyName+"-hpa").To(BeEquivalentTo(hpa))
+					})
+
+					It("can create gwp autoscaling/v2beta2 hpa", func() {
+
+						prepareMakefileFromValuesFile("values/val_gwp_hpa_v2beta2.yaml")
+
+						hpa := makeUnstructured(`
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    gateway-proxy-id: gateway-proxy
+    gloo: gateway-proxy
+    app: gloo
+  name: gateway-proxy-hpa
+  namespace: gloo-system
+spec:
+  maxReplicas: 2
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway-proxy
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+  behavior:
+    scaleDown:
+      policies:
+      - type: Pods
+        value: 4
+        periodSeconds: 60
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+apiVersion: autoscaling/v2beta2
+`)
+
+						testManifest.ExpectUnstructured("HorizontalPodAutoscaler", namespace, defaults.GatewayProxyName+"-hpa").To(BeEquivalentTo(hpa))
+
+					})
+
+					It("gwp pdb disabled by default", func() {
+
+						testManifest.ExpectUnstructured("PodDisruptionBudget", namespace, defaults.GatewayProxyName+"-pdb").To(BeNil())
+					})
+
+					It("can create gwp pdb with minAvailable", func() {
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"gatewayProxies.gatewayProxy.podDisruptionBudget.minAvailable=2",
+							},
+						})
+
+						pdb := makeUnstructured(`
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway-proxy-pdb
+  namespace: gloo-system
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      gloo: gateway-proxy
+`)
+
+						testManifest.ExpectUnstructured("PodDisruptionBudget", namespace, defaults.GatewayProxyName+"-pdb").To(BeEquivalentTo(pdb))
+					})
+
+					It("can create gwp pdb with maxUnavailable", func() {
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"gatewayProxies.gatewayProxy.podDisruptionBudget.maxUnavailable=2",
+							},
+						})
+
+						pdb := makeUnstructured(`
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway-proxy-pdb
+  namespace: gloo-system
+spec:
+  maxUnavailable: 2
+  selector:
+    matchLabels:
+      gloo: gateway-proxy
+`)
+
+						testManifest.ExpectUnstructured("PodDisruptionBudget", namespace, defaults.GatewayProxyName+"-pdb").To(BeEquivalentTo(pdb))
 					})
 
 					It("can render with custom listener yaml", func() {
@@ -1123,6 +1265,90 @@ apiVersion: gateway.solo.io/v1
 						testManifest.ExpectUnstructured("Gateway", namespace, defaults.GatewayProxyName+"-failover").To(BeNil())
 					})
 
+				})
+
+				Context("custom gateway", func() {
+					Context("when the default values weren't overridden", func() {
+						BeforeEach(func() {
+							prepareMakefile(namespace, helmValues{
+								valuesArgs: []string{
+									"gatewayProxies.anotherGatewayProxy.specKey=testing",
+								},
+							})
+						})
+						It("uses default values for the gateway", func() {
+							gatewayUns := testManifest.ExpectCustomResource("Gateway", namespace, "another-gateway-proxy")
+							var customGateway gwv1.Gateway
+							ConvertKubeResource(gatewayUns, &customGateway)
+							Expect(customGateway.BindPort).To(Equal(defaults.DefaultGateway(namespace).BindPort))
+						})
+						It("uses default values for the deployment", func() {
+							deploymentUns := testManifest.ExpectCustomResource("Deployment", namespace, "another-gateway-proxy")
+							deployment, err := kuberesource.ConvertUnstructured(deploymentUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(deployment).To(BeAssignableToTypeOf(&appsv1.Deployment{}))
+							deploymentStr := deployment.(*appsv1.Deployment)
+							Expect(*deploymentStr.Spec.Replicas).To(Equal(int32(1)))
+						})
+						It("uses default values for the service", func() {
+							serviceUns := testManifest.ExpectCustomResource("Service", namespace, "another-gateway-proxy")
+							service, err := kuberesource.ConvertUnstructured(serviceUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(service).To(BeAssignableToTypeOf(&v1.Service{}))
+							serviceStr := service.(*v1.Service)
+							Expect(serviceStr.Spec.Type).To(Equal(v1.ServiceType("LoadBalancer")))
+						})
+						It("uses default values for the config map", func() {
+							configMapUns := testManifest.ExpectCustomResource("ConfigMap", namespace, "another-gateway-proxy-envoy-config")
+							configMap, err := kuberesource.ConvertUnstructured(configMapUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(configMap).To(BeAssignableToTypeOf(&v1.ConfigMap{}))
+							configMapStr := configMap.(*v1.ConfigMap)
+							Expect(configMapStr.Data).ToNot(BeNil()) // Uses the default config data
+						})
+					})
+					Context("when default values are overridden by custom gatewayproxy", func() {
+						BeforeEach(func() {
+							prepareMakefile(namespace, helmValues{
+								valuesArgs: []string{
+									"gatewayProxies.anotherGatewayProxy.podTemplate.httpPort=9999",          // used by gateway
+									"gatewayProxies.anotherGatewayProxy.kind.deployment.replicas=50",        // used by deployment
+									"gatewayProxies.anotherGatewayProxy.service.type=NodePort",              // used by service
+									"gatewayProxies.anotherGatewayProxy.configMap.data.customData=someData", // used by config map
+								},
+							})
+						})
+						It("uses merged values for the gateway", func() {
+							gatewayUns := testManifest.ExpectCustomResource("Gateway", namespace, "another-gateway-proxy")
+							var customGateway gwv1.Gateway
+							ConvertKubeResource(gatewayUns, &customGateway)
+							Expect(customGateway.BindPort).To(Equal(uint32(9999)))
+						})
+						It("uses merged values for the deployment", func() {
+							deploymentUns := testManifest.ExpectCustomResource("Deployment", namespace, "another-gateway-proxy")
+							deployment, err := kuberesource.ConvertUnstructured(deploymentUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(deployment).To(BeAssignableToTypeOf(&appsv1.Deployment{}))
+							deploymentStr := deployment.(*appsv1.Deployment)
+							Expect(*deploymentStr.Spec.Replicas).To(Equal(int32(50)))
+						})
+						It("uses merged values for the service", func() {
+							serviceUns := testManifest.ExpectCustomResource("Service", namespace, "another-gateway-proxy")
+							service, err := kuberesource.ConvertUnstructured(serviceUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(service).To(BeAssignableToTypeOf(&v1.Service{}))
+							serviceStr := *service.(*v1.Service)
+							Expect(serviceStr.Spec.Type).To(Equal(v1.ServiceType("NodePort")))
+						})
+						It("uses merged values for the config map", func() {
+							configMapUns := testManifest.ExpectCustomResource("ConfigMap", namespace, "another-gateway-proxy-envoy-config")
+							configMap, err := kuberesource.ConvertUnstructured(configMapUns)
+							Expect(err).NotTo(HaveOccurred())
+							Expect(configMap).To(BeAssignableToTypeOf(&v1.ConfigMap{}))
+							configMapStr := configMap.(*v1.ConfigMap)
+							Expect(configMapStr.Data).To(Equal(map[string]string{"customData": "someData"}))
+						})
+					})
 				})
 
 				Context("gateway-proxy service account", func() {
@@ -1763,6 +1989,152 @@ apiVersion: gateway.solo.io/v1
 						testManifest.ExpectDeploymentAppsV1(gatewayProxyDeployment)
 					})
 
+					It("ISTIO_META_MESH_ID env var default value set", func() {
+
+						var value = "cluster.local"
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"global.glooMtls.enabled=true", // adds gloo/gateway proxy side containers
+								"global.istioSDS.enabled=true", // add default itsio sds sidecar
+							},
+						})
+
+						testManifest.SelectResources(func(resource *unstructured.Unstructured) bool {
+							return resource.GetKind() == "Deployment"
+						}).ExpectAll(func(deployment *unstructured.Unstructured) {
+							deploymentObject, err := kuberesource.ConvertUnstructured(deployment)
+							Expect(err).NotTo(HaveOccurred(), fmt.Sprintf("Deployment %+v should be able to convert from unstructured", deployment))
+							structuredDeployment, ok := deploymentObject.(*appsv1.Deployment)
+							Expect(ok).To(BeTrue(), fmt.Sprintf("Deployment %+v should be able to cast to a structured deployment", deployment))
+
+							//get ISTIO_META_MESH_ID env var value
+							var istioMetaMeshID string
+							for _, c := range structuredDeployment.Spec.Template.Spec.Containers {
+								for _, e := range c.Env {
+									if e.Name == "ISTIO_META_MESH_ID" {
+										istioMetaMeshID = e.Value
+										break
+									}
+								}
+							}
+							if structuredDeployment.GetName() == "gateway-proxy" {
+								Expect(istioMetaMeshID).To(Equal(value), "ISTIO_META_MESH_ID should equal "+value)
+							}
+
+						})
+					})
+
+					It("can set ISTIO_META_MESH_ID env var", func() {
+
+						var value = "foo"
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"global.glooMtls.enabled=true", // adds gloo/gateway proxy side containers
+								"global.istioSDS.enabled=true", // add default itsio sds sidecar
+								"gatewayProxies.gatewayProxy.istioMetaMeshId=" + value,
+							},
+						})
+
+						testManifest.SelectResources(func(resource *unstructured.Unstructured) bool {
+							return resource.GetKind() == "Deployment"
+						}).ExpectAll(func(deployment *unstructured.Unstructured) {
+							deploymentObject, err := kuberesource.ConvertUnstructured(deployment)
+							Expect(err).NotTo(HaveOccurred(), fmt.Sprintf("Deployment %+v should be able to convert from unstructured", deployment))
+							structuredDeployment, ok := deploymentObject.(*appsv1.Deployment)
+							Expect(ok).To(BeTrue(), fmt.Sprintf("Deployment %+v should be able to cast to a structured deployment", deployment))
+
+							//get ISTIO_META_MESH_ID env var value
+							var istioMetaMeshID string
+							for _, c := range structuredDeployment.Spec.Template.Spec.Containers {
+								for _, e := range c.Env {
+									if e.Name == "ISTIO_META_MESH_ID" {
+										istioMetaMeshID = e.Value
+										break
+									}
+								}
+							}
+							if structuredDeployment.GetName() == "gateway-proxy" {
+								Expect(istioMetaMeshID).To(Equal(value), "ISTIO_META_MESH_ID should equal "+value)
+							}
+
+						})
+					})
+
+					It("ISTIO_META_CLUSTER_ID env var default value set", func() {
+
+						var value = "Kubernetes"
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"global.glooMtls.enabled=true", // adds gloo/gateway proxy side containers
+								"global.istioSDS.enabled=true", // add default itsio sds sidecar
+							},
+						})
+
+						testManifest.SelectResources(func(resource *unstructured.Unstructured) bool {
+							return resource.GetKind() == "Deployment"
+						}).ExpectAll(func(deployment *unstructured.Unstructured) {
+							deploymentObject, err := kuberesource.ConvertUnstructured(deployment)
+							Expect(err).NotTo(HaveOccurred(), fmt.Sprintf("Deployment %+v should be able to convert from unstructured", deployment))
+							structuredDeployment, ok := deploymentObject.(*appsv1.Deployment)
+							Expect(ok).To(BeTrue(), fmt.Sprintf("Deployment %+v should be able to cast to a structured deployment", deployment))
+
+							//get ISTIO_META_CLUSTER_ID env var value
+							var istioMetaClusterID string
+							for _, c := range structuredDeployment.Spec.Template.Spec.Containers {
+								for _, e := range c.Env {
+									if e.Name == "ISTIO_META_CLUSTER_ID" {
+										istioMetaClusterID = e.Value
+										break
+									}
+								}
+							}
+							if structuredDeployment.GetName() == "gateway-proxy" {
+								Expect(istioMetaClusterID).To(Equal(value), "ISTIO_META_CLUSTER_ID should equal "+value)
+							}
+
+						})
+					})
+
+					It("can set ISTIO_META_CLUSTER_ID env var", func() {
+
+						var value = "bar"
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"global.glooMtls.enabled=true", // adds gloo/gateway proxy side containers
+								"global.istioSDS.enabled=true", // add default itsio sds sidecar
+								"gatewayProxies.gatewayProxy.istioMetaClusterId=" + value,
+							},
+						})
+
+						testManifest.SelectResources(func(resource *unstructured.Unstructured) bool {
+							return resource.GetKind() == "Deployment"
+						}).ExpectAll(func(deployment *unstructured.Unstructured) {
+							deploymentObject, err := kuberesource.ConvertUnstructured(deployment)
+							Expect(err).NotTo(HaveOccurred(), fmt.Sprintf("Deployment %+v should be able to convert from unstructured", deployment))
+							structuredDeployment, ok := deploymentObject.(*appsv1.Deployment)
+							Expect(ok).To(BeTrue(), fmt.Sprintf("Deployment %+v should be able to cast to a structured deployment", deployment))
+
+							//get ISTIO_META_CLUSTER_ID env var value
+							var istioMetaClusterID string
+							for _, c := range structuredDeployment.Spec.Template.Spec.Containers {
+								for _, e := range c.Env {
+									if e.Name == "ISTIO_META_CLUSTER_ID" {
+										istioMetaClusterID = e.Value
+										break
+									}
+								}
+							}
+							if structuredDeployment.GetName() == "gateway-proxy" {
+								Expect(istioMetaClusterID).To(Equal(value), "ISTIO_META_CLUSTER_ID should equal "+value)
+							}
+
+						})
+					})
+
 					It("can add extra volume mounts to the gateway-proxy container deployment", func() {
 
 						gatewayProxyDeployment.Spec.Template.Spec.Containers[0].VolumeMounts = append(
@@ -1835,6 +2207,28 @@ apiVersion: gateway.solo.io/v1
 								"gatewayProxies.gatewayProxy.extraVolumeHelper=gloo.testVolume",
 								"gatewayProxies.gatewayProxy.extraProxyVolumeMountHelper=gloo.testVolumeMount",
 							},
+						})
+						testManifest.ExpectDeploymentAppsV1(gatewayProxyDeployment)
+					})
+
+					It("can set log level env var", func() {
+						gatewayProxyDeployment.Spec.Template.Spec.Containers[0].Env = append(
+							gatewayProxyDeployment.Spec.Template.Spec.Containers[0].Env,
+							GetLogLevelEnvVar(),
+						)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{"gatewayProxies.gatewayProxy.logLevel=debug"},
+						})
+						testManifest.ExpectDeploymentAppsV1(gatewayProxyDeployment)
+					})
+
+					It("can set the envoy log level arg", func() {
+						gatewayProxyDeployment.Spec.Template.Spec.Containers[0].Args = append(
+							gatewayProxyDeployment.Spec.Template.Spec.Containers[0].Args,
+							"--log-level debug",
+						)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{"gatewayProxies.gatewayProxy.envoyLogLevel=debug"},
 						})
 						testManifest.ExpectDeploymentAppsV1(gatewayProxyDeployment)
 					})
@@ -2001,11 +2395,25 @@ spec:
 
 					})
 
-					It("creates settings with the gateway config", func() {
+					It("creates settings with the gateway config with old mapping", func() {
 						settings := makeUnstructureFromTemplateFile("fixtures/settings/gateway_settings.yaml", namespace)
 						prepareMakefile(namespace, helmValues{
 							valuesArgs: []string{
 								"settings.replaceInvalidRoutes=true",
+								"settings.invalidConfigPolicy.invalidRouteResponseBody=Gloo Gateway has invalid configuration. Administrators should run `glooctl check` to find and fix config errors.",
+								"settings.invalidConfigPolicy.invalidRouteResponseCode=404",
+							},
+						})
+						testManifest.ExpectUnstructured(settings.GetKind(), settings.GetNamespace(), settings.GetName()).To(BeEquivalentTo(settings))
+					})
+
+					It("creates settings with the gateway config", func() {
+						settings := makeUnstructureFromTemplateFile("fixtures/settings/gateway_settings.yaml", namespace)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"settings.invalidConfigPolicy.replaceInvalidRoutes=true",
+								"settings.invalidConfigPolicy.invalidRouteResponseBody=Gloo Gateway has invalid configuration. Administrators should run `glooctl check` to find and fix config errors.",
+								"settings.invalidConfigPolicy.invalidRouteResponseCode=404",
 							},
 						})
 						testManifest.ExpectUnstructured(settings.GetKind(), settings.GetNamespace(), settings.GetName()).To(BeEquivalentTo(settings))
@@ -2097,6 +2505,9 @@ spec:
     enableRestEds: true
     disableKubernetesDestinations: false
     disableProxyGarbageCollection: false
+    invalidConfigPolicy:
+      invalidRouteResponseBody: Gloo Gateway has invalid configuration. Administrators should run ` + "`glooctl check`" + ` to find and fix config errors.
+      invalidRouteResponseCode: 404
   discoveryNamespace: gloo-system
   kubernetesArtifactSource: {}
   kubernetesConfigSource: {}
@@ -2622,6 +3033,17 @@ metadata:
 
 					})
 
+					It("can set log level env var", func() {
+						glooDeployment.Spec.Template.Spec.Containers[0].Env = append(
+							glooDeployment.Spec.Template.Spec.Containers[0].Env,
+							GetLogLevelEnvVar(),
+						)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{"gloo.logLevel=debug"},
+						})
+						testManifest.ExpectDeploymentAppsV1(glooDeployment)
+					})
+
 					It("can accept extra env vars", func() {
 						glooDeployment.Spec.Template.Spec.Containers[0].Env = append(
 							[]v1.EnvVar{GetTestExtraEnvVar()},
@@ -2822,6 +3244,17 @@ metadata:
 
 					})
 
+					It("can set log level env var", func() {
+						gatewayDeployment.Spec.Template.Spec.Containers[0].Env = append(
+							gatewayDeployment.Spec.Template.Spec.Containers[0].Env,
+							GetLogLevelEnvVar(),
+						)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{"gateway.logLevel=debug"},
+						})
+						testManifest.ExpectDeploymentAppsV1(gatewayDeployment)
+					})
+
 					It("can accept extra env vars", func() {
 						gatewayDeployment.Spec.Template.Spec.Containers[0].Env = append(
 							[]v1.EnvVar{GetTestExtraEnvVar()},
@@ -3008,6 +3441,17 @@ metadata:
 							},
 						})
 
+					})
+
+					It("can set log level env var", func() {
+						discoveryDeployment.Spec.Template.Spec.Containers[0].Env = append(
+							discoveryDeployment.Spec.Template.Spec.Containers[0].Env,
+							GetLogLevelEnvVar(),
+						)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{"discovery.logLevel=debug"},
+						})
+						testManifest.ExpectDeploymentAppsV1(discoveryDeployment)
 					})
 
 					It("can accept extra env vars", func() {
