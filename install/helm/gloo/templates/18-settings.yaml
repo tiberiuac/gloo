@@ -108,8 +108,8 @@ spec:
 {{- end }}
 {{- end -}}
 
-{{- if .Values.global.addEnterpriseSettings }}
-{{- include "glooe.enterprisespecs"  . }}
+{{- if .Values.global.extraSpecs }}
+{{- include "gloo.extraSpecs"  . }}
 {{- end -}}
 
 {{- if .Values.settings.singleNamespace }}
