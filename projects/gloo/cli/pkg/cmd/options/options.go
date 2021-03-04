@@ -48,25 +48,22 @@ type Top struct {
 }
 
 type HelmInstall struct {
-	DryRun                  bool
 	CreateNamespace         bool
 	Namespace               string
 	HelmChartOverride       string
 	HelmChartValueFileNames []string
 	HelmReleaseName         string
-	Version                 string
-	LicenseKey              string
 }
 
 type Install struct {
-	HelmInstall
-	Federation Federation
-	Knative    Knative
-	WithUi     bool
-}
-
-type Federation struct {
-	HelmInstall
+	Gloo        HelmInstall
+	Federation  HelmInstall
+	Knative     Knative
+	WithUi      bool
+	LicenseKey  string
+	WithGlooFed bool
+	DryRun      bool
+	Version     string
 }
 
 type Knative struct {
@@ -157,8 +154,10 @@ type Add struct {
 }
 
 type Istio struct {
-	Upstream  string // upstream for which we are changing the istio mTLS settings
-	Namespace string // namespace in which istio is installed
+	Upstream           string // upstream for which we are changing the istio mTLS settings
+	Namespace          string // namespace in which istio is installed
+	IstioMetaMeshId    string // IstioMetaMeshId sets ISTIO_META_MESH_ID env var
+	IstioMetaClusterId string // IstioMetaClusterId sets ISTIO_META_CLUSTER_ID env var
 }
 
 type InputRoute struct {

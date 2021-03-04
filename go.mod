@@ -12,8 +12,7 @@ require (
 	github.com/cratonica/2goarray v0.0.0-20190331194516-514510793eaa
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/docker/cli v0.0.0-20200210162036-a4bedce16568 // indirect
-	github.com/elazarl/goproxy v0.0.0-20190711103511-473e67f1d7d2 // indirect
-	github.com/elazarl/goproxy/ext v0.0.0-20190711103511-473e67f1d7d2 // indirect
+	github.com/elazarl/goproxy v0.0.0-20210110162100-a92cc753f88e // indirect
 	github.com/envoyproxy/go-control-plane v0.9.8
 	github.com/envoyproxy/protoc-gen-validate v0.4.0
 	github.com/fatih/color v1.9.0 // indirect
@@ -67,14 +66,14 @@ require (
 	github.com/sergi/go-diff v1.1.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/solo-io/go-list-licenses v0.1.0
-	github.com/solo-io/go-utils v0.20.2
+	github.com/solo-io/go-utils v0.20.5
 	github.com/solo-io/k8s-utils v0.0.6
 	github.com/solo-io/protoc-gen-ext v0.0.15
 	github.com/solo-io/reporting-client v0.2.0
 	github.com/solo-io/skv2 v0.17.2
 	// Pinned to the `rate-limiter-v0.1.8` tag of solo-apis
 	github.com/solo-io/solo-apis v0.0.0-20210122162349-0e170e74af10
-	github.com/solo-io/solo-kit v0.17.1
+	github.com/solo-io/solo-kit v0.18.0
 	github.com/solo-io/wasm/tools/wasme/pkg v0.0.0-20201021213306-77f82bdc3cc3
 	github.com/spf13/afero v1.3.4
 	github.com/spf13/cobra v1.1.1
