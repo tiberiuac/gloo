@@ -17,6 +17,7 @@ weight: 5
 - [Transformation](#transformation)
 - [DlpTransformation](#dlptransformation)
 - [Action](#action)
+- [XsltTransformation](#xslttransformation)
   
 
 
@@ -139,6 +140,23 @@ weight: 5
 | `shadow` | `bool` | If specified, this rule will not actually be applied, but only logged. |
 | `percent` | [.solo.io.envoy.type.Percent](../../../../../../../../../solo-kit/api/external/envoy/type/percent.proto.sk/#percent) | The percent of the string which should be masked. If not set, defaults to 75%. |
 | `maskChar` | `string` | The character which should overwrite the masked data If left empty, defaults to "X". |
+
+
+
+
+---
+### XsltTransformation
+
+
+
+```yaml
+"xslt": string
+
+```
+
+| Field | Type | Description |
+| ----- | ---- | ----------- | 
+| `xslt` | `string` | XSLT transformation. |
 
 
 
