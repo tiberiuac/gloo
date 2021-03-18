@@ -122,6 +122,9 @@ message Transformation {
     // 'headers', containing the headers, and 'body', containing the original
     // body.
     HeaderBodyTransform header_body_transform = 2;
+    // An extension point for BYO transformer
+    envoy.config.core.v3.TypedExtensionConfig transformer_config = 3;
+
   }
 }
 
