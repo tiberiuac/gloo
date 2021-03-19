@@ -72,8 +72,3 @@ message Action {
     // If left empty, defaults to "X"
     string mask_char = 5 [(validate.rules).string.max_bytes = 1];
 }
-
-message XsltTransformation{
-    // XSLT transformation
-    string xslt = 1;
-}
