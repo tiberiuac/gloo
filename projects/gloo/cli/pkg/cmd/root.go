@@ -113,7 +113,7 @@ func GlooCli() *cobra.Command {
 			federation.RootCmd(opts),
 			plugin.RootCmd(opts),
 			istio.RootCmd(opts),
-			initpluginmanager.Command(context.Background()),
+			// initpluginmanager.Command(context.Background()), // TODO(ryantking): Re-enable once plugin manager and plugins are released
 			completionCmd(),
 		)
 	}
