@@ -8,7 +8,7 @@ require (
 	github.com/Netflix/go-expect v0.0.0-20180928190340-9d1f4485533b
 	github.com/avast/retry-go v2.4.3+incompatible
 	github.com/aws/aws-sdk-go v1.34.9
-	github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354
+	github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403
 	github.com/cratonica/2goarray v0.0.0-20190331194516-514510793eaa
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/elazarl/goproxy v0.0.0-20190711103511-473e67f1d7d2 // indirect
@@ -25,7 +25,7 @@ require (
 	github.com/gogo/googleapis v1.3.1
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/mock v1.4.4
-	github.com/golang/protobuf v1.4.2
+	github.com/golang/protobuf v1.4.3
 	github.com/google/go-containerregistry v0.1.3 // indirect
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-github/v31 v31.0.0
@@ -65,7 +65,7 @@ require (
 	github.com/solo-io/solo-apis v0.0.0-20200717214114-6a1daa5a5d05
 	github.com/solo-io/solo-kit v0.13.14
 	github.com/solo-io/wasm/tools/wasme/pkg v0.0.0-20200922223809-7fff932e9e9a
-	github.com/spf13/afero v1.2.2
+	github.com/spf13/afero v1.3.3
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.0
@@ -76,7 +76,6 @@ require (
 	golang.org/x/mod v0.3.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
-	golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6 // indirect
 	golang.org/x/tools v0.0.0-20200916195026-c9a70fc28ce3
 	google.golang.org/genproto v0.0.0-20200626011028-ee7919e894b5
 	google.golang.org/grpc v1.29.1

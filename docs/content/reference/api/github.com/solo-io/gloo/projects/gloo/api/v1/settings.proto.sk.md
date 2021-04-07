@@ -511,6 +511,7 @@ options for configuring admission control / validation
 "ignoreGlooValidationFailure": bool
 "alwaysAccept": .google.protobuf.BoolValue
 "allowWarnings": .google.protobuf.BoolValue
+"disableTransformationValidation": .google.protobuf.BoolValue
 
 ```
 
@@ -522,6 +523,7 @@ options for configuring admission control / validation
 | `ignoreGlooValidationFailure` | `bool` | When Gateway cannot communicate with Gloo (e.g. Gloo is offline) resources will be rejected by default. Enable the `ignoreGlooValidationFailure` to prevent the Validation server from rejecting resources due to network errors. |  |
 | `alwaysAccept` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Always accept resources even if validation produced an error. Validation will still log the error and increment the validation.gateway.solo.io/resources_rejected stat. Currently defaults to true - must be set to `false` to prevent writing invalid resources to storage. |  |
 | `allowWarnings` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Accept resources if validation produced a warning (defaults to true). By settings to false, this means that validation will start rejecting resources that would result in warnings, rather than just those that would result in errors. |  |
+| `disableTransformationValidation` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | By default gloo will attempt to validate transformations by calling out to a local envoy binary in `validate` mode. Calling this local envoy binary can become slow when done many times during a single validation. Setting this to true will stop gloo from calling out to envoy to validate the transformations, which may speed up the validation time considerably, but may also cause the transformation config to fail after being sent to envoy. When disabling this, ensure that your transformations are valid prior to applying them. |  |
 
 
 

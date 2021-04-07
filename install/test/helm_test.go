@@ -1615,6 +1615,17 @@ spec:
 						testManifest.ExpectUnstructured(settings.GetKind(), settings.GetNamespace(), settings.GetName()).To(BeEquivalentTo(settings))
 					})
 
+					It("correctly sets the `validation.disableTransformationValidation` field in the validation settings", func() {
+						settings := makeUnstructureFromTemplateFile("fixtures/settings/disable_transformation_validation.yaml", namespace)
+
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"gateway.validation.disableTransformationValidation=true",
+							},
+						})
+						testManifest.ExpectUnstructured(settings.GetKind(), settings.GetNamespace(), settings.GetName()).To(BeEquivalentTo(settings))
+					})
+
 					It("correctly allows setting readGatewaysFromAllNamespaces field in the settings when validation disabled", func() {
 						settings := makeUnstructureFromTemplateFile("fixtures/settings/read_gateways_from_all_namespaces.yaml", namespace)
 
@@ -1672,6 +1683,53 @@ spec:
 							},
 						})
 						testManifest.ExpectUnstructured(settings.GetKind(), settings.GetNamespace(), settings.GetName()).To(BeEquivalentTo(settings))
+					})
+
+					It("allows setting extauth", func() {
+						expectedYaml := makeUnstructured(`
+apiVersion: gloo.solo.io/v1
+kind: Settings
+metadata:
+  labels:
+    app: gloo
+  name: default
+  namespace: gloo-system
+spec:
+  gloo:
+    xdsBindAddr: "0.0.0.0:9977"
+    restXdsBindAddr: "0.0.0.0:9976"
+    enableRestEds: true
+    disableKubernetesDestinations: false
+    disableProxyGarbageCollection: false
+  discoveryNamespace: gloo-system
+  kubernetesArtifactSource: {}
+  kubernetesConfigSource: {}
+  kubernetesSecretSource: {}
+  refreshRate: 60s
+
+  gateway:
+    readGatewaysFromAllNamespaces: false
+    validation:
+      proxyValidationServerAddr: gloo:9988
+      alwaysAccept: true
+      allowWarnings: true
+      disableTransformationValidation: false
+  discovery:
+    fdsMode: WHITELIST
+  extauth:
+    extauthzServerRef:
+      name: test
+      namespace: testspace
+`)
+						prepareMakefile(namespace, helmValues{
+							valuesArgs: []string{
+								"global.extensions.extAuth.extauthzServerRef.name=test",
+								"global.extensions.extAuth.extauthzServerRef.namespace=testspace",
+							},
+						})
+
+						testManifest.ExpectUnstructured(expectedYaml.GetKind(), expectedYaml.GetNamespace(), expectedYaml.GetName()).To(BeEquivalentTo(expectedYaml))
+
 					})
 
 					It("finds resources on all containers, with identical resources on all sds and sidecar containers", func() {
