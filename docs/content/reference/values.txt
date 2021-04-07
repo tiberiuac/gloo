@@ -305,15 +305,13 @@
 |gatewayProxies.NAME.gatewaySettings.options.validation.always_accept.-[]|uint8|||
 |gatewayProxies.NAME.gatewaySettings.options.validation.always_accept.-|int32|||
 |gatewayProxies.NAME.gatewaySettings.options.validation.allow_warnings.value|bool|||
-<<<<<<< HEAD
 |gatewayProxies.NAME.gatewaySettings.options.validation.allow_warnings.-[]|uint8|||
 |gatewayProxies.NAME.gatewaySettings.options.validation.allow_warnings.-|int32|||
+|gatewayProxies.NAME.gatewaySettings.options.validation.disable_transformation_validation.value|bool|||
+|gatewayProxies.NAME.gatewaySettings.options.validation.disable_transformation_validation.-[]|uint8|||
+|gatewayProxies.NAME.gatewaySettings.options.validation.disable_transformation_validation.-|int32|||
 |gatewayProxies.NAME.gatewaySettings.options.validation.-[]|uint8|||
 |gatewayProxies.NAME.gatewaySettings.options.validation.-|int32|||
-=======
-|gatewayProxies.NAME.gatewaySettings.options.validation.warn_route_short_circuiting.value|bool|||
-|gatewayProxies.NAME.gatewaySettings.options.validation.disable_transformation_validation.value|bool|||
->>>>>>> 09593803d (backport disable transformation validation (#4538) (#4548))
 |gatewayProxies.NAME.gatewaySettings.options.read_gateways_from_all_namespaces|bool|||
 |gatewayProxies.NAME.gatewaySettings.options.always_sort_route_table_routes|bool|||
 |gatewayProxies.NAME.gatewaySettings.options.compressed_proxy_spec|bool|||
@@ -435,15 +433,13 @@
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.always_accept.-[]|uint8|||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.always_accept.-|int32|||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.allow_warnings.value|bool|||
-<<<<<<< HEAD
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.allow_warnings.-[]|uint8|||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.allow_warnings.-|int32|||
+|gatewayProxies.gatewayProxy.gatewaySettings.options.validation.disable_transformation_validation.value|bool|||
+|gatewayProxies.gatewayProxy.gatewaySettings.options.validation.disable_transformation_validation.-[]|uint8|||
+|gatewayProxies.gatewayProxy.gatewaySettings.options.validation.disable_transformation_validation.-|int32|||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.-[]|uint8|||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.validation.-|int32|||
-=======
-|gatewayProxies.gatewayProxy.gatewaySettings.options.validation.warn_route_short_circuiting.value|bool|||
-|gatewayProxies.gatewayProxy.gatewaySettings.options.validation.disable_transformation_validation.value|bool|||
->>>>>>> 09593803d (backport disable transformation validation (#4538) (#4548))
 |gatewayProxies.gatewayProxy.gatewaySettings.options.read_gateways_from_all_namespaces|bool|false||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.always_sort_route_table_routes|bool|false||
 |gatewayProxies.gatewayProxy.gatewaySettings.options.compressed_proxy_spec|bool|false||

@@ -2,7 +2,6 @@ package version
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 
 	"github.com/golang/mock/gomock"

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/golang/protobuf/ptypes/wrappers"
 	gwtranslator "github.com/solo-io/gloo/projects/gateway/pkg/translator"
 
 	"github.com/solo-io/gloo/test/kube2e"
