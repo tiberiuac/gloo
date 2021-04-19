@@ -2,7 +2,6 @@ package translator
 
 import (
 	"fmt"
-	transformation2 "github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
 	"strings"
 
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
@@ -588,30 +587,4 @@ func mergeTransformations(childTransformationsPtr **transformation.RequestRespon
 		parentTransformations.GetResponseTransforms()...)
 	childTransformations.RequestTransforms = append(childTransformations.GetRequestTransforms(),
 		parentTransformations.GetRequestTransforms()...)
-}
-
-func mergeResponseMatches(child, parent []*transformation.ResponseMatch) {
-	headers := map[string]*transformation2.InjaTemplate{}
-	for _, responseMatch := range child {
-		// only merge actual transformation if transformation doesn't have matcher
-		if responseMatch.Matchers == nil {
-			if transform := responseMatch.ResponseTransformation.GetTransformationTemplate(); transform != nil {
-				for header, template := range transform.Headers {
-					headers[header] = template
-				}
-				break
-			}
-		}
-	}
-	for _, responseMatch := range parent {
-		// only merge actual transformation if transformation doesn't have matcher
-		if responseMatch.Matchers == nil {
-			if transform := responseMatch.ResponseTransformation.GetTransformationTemplate(); transform != nil {
-				for header, template := range transform.Headers {
-					headers[header] = template
-				}
-				break
-			}
-		}
-	}
 }

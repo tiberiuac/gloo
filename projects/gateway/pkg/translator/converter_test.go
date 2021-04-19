@@ -12,7 +12,7 @@ import (
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/transformation"
 	gloov1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
-	transformation1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
+	glootransformation "github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"github.com/solo-io/solo-kit/pkg/api/v2/reporter"
 )
@@ -657,9 +657,9 @@ var _ = Describe("Route converter", func() {
 							},
 						}},
 						Options: &gloov1.RouteOptions{
-							StagedTransformations: &transformation1.TransformationStages{
-								Regular: &transformation1.RequestResponseTransformations{
-									RequestTransforms: []*transformation1.RequestMatch{
+							StagedTransformations: &glootransformation.TransformationStages{
+								Regular: &glootransformation.RequestResponseTransformations{
+									RequestTransforms: []*glootransformation.RequestMatch{
 										{
 											RequestTransformation: routeOnlyTransformation,
 										},
@@ -685,9 +685,9 @@ var _ = Describe("Route converter", func() {
 					VirtualHost: &v1.VirtualHost{
 						InheritableStagedTransformation: &wrappers.BoolValue{Value: true},
 						Options: &gloov1.VirtualHostOptions{
-							StagedTransformations: &transformation1.TransformationStages{
-								Regular: &transformation1.RequestResponseTransformations{
-									RequestTransforms: []*transformation1.RequestMatch{
+							StagedTransformations: &glootransformation.TransformationStages{
+								Regular: &glootransformation.RequestResponseTransformations{
+									RequestTransforms: []*glootransformation.RequestMatch{
 										{
 											RequestTransformation: vsOnlyTransformation,
 										},
@@ -713,9 +713,9 @@ var _ = Describe("Route converter", func() {
 									},
 								},
 								Options: &gloov1.RouteOptions{
-									StagedTransformations: &transformation1.TransformationStages{
-										Regular: &transformation1.RequestResponseTransformations{
-											RequestTransforms: []*transformation1.RequestMatch{
+									StagedTransformations: &glootransformation.TransformationStages{
+										Regular: &glootransformation.RequestResponseTransformations{
+											RequestTransforms: []*glootransformation.RequestMatch{
 												{
 													RequestTransformation: rtOnlyTransformation,
 												},
@@ -745,13 +745,13 @@ var _ = Describe("Route converter", func() {
 				Expect(transforms).To(HaveLen(3))
 
 				By("verify order of transformations, child first")
-				Expect(transforms[0]).To(Equal(&transformation1.RequestMatch{
+				Expect(transforms[0]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: routeOnlyTransformation,
 				}))
-				Expect(transforms[1]).To(Equal(&transformation1.RequestMatch{
+				Expect(transforms[1]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: rtOnlyTransformation,
 				}))
-				Expect(transforms[2]).To(Equal(&transformation1.RequestMatch{
+				Expect(transforms[2]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: vsOnlyTransformation,
 				}))
 
@@ -773,13 +773,13 @@ var _ = Describe("Route converter", func() {
 				Expect(earlyStageTransforms).To(HaveLen(1))
 
 				By("verify order of transformations, child first")
-				Expect(regularStageTransforms[0]).To(Equal(&transformation1.RequestMatch{
+				Expect(regularStageTransforms[0]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: routeOnlyTransformation,
 				}))
-				Expect(regularStageTransforms[1]).To(Equal(&transformation1.RequestMatch{
+				Expect(regularStageTransforms[1]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: rtOnlyTransformation,
 				}))
-				Expect(earlyStageTransforms[0]).To(Equal(&transformation1.RequestMatch{
+				Expect(earlyStageTransforms[0]).To(Equal(&glootransformation.RequestMatch{
 					RequestTransformation: vsOnlyTransformation,
 				}))
 			})
