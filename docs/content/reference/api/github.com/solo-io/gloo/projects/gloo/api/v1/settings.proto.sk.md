@@ -28,6 +28,7 @@ weight: 5
 - [RateLimits](#ratelimits)
 - [ObservabilityOptions](#observabilityoptions)
 - [GrafanaIntegration](#grafanaintegration)
+- [UpstreamOptions](#upstreamoptions)
 - [GlooOptions](#gloooptions)
 - [AWSOptions](#awsoptions)
 - [InvalidConfigPolicy](#invalidconfigpolicy)
@@ -79,6 +80,7 @@ Represents global settings for all the Gloo components.
 "metadata": .core.solo.io.Metadata
 "status": .core.solo.io.Status
 "observabilityOptions": .gloo.solo.io.Settings.ObservabilityOptions
+"upstreamOptions": .gloo.solo.io.UpstreamOptions
 
 ```
 
@@ -113,6 +115,7 @@ Represents global settings for all the Gloo components.
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `observabilityOptions` | [.gloo.solo.io.Settings.ObservabilityOptions](../settings.proto.sk/#observabilityoptions) | Provides settings related to the observability deployment (enterprise only). |
+| `upstreamOptions` | [.gloo.solo.io.UpstreamOptions](../settings.proto.sk/#upstreamoptions) | Default configuration to use for upstreams, when not provided by specific upstream When these properties are defined on an upstream, this configuration will be ignored. |
 
 
 
@@ -459,6 +462,25 @@ Provides settings related to the observability pod's interactions with grafana
 
 
 ---
+### UpstreamOptions
+
+ 
+Default configuration to use for upstreams, when not provided by a specific upstream
+When these properties are defined on a specific upstream, this configuration will be ignored
+
+```yaml
+"sslParameters": .gloo.solo.io.SslParameters
+
+```
+
+| Field | Type | Description |
+| ----- | ---- | ----------- | 
+| `sslParameters` | [.gloo.solo.io.SslParameters](../ssl.proto.sk/#sslparameters) | Default ssl parameter configuration to use for upstreams. |
+
+
+
+
+---
 ### GlooOptions
 
  
@@ -477,6 +499,7 @@ Settings specific to the gloo (Envoy xDS server) controller
 "regexMaxProgramSize": .google.protobuf.UInt32Value
 "restXdsBindAddr": string
 "enableRestEds": .google.protobuf.BoolValue
+"failoverUpstreamDnsPollingInterval": .google.protobuf.Duration
 
 ```
 
@@ -494,6 +517,7 @@ Settings specific to the gloo (Envoy xDS server) controller
 | `regexMaxProgramSize` | [.google.protobuf.UInt32Value](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/u-int-32-value) | Set this option to specify the default max program size for regexes. If not specified, defaults to 100. |
 | `restXdsBindAddr` | `string` | Where the `gloo` REST xDS server should bind. Defaults to `0.0.0.0:9976`. |
 | `enableRestEds` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Whether or not to use rest xds for all EDS by default. Set to true by default in versions > `v1.6.0`. This setting is meant to solve the bug which causes updated upstreams to dissapear, or have 0 endpoints. Some examples are: 1. https://github.com/solo-io/gloo/issues/3673 2. https://github.com/solo-io/gloo/issues/3710 3. https://github.com/solo-io/gloo/issues/3219 Rest XDS, as opposed to grpc, uses http polling rather than streaming. |
+| `failoverUpstreamDnsPollingInterval` | [.google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration) | The polling interval for the DNS server if upstream failover is configured. If there is a failover upstream address with a hostname instead of an IP, Gloo will resolve the hostname with the configured frequency to update endpoints with any changes to DNS resolution. Defaults to 10s. |
 
 
 
@@ -579,6 +603,7 @@ options for configuring admission control / validation
 "alwaysAccept": .google.protobuf.BoolValue
 "allowWarnings": .google.protobuf.BoolValue
 "warnRouteShortCircuiting": .google.protobuf.BoolValue
+"disableTransformationValidation": .google.protobuf.BoolValue
 
 ```
 
@@ -591,6 +616,7 @@ options for configuring admission control / validation
 | `alwaysAccept` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Always accept resources even if validation produced an error. Validation will still log the error and increment the validation.gateway.solo.io/resources_rejected stat. Currently defaults to true - must be set to `false` to prevent writing invalid resources to storage. |
 | `allowWarnings` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Accept resources if validation produced a warning (defaults to true). By setting to false, this means that validation will start rejecting resources that would result in warnings, rather than just those that would result in errors. |
 | `warnRouteShortCircuiting` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Write a warning to route resources if validation produced a route ordering warning (defaults to false). By setting to true, this means that Gloo will start assigning warnings to resources that would result in route short-circuiting within a virtual host, for example: - prefix routes that make later routes unreachable - regex routes that make later routes unreachable - duplicate matchers. |
+| `disableTransformationValidation` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | By default gloo will attempt to validate transformations by calling out to a local envoy binary in `validate` mode. Calling this local envoy binary can become slow when done many times during a single validation. Setting this to true will stop gloo from calling out to envoy to validate the transformations, which may speed up the validation time considerably, but may also cause the transformation config to fail after being sent to envoy. When disabling this, ensure that your transformations are valid prior to applying them. |
 
 
 

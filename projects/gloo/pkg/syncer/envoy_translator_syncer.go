@@ -133,8 +133,6 @@ func (s *translatorSyncer) syncEnvoy(ctx context.Context, snap *v1.ApiSnapshot, 
 			logger.Warnw("Proxy had invalid config", zap.Any("proxy", proxy.Metadata.Ref()), zap.Error(validateErr))
 		}
 
-		allReports.Merge(reports)
-
 		key := xds.SnapshotKey(proxy)
 
 		sanitizedSnapshot, err := s.sanitizer.SanitizeSnapshot(ctx, snap, xdsSnapshot, reports)
@@ -152,6 +150,9 @@ func (s *translatorSyncer) syncEnvoy(ctx context.Context, snap *v1.ApiSnapshot, 
 			}
 			logger.Infof("successfully updated EDS information for proxy %v", proxy.Metadata.Ref().Key())
 		}
+
+		// Merge reports after sanitization to capture changes made by the sanitizers
+		allReports.Merge(reports)
 
 		if err := s.xdsCache.SetSnapshot(key, sanitizedSnapshot); err != nil {
 			err := eris.Wrapf(err, "failed while updating xDS snapshot cache")
@@ -202,20 +203,26 @@ func (s *translatorSyncer) ServeXdsSnapshots() error {
 // - EDS from the Gloo API snapshot translated curing this sync
 // The resulting snapshot will be checked for consistency before being returned.
 func (s *translatorSyncer) updateEndpointsOnly(snapshotKey string, current envoycache.Snapshot) (envoycache.Snapshot, error) {
+	var newSnapshot cache.Snapshot
+
 	// Get a copy of the last successful snapshot
 	previous, err := s.xdsCache.GetSnapshot(snapshotKey)
 	if err != nil {
-		return nil, err
+		// if no previous snapshot exists
+		newSnapshot = xds.NewEndpointsSnapshotFromResources(
+			current.GetResources(resource.EndpointTypeV3),
+			current.GetResources(resource.ClusterTypeV3),
+		)
+	} else {
+		newSnapshot = xds.NewSnapshotFromResources(
+			// Set endpoints and clusters calculated during this sync
+			current.GetResources(resource.EndpointTypeV3),
+			current.GetResources(resource.ClusterTypeV3),
+			// Keep other resources from previous snapshot
+			previous.GetResources(resource.RouteTypeV3),
+			previous.GetResources(resource.ListenerTypeV3),
+		)
 	}
-
-	newSnapshot := xds.NewSnapshotFromResources(
-		// Set endpoints and clusters calculated during this sync
-		current.GetResources(resource.EndpointTypeV3),
-		current.GetResources(resource.ClusterTypeV3),
-		// Keep other resources from previous snapshot
-		previous.GetResources(resource.RouteTypeV3),
-		previous.GetResources(resource.ListenerTypeV3),
-	)
 
 	if err := newSnapshot.Consistent(); err != nil {
 		return nil, err

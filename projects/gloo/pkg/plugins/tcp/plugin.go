@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/rotisserie/eris"
 	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
+	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/tcp"
 	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
 	"github.com/solo-io/gloo/projects/gloo/pkg/plugins/pluginutils"
 	translatorutil "github.com/solo-io/gloo/projects/gloo/pkg/translator"
@@ -31,7 +32,6 @@ func NewPlugin(sslConfigTranslator utils.SslConfigTranslator) *Plugin {
 var (
 	_ plugins.Plugin                    = (*Plugin)(nil)
 	_ plugins.ListenerFilterChainPlugin = (*Plugin)(nil)
-	_ plugins.ListenerPlugin            = (*Plugin)(nil)
 
 	NoDestinationTypeError = func(host *v1.TcpHost) error {
 		return eris.Errorf("no destination type was specified for tcp host %v", host)
@@ -47,33 +47,6 @@ type Plugin struct {
 }
 
 func (p *Plugin) Init(_ plugins.InitParams) error {
-	return nil
-}
-
-func (p *Plugin) ProcessListener(_ plugins.Params, in *v1.Listener, out *envoy_config_listener_v3.Listener) error {
-	// Only focused on Tcp listeners, so return otherwise
-	tcpListener := in.GetTcpListener()
-	if tcpListener == nil {
-		return nil
-	}
-
-	var sniCluster, sniMatch bool
-	for _, host := range tcpListener.GetTcpHosts() {
-		if len(host.GetSslConfig().GetSniDomains()) > 0 {
-			sniMatch = true
-		}
-		if host.GetDestination().GetForwardSniClusterName() != nil {
-			sniCluster = true
-		}
-	}
-
-	// If there is a forward SNI cluster, and no SNI matches, prepend the TLS inspector manually.
-	if sniCluster && !sniMatch {
-		out.ListenerFilters = append(
-			[]*envoy_config_listener_v3.ListenerFilter{{Name: wellknown.TlsInspector}},
-			out.ListenerFilters...,
-		)
-	}
 	return nil
 }
 
@@ -124,6 +97,7 @@ func (p *Plugin) tcpProxyFilters(
 		if tcpSettings := plugins.GetTcpProxySettings(); tcpSettings != nil {
 			cfg.MaxConnectAttempts = tcpSettings.GetMaxConnectAttempts()
 			cfg.IdleTimeout = tcpSettings.GetIdleTimeout()
+			cfg.TunnelingConfig = convertToEnvoyTunnelingConfig(tcpSettings.GetTunnelingConfig())
 		}
 	}
 
@@ -258,5 +232,14 @@ func (p *Plugin) newSslFilterChain(
 			ConfigType: &envoy_config_core_v3.TransportSocket_TypedConfig{TypedConfig: utils.MustMessageToAny(downstreamConfig)},
 		},
 		UseProxyProto: useProxyProto,
+	}
+}
+
+func convertToEnvoyTunnelingConfig(config *tcp.TcpProxySettings_TunnelingConfig) *envoytcp.TcpProxy_TunnelingConfig {
+	if config == nil {
+		return nil
+	}
+	return &envoytcp.TcpProxy_TunnelingConfig{
+		Hostname: config.GetHostname(),
 	}
 }

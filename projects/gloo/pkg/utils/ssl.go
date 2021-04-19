@@ -42,6 +42,7 @@ type SslConfigTranslator interface {
 	ResolveUpstreamSslConfig(secrets v1.SecretList, uc *v1.UpstreamSslConfig) (*envoyauth.UpstreamTlsContext, error)
 	ResolveDownstreamSslConfig(secrets v1.SecretList, dc *v1.SslConfig) (*envoyauth.DownstreamTlsContext, error)
 	ResolveCommonSslConfig(cs CertSource, secrets v1.SecretList, mustHaveCert bool) (*envoyauth.CommonTlsContext, error)
+	ResolveSslParamsConfig(params *v1.SslParameters) (*envoyauth.TlsParameters, error)
 }
 
 type sslConfigTranslator struct {
@@ -68,7 +69,7 @@ func (s *sslConfigTranslator) ResolveDownstreamSslConfig(secrets v1.SecretList, 
 	}
 	var requireClientCert *wrappers.BoolValue
 	if common.ValidationContextType != nil {
-		requireClientCert = &wrappers.BoolValue{Value: true}
+		requireClientCert = &wrappers.BoolValue{Value: !dc.GetOneWayTls()}
 	}
 	// default alpn for downstreams.
 	if len(common.AlpnProtocols) == 0 {
@@ -162,7 +163,7 @@ func buildDeprecatedSDS(name string, sslSecrets *v1.SDSConfig) *envoyauth.SdsSec
 		},
 		CredentialsFactoryName: MetadataPluginName,
 		CallCredentials: []*envoycore.GrpcService_GoogleGrpc_CallCredentials{
-			&envoycore.GrpcService_GoogleGrpc_CallCredentials{
+			{
 				CredentialSpecifier: &envoycore.GrpcService_GoogleGrpc_CallCredentials_FromPlugin{
 					FromPlugin: &envoycore.GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin{
 						Name: MetadataPluginName,
@@ -308,7 +309,7 @@ func (s *sslConfigTranslator) ResolveCommonSslConfig(cs CertSource, secrets v1.S
 	}
 
 	var err error
-	tlsContext.TlsParams, err = convertTlsParams(cs)
+	tlsContext.TlsParams, err = s.ResolveSslParamsConfig(cs.GetParameters())
 
 	tlsContext.AlpnProtocols = cs.GetAlpnProtocols()
 	return tlsContext, err
@@ -331,8 +332,7 @@ func getSslSecrets(ref core.ResourceRef, secrets v1.SecretList) (string, string,
 	return certChain, privateKey, rootCa, nil
 }
 
-func convertTlsParams(cs CertSource) (*envoyauth.TlsParameters, error) {
-	params := cs.GetParameters()
+func (s *sslConfigTranslator) ResolveSslParamsConfig(params *v1.SslParameters) (*envoyauth.TlsParameters, error) {
 	if params == nil {
 		return nil, nil
 	}

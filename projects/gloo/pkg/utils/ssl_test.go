@@ -171,6 +171,13 @@ var _ = Describe("Ssl", func() {
 			Expect(cfg.RequireClientCertificate.GetValue()).To(BeTrue())
 		})
 
+		It("should set require client cert to false if oneWayTls enabled for downstream config", func() {
+			downstreamCfg.OneWayTls = true
+			cfg, err := configTranslator.ResolveDownstreamSslConfig(secrets, downstreamCfg)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(cfg.RequireClientCertificate.GetValue()).To(BeFalse())
+		})
+
 		It("should set alpn default for downstream config", func() {
 			cfg, err := configTranslator.ResolveDownstreamSslConfig(secrets, downstreamCfg)
 			Expect(err).NotTo(HaveOccurred())
@@ -450,6 +457,53 @@ var _ = Describe("Ssl", func() {
 				Expect(vctx.DefaultValidationContext.MatchSubjectAltNames).To(Equal(verifySanListToMatchSanList(upstreamCfg.VerifySubjectAltName)))
 			})
 		})
+	})
+
+	Context("ssl parameters", func() {
+
+		BeforeEach(func() {
+			configTranslator = NewSslConfigTranslator()
+		})
+
+		It("should return nil for nil SslParameters", func() {
+			var sslParameters *v1.SslParameters
+			tlsParams, err := configTranslator.ResolveSslParamsConfig(sslParameters)
+
+			Expect(err).To(BeNil())
+			Expect(tlsParams).To(BeNil())
+		})
+
+		It("should return TlsParameters for valid SslParameters", func() {
+			sslParameters := &v1.SslParameters{
+				MinimumProtocolVersion: v1.SslParameters_TLSv1_1,
+				MaximumProtocolVersion: v1.SslParameters_TLSv1_2,
+				CipherSuites:           []string{"cipher-test"},
+				EcdhCurves:             []string{"ec-dh-test"},
+			}
+			tlsParams, err := configTranslator.ResolveSslParamsConfig(sslParameters)
+
+			Expect(err).To(BeNil())
+			Expect(tlsParams.GetCipherSuites()).To(Equal([]string{"cipher-test"}))
+			Expect(tlsParams.GetEcdhCurves()).To(Equal([]string{"ec-dh-test"}))
+			Expect(tlsParams.GetTlsMinimumProtocolVersion()).To(Equal(envoyauth.TlsParameters_TLSv1_1))
+			Expect(tlsParams.GetTlsMaximumProtocolVersion()).To(Equal(envoyauth.TlsParameters_TLSv1_2))
+		})
+
+		It("should error for invalid SslParameters", func() {
+			var invalidProtocolVersion v1.SslParameters_ProtocolVersion = 5 // INVALID
+
+			sslParameters := &v1.SslParameters{
+				MinimumProtocolVersion: invalidProtocolVersion,
+				MaximumProtocolVersion: v1.SslParameters_TLSv1_2,
+				CipherSuites:           []string{"cipher-test"},
+				EcdhCurves:             []string{"ec-dh-test"},
+			}
+			tlsParams, err := configTranslator.ResolveSslParamsConfig(sslParameters)
+
+			Expect(err).NotTo(BeNil())
+			Expect(tlsParams).To(BeNil())
+		})
+
 	})
 
 })

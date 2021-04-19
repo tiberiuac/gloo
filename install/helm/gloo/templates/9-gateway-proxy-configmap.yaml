@@ -3,7 +3,9 @@
 {{- end -}}
 {{- if .Values.gateway.enabled }}
 {{- $global := .Values.global }}
-{{- range $name, $spec := .Values.gatewayProxies }}
+{{- $gatewayProxy := .Values.gatewayProxies.gatewayProxy -}}
+{{- range $name, $gatewaySpec := .Values.gatewayProxies }}
+{{- $spec := deepCopy $gatewaySpec | mergeOverwrite (deepCopy $gatewayProxy) -}}
 {{- if not $spec.disabled }}
 {{- $statsConfig := coalesce $spec.stats $global.glooStats }}
 ---
@@ -24,8 +26,9 @@ data:
       layers:
       - name: static_layer
         static_layer:
-          envoy.reloadable_features.enable_deprecated_v2_api: true
-          envoy.reloadable_features.disable_tls_inspector_injection: false
+{{- if $spec.customStaticLayer }}
+{{ toYaml $spec.customStaticLayer | indent 10 }}
+{{- end}}
           overload:
             global_downstream_max_connections: {{ $spec.globalDownstreamMaxConnections }}
           upstream:
@@ -187,6 +190,7 @@ data:
                     address: 127.0.0.1
                     port_value: 8234
 {{- end }}
+{{- if $.Values.settings.enableRestEds }}
       - name: rest_xds_cluster
         alt_stat_name: rest_xds_cluster
         connect_timeout: 5.000s
@@ -203,6 +207,7 @@ data:
           tcp_keepalive: {}
         type: STRICT_DNS
         respect_dns_ttl: true
+{{- end }}
 {{- if $global.glooMtls.enabled }}
         transport_socket:
           name: envoy.transport_sockets.tls
@@ -275,10 +280,10 @@ data:
           name: envoy.transport_sockets.tls
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
-{{- if ne $.Values.settings.aws.stsCredentialsRegion ""}}
-            sni: sts.{{ $.Values.settings.aws.stsCredentialsRegion }}.amazonaws.com
-{{- else }}
+{{- if not $.Values.settings.aws.stsCredentialsRegion }}
             sni: sts.amazonaws.com
+{{- else }}
+            sni: sts.{{ $.Values.settings.aws.stsCredentialsRegion }}.amazonaws.com
 {{- end }}
         load_assignment:
           cluster_name: aws_sts_cluster
@@ -288,10 +293,10 @@ data:
                 address:
                   socket_address:
                     port_value: 443
-{{- if ne $.Values.settings.aws.stsCredentialsRegion ""}}
-                    address: sts.{{ $.Values.settings.aws.stsCredentialsRegion }}.amazonaws.com
-{{- else }}
+{{- if not $.Values.settings.aws.stsCredentialsRegion }}
                     address: sts.amazonaws.com
+{{- else }}
+                    address: sts.{{ $.Values.settings.aws.stsCredentialsRegion }}.amazonaws.com
 {{- end }}
 {{- end}} {{/* if $.Values.settings.aws.enableServiceAccountCredentials */}}
 

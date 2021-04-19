@@ -18,7 +18,7 @@ func federation(opts *options.Options) *cobra.Command {
 		Short: constants.DEMO_FEDERATION_COMMAND.Short,
 		Long:  constants.DEMO_FEDERATION_COMMAND.Long,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			licenseKey := opts.Install.Federation.LicenseKey
+			licenseKey := opts.Install.LicenseKey
 			if licenseKey == "" {
 				return eris.New("please pass in a Gloo Federation license key (e.g. glooctl federation demo --license-key [license key])")
 			}
@@ -33,7 +33,7 @@ func federation(opts *options.Options) *cobra.Command {
 		},
 	}
 	pflags := cmd.PersistentFlags()
-	flagutils.AddFederationDemoFlags(pflags, &opts.Install.Federation)
+	flagutils.AddFederationDemoFlags(pflags, &opts.Install)
 	// this flag is only used for testing, and debugging purposes
 	pflags.Lookup("file").Hidden = true
 	return cmd
@@ -78,8 +78,9 @@ EOF
 kubectl config use-context kind-"$1"
 
 # Install gloo-fed to cluster $1
+# TODO: remove v1.7.0-beta11 version after 1.7.0 release
 if [ "$5" == "" ]; then
-  glooctl install federation --license-key=$4
+  glooctl install federation --license-key=$4 --version=v1.7.0-beta11
 else
   glooctl install federation --license-key=$4 --file $5
 fi
@@ -138,7 +139,7 @@ gloo:
       service:
         type: NodePort
 EOF
-glooctl install gateway enterprise --version $3 --values basic-enterprise.yaml --license-key=$4
+glooctl install gateway enterprise --version $3 --values basic-enterprise.yaml --license-key=$4 --with-gloo-fed=false
 rm basic-enterprise.yaml
 kubectl -n gloo-system rollout status deployment gloo --timeout=2m || true
 kubectl -n gloo-system rollout status deployment discovery --timeout=2m || true

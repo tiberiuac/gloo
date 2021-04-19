@@ -2,20 +2,18 @@ package install_test
 
 import (
 	"fmt"
-	"path/filepath"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/solo-io/gloo/pkg/version"
 	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/install"
 	"github.com/solo-io/gloo/projects/gloo/cli/pkg/testutils"
-	"github.com/solo-io/go-utils/testutils/exec"
 )
 
 var _ = Describe("Install", func() {
 
 	const licenseKey = "--license-key=fake-license-key"
-	const overrideVersion = "0.20.7"
+	const overrideVersion = "1.7.0-beta11"
 
 	BeforeEach(func() {
 		version.Version = version.UndefinedVersion // we're testing an "unreleased" glooctl
@@ -71,6 +69,16 @@ var _ = Describe("Install", func() {
 		Expect(err).NotTo(HaveOccurred())
 	})
 
+	It("shouldn't install federation when with-gloo-fed is false", func() {
+		_, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --file %s --dry-run %s  --with-gloo-fed=false", file, licenseKey))
+		Expect(err).NotTo(HaveOccurred())
+	})
+
+	It("shouldn't install federation when with-gloo-fed is false without file", func() {
+		_, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --dry-run %s --with-gloo-fed=false", licenseKey))
+		Expect(err).NotTo(HaveOccurred())
+	})
+
 	It("shouldn't get errors when overriding enterprise version", func() {
 		_, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --version %s --dry-run %s", overrideVersion, licenseKey))
 		Expect(err).NotTo(HaveOccurred())
@@ -108,10 +116,24 @@ var _ = Describe("Install", func() {
 	})
 
 	It("should not contain license key for gateway enterprise dry run with open-source chart override", func() {
-		outputYaml, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --file %s --dry-run %s", file, licenseKey))
+		outputYaml, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --file %s --gloo-fed-file %s --dry-run %s", file, file, licenseKey))
 		Expect(err).NotTo(HaveOccurred())
 		Expect(outputYaml).NotTo(BeEmpty())
 		Expect(outputYaml).NotTo(ContainSubstring("license-key"))
+	})
+
+	It("should not contain license key for gateway enterprise dry run with open-source chart override", func() {
+		outputYaml, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --file %s --with-gloo-fed=false --dry-run %s", file, licenseKey))
+		Expect(err).NotTo(HaveOccurred())
+		Expect(outputYaml).NotTo(BeEmpty())
+		Expect(outputYaml).NotTo(ContainSubstring("license-key"))
+	})
+
+	It("shouldn't get errors for enterprise dry run with multiple values", func() {
+		outputYaml, err := testutils.GlooctlOut(fmt.Sprintf("install gateway enterprise --file %s --dry-run --values %s,%s %s", file, values1, values2, licenseKey))
+		Expect(err).NotTo(HaveOccurred())
+		// Test that the values are being merged as we expect
+		Expect(outputYaml).To(ContainSubstring("test-namespace-2\n"))
 	})
 
 	It("should error when not overriding helm chart in dev mode", func() {
@@ -130,14 +152,6 @@ var _ = Describe("Install", func() {
 		_, err := testutils.GlooctlOut("install gateway --file foo.tgz --dry-run")
 		Expect(err).To(HaveOccurred())
 		Expect(err.Error()).To(ContainSubstring("no such file or directory"))
-	})
-
-	It("should not error when providing the admin console flag", func() {
-		// This test fetches the corresponding GlooE helm chart, thus it needs the version that gets linked
-		// into the glooctl binary at build time
-		out, err := exec.RunCommandOutput(RootDir, true, filepath.Join("_output", "glooctl"), "install", "gateway", "--dry-run", "--with-admin-console")
-		Expect(err).NotTo(HaveOccurred())
-		Expect(out).NotTo(BeEmpty())
 	})
 
 	It("should not error when providing a new release-name flag value", func() {

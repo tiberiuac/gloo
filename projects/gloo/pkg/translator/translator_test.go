@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
+
 	envoy_config_cluster_v3 "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	envoy_config_core_v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	envoy_config_endpoint_v3 "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
@@ -78,6 +80,7 @@ var _ = Describe("Translator", func() {
 		endpoints          envoycache.Resources
 		hcmCfg             *envoyhttp.HttpConnectionManager
 		routeConfiguration *envoy_config_route_v3.RouteConfiguration
+		virtualHostName    string
 	)
 
 	beforeEach := func() {
@@ -156,6 +159,7 @@ var _ = Describe("Translator", func() {
 				},
 			},
 		}}
+		virtualHostName = "virt1"
 	}
 	BeforeEach(beforeEach)
 
@@ -171,7 +175,7 @@ var _ = Describe("Translator", func() {
 			ListenerType: &v1.Listener_HttpListener{
 				HttpListener: &v1.HttpListener{
 					VirtualHosts: []*v1.VirtualHost{{
-						Name:    "virt1",
+						Name:    virtualHostName,
 						Domains: []string{"*"},
 						Routes:  routes,
 					}},
@@ -196,6 +200,17 @@ var _ = Describe("Translator", func() {
 											},
 										},
 									},
+								},
+							},
+							SslConfig: &v1.SslConfig{
+								SslSecrets: &v1.SslConfig_SslFiles{
+									SslFiles: &v1.SSLFiles{
+										TlsCert: "cert1",
+										TlsKey:  "key1",
+									},
+								},
+								SniDomains: []string{
+									"sni1",
 								},
 							},
 						},
@@ -345,12 +360,13 @@ var _ = Describe("Translator", func() {
 			_, errs, report, err := translator.Translate(params, proxy)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(errs.Validate()).To(HaveOccurred())
-			Expect(errs.Validate().Error()).To(ContainSubstring("Route Error: InvalidMatcherError. Reason: no path specifier provided"))
+			invalidMatcherName := fmt.Sprintf("%s-route-0", virtualHostName)
+			Expect(errs.Validate().Error()).To(ContainSubstring(fmt.Sprintf("Route Error: InvalidMatcherError. Reason: no path specifier provided. Route Name: %s", invalidMatcherName)))
 			expectedReport := validationutils.MakeReport(proxy)
 			expectedReport.ListenerReports[0].ListenerTypeReport.(*validation.ListenerReport_HttpListenerReport).HttpListenerReport.VirtualHostReports[0].RouteReports[0].Errors = []*validation.RouteReport_Error{
 				{
 					Type:   validation.RouteReport_Error_InvalidMatcherError,
-					Reason: "no path specifier provided",
+					Reason: fmt.Sprintf("no path specifier provided. Route Name: %s", invalidMatcherName),
 				},
 			}
 			Expect(report).To(Equal(expectedReport))
@@ -369,17 +385,24 @@ var _ = Describe("Translator", func() {
 			_, errs, report, err := translator.Translate(params, proxy)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(errs.Validate()).To(HaveOccurred())
-			Expect(errs.Validate().Error()).To(ContainSubstring("Route Error: InvalidMatcherError. Reason: no path specifier provided; Route Error: ProcessingError. Reason: *grpc.plugin: missing path for grpc route"))
+			invalidMatcherName := fmt.Sprintf("%s-route-0", virtualHostName)
+			processingErrorName := fmt.Sprintf("%s-route-0-%s-matcher-0", virtualHostName, routes[0].Name)
+			Expect(errs.Validate().Error()).To(ContainSubstring(
+				fmt.Sprintf(
+					"Route Error: InvalidMatcherError. Reason: no path specifier provided. Route Name: %s; Route Error: ProcessingError. Reason: *grpc.plugin: missing path for grpc route. Route Name: %s",
+					invalidMatcherName,
+					processingErrorName,
+				)))
 
 			expectedReport := validationutils.MakeReport(proxy)
 			expectedReport.ListenerReports[0].ListenerTypeReport.(*validation.ListenerReport_HttpListenerReport).HttpListenerReport.VirtualHostReports[0].RouteReports[0].Errors = []*validation.RouteReport_Error{
 				{
 					Type:   validation.RouteReport_Error_InvalidMatcherError,
-					Reason: "no path specifier provided",
+					Reason: fmt.Sprintf("no path specifier provided. Route Name: %s", invalidMatcherName),
 				},
 				{
 					Type:   validation.RouteReport_Error_ProcessingError,
-					Reason: "*grpc.plugin: missing path for grpc route",
+					Reason: fmt.Sprintf("*grpc.plugin: missing path for grpc route. Route Name: %s", processingErrorName),
 				},
 			}
 			Expect(report).To(Equal(expectedReport))
@@ -1389,11 +1412,12 @@ var _ = Describe("Translator", func() {
 				Expect(err).NotTo(HaveOccurred())
 				Expect(errs.Validate()).To(HaveOccurred())
 				Expect(errs.Validate().Error()).To(ContainSubstring("route has a subset config, but none of the subsets in the upstream match it"))
+				processingErrorName := fmt.Sprintf("%s-route-0-matcher-0", virtualHostName)
 				expectedReport := validationutils.MakeReport(proxy)
 				expectedReport.ListenerReports[0].ListenerTypeReport.(*validation.ListenerReport_HttpListenerReport).HttpListenerReport.VirtualHostReports[0].RouteReports[0].Errors = []*validation.RouteReport_Error{
 					{
 						Type:   validation.RouteReport_Error_ProcessingError,
-						Reason: "route has a subset config, but none of the subsets in the upstream match it.",
+						Reason: fmt.Sprintf("route has a subset config, but none of the subsets in the upstream match it. Route Name: %s", processingErrorName),
 					},
 				}
 				Expect(report).To(Equal(expectedReport))
@@ -2047,8 +2071,10 @@ var _ = Describe("Translator", func() {
 			Expect(ParseTypedConfig(tcpFilter, &typedCfg)).NotTo(HaveOccurred())
 			clusterSpec := typedCfg.GetCluster()
 			Expect(clusterSpec).To(Equal("test_gloo-system"))
+			Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 		})
 	})
+
 	Context("Ssl - cluster", func() {
 
 		var (
@@ -2089,6 +2115,7 @@ var _ = Describe("Translator", func() {
 
 			return glooutils.MustAnyToMessage(cluster.TransportSocket.GetTypedConfig()).(*envoyauth.UpstreamTlsContext)
 		}
+
 		It("should process an upstream with tls config", func() {
 			translate()
 			Expect(tlsContext()).ToNot(BeNil())
@@ -2111,6 +2138,44 @@ var _ = Describe("Translator", func() {
 			translate()
 			Expect(tlsContext()).ToNot(BeNil())
 			Expect(tlsContext().CommonTlsContext.GetValidationContext().TrustedCa.GetInlineString()).To(Equal("rootca"))
+		})
+
+		Context("SslParameters", func() {
+
+			It("should set upstream SslParameters if defined on upstream", func() {
+				upstreamSslParameters := &v1.SslParameters{
+					CipherSuites: []string{"AES256-SHA", "AES256-GCM-SHA384"},
+				}
+
+				settingsSslParameters := &v1.SslParameters{
+					CipherSuites: []string{"ECDHE-RSA-AES128-SHA"},
+				}
+
+				upstream.SslConfig.Parameters = upstreamSslParameters
+				settings.UpstreamOptions = &v1.UpstreamOptions{
+					SslParameters: settingsSslParameters,
+				}
+
+				translate()
+				Expect(tlsContext()).ToNot(BeNil())
+				Expect(tlsContext().CommonTlsContext.TlsParams.CipherSuites).To(Equal(upstreamSslParameters.CipherSuites))
+			})
+
+			It("should set settings.UpstreamOptions SslParameters if none defined on upstream", func() {
+				settingsSslParameters := &v1.SslParameters{
+					CipherSuites: []string{"ECDHE-RSA-AES128-SHA"},
+				}
+
+				upstream.SslConfig.Parameters = nil
+				settings.UpstreamOptions = &v1.UpstreamOptions{
+					SslParameters: settingsSslParameters,
+				}
+
+				translate()
+				Expect(tlsContext()).ToNot(BeNil())
+				Expect(tlsContext().CommonTlsContext.TlsParams.CipherSuites).To(Equal(settingsSslParameters.CipherSuites))
+			})
+
 		})
 
 		Context("failure", func() {
@@ -2196,6 +2261,8 @@ var _ = Describe("Translator", func() {
 				Expect(listener.GetFilterChains()).To(HaveLen(1))
 				fc := listener.GetFilterChains()[0]
 				Expect(tlsContext(fc)).NotTo(BeNil())
+
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 
 			It("should not merge 2 ssl config if they are different", func() {
@@ -2225,6 +2292,7 @@ var _ = Describe("Translator", func() {
 				})
 
 				Expect(listener.GetFilterChains()).To(HaveLen(2))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 
 			It("should merge 2 ssl config if they are the same", func() {
@@ -2250,6 +2318,7 @@ var _ = Describe("Translator", func() {
 				Expect(listener.GetFilterChains()).To(HaveLen(1))
 				fc := listener.GetFilterChains()[0]
 				Expect(tlsContext(fc)).NotTo(BeNil())
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 
 			It("should reject configs if different FilterChains have identical FilterChainMatches", func() {
@@ -2270,6 +2339,7 @@ var _ = Describe("Translator", func() {
 				Expect(report.Errors).NotTo(BeNil())
 				Expect(report.Errors).To(HaveLen(1))
 				Expect(report.Errors[0].Type).To(Equal(validation.ListenerReport_Error_SSLConfigError))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 			It("should combine sni matches", func() {
 				prep([]*v1.SslConfig{
@@ -2300,6 +2370,7 @@ var _ = Describe("Translator", func() {
 				Expect(cert.GetCertificateChain().GetFilename()).To(Equal("cert"))
 				Expect(cert.GetPrivateKey().GetFilename()).To(Equal("key"))
 				Expect(fc.FilterChainMatch.ServerNames).To(Equal([]string{"a.com", "b.com"}))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 			It("should combine 1 that has and 1 that doesn't have sni", func() {
 
@@ -2327,6 +2398,7 @@ var _ = Describe("Translator", func() {
 				fc := listener.GetFilterChains()[0]
 				Expect(tlsContext(fc)).NotTo(BeNil())
 				Expect(fc.FilterChainMatch.ServerNames).To(BeEmpty())
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 		})
 		Context("secret refs", func() {
@@ -2373,6 +2445,7 @@ var _ = Describe("Translator", func() {
 				Expect(cert.GetCertificateChain().GetInlineString()).To(Equal("chain"))
 				Expect(cert.GetPrivateKey().GetInlineString()).To(Equal("key"))
 				Expect(fc.FilterChainMatch.ServerNames).To(Equal([]string{"a.com", "b.com"}))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 			It("should not combine when not matching", func() {
 
@@ -2502,6 +2575,7 @@ var _ = Describe("Translator", func() {
 				Expect(cert.GetPrivateKey().GetInlineString()).To(Equal("key3"))
 				Expect(tlsContext(fc).GetCommonTlsContext().GetValidationContext()).To(BeNil())
 				Expect(fc.FilterChainMatch.ServerNames).To(Equal([]string{"d.com", "e.com"}))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 			It("should error when different parameters have the same sni domains", func() {
 
@@ -2646,6 +2720,7 @@ var _ = Describe("Translator", func() {
 				Expect(params.GetTlsMinimumProtocolVersion().String()).To(Equal("TLSv1_2"))
 				Expect(tlsContext(fc).GetCommonTlsContext().GetValidationContext()).To(BeNil())
 				Expect(fc.FilterChainMatch.ServerNames).To(Equal([]string{"b.com"}))
+				Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 			})
 		})
 	})
@@ -2667,6 +2742,7 @@ var _ = Describe("Translator", func() {
 		Expect(report.VirtualHostReports[0].Errors).To(BeEmpty(), "The virtual host with domain * should not have an error")
 		Expect(report.VirtualHostReports[1].Errors).NotTo(BeEmpty(), "The virtual host with an empty domain should report errors")
 		Expect(report.VirtualHostReports[1].Errors[0].Type).To(Equal(validation.VirtualHostReport_Error_EmptyDomainError), "The error reported for the virtual host with empty domain should be the EmptyDomainError")
+		Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 	})
 })
 

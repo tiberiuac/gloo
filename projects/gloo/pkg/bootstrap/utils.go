@@ -11,7 +11,6 @@ import (
 
 	consulapi "github.com/hashicorp/consul/api"
 	vaultapi "github.com/hashicorp/vault/api"
-	"github.com/solo-io/gloo/pkg/utils/settingsutil"
 	kubeconverters "github.com/solo-io/gloo/projects/gloo/pkg/api/converters/kube"
 	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/k8s-utils/kubeutils"
@@ -108,7 +107,6 @@ func ConfigFactoryForSettings(params ConfigFactoryParams, resourceCrd crd.Crd) (
 			Crd:                resourceCrd,
 			Cfg:                *cfg,
 			SharedCache:        kubeCache,
-			SkipCrdCreation:    settingsutil.GetSkipCrdCreation(),
 			NamespaceWhitelist: settings.WatchNamespaces,
 		}, nil
 	case *v1.Settings_ConsulKvSource:
@@ -159,7 +157,7 @@ func KubeServiceClientForSettings(ctx context.Context,
 	return skkube.NewServiceClientWithBase(inMemoryClient), nil
 }
 
-// sharedCach OR resourceCrd+cfg must be non-nil
+// sharedCache OR resourceCrd+cfg must be non-nil
 func SecretFactoryForSettings(ctx context.Context,
 	settings *v1.Settings,
 	sharedCache memory.InMemoryResourceCache,

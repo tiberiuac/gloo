@@ -175,17 +175,20 @@ ClusterLoop:
 		}
 	}
 
-	// run Cluster Generator Plugins
+	// run Resource Generator Plugins
 	for _, plug := range t.plugins {
-		clusterGeneratorPlugin, ok := plug.(plugins.ClusterGeneratorPlugin)
+		resourceGeneratorPlugin, ok := plug.(plugins.ResourceGeneratorPlugin)
 		if !ok {
 			continue
 		}
-		generated, err := clusterGeneratorPlugin.GeneratedClusters(params)
+		generatedClusters, generatedEndpoints, generatedRouteConfigs, generatedListeners, err := resourceGeneratorPlugin.GeneratedResources(params, clusters, endpoints, routeConfigs, listeners)
 		if err != nil {
 			reports.AddError(proxy, err)
 		}
-		clusters = append(clusters, generated...)
+		clusters = append(clusters, generatedClusters...)
+		endpoints = append(endpoints, generatedEndpoints...)
+		routeConfigs = append(routeConfigs, generatedRouteConfigs...)
+		listeners = append(listeners, generatedListeners...)
 	}
 
 	xdsSnapshot := t.generateXDSSnapshot(clusters, endpoints, routeConfigs, listeners)
@@ -275,7 +278,7 @@ func (t *translatorInstance) generateXDSSnapshot(
 }
 
 func EnvoyCacheResourcesListToFnvHash(resources []envoycache.Resource) uint64 {
-	hasher := fnv.New32()
+	hasher := fnv.New64()
 	// 8kb capacity, consider raising if we find the buffer is frequently being
 	// re-allocated by MarshalAppend to fit larger protos.
 	// the goal is to keep allocations constant for GC, without allocating an
@@ -296,7 +299,7 @@ func EnvoyCacheResourcesListToFnvHash(resources []envoycache.Resource) uint64 {
 			panic(errors.Wrap(err, "constructing hash for envoy snapshot components"))
 		}
 	}
-	return uint64(hasher.Sum32())
+	return hasher.Sum64()
 }
 
 // deprecated, slower than EnvoyCacheResourcesListToFnvHash

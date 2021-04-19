@@ -56,7 +56,7 @@ func (t *translatorInstance) computeCluster(
 	reports reporter.ResourceReports,
 ) *envoy_config_cluster_v3.Cluster {
 	params.Ctx = contextutils.WithLogger(params.Ctx, upstream.Metadata.Name)
-	out := t.initializeCluster(upstream, params.Snapshot.Endpoints, upstreamRefKeyToEndpoints, reports, &params.Snapshot.Secrets)
+	out := t.initializeCluster(upstream, upstreamRefKeyToEndpoints, reports, &params.Snapshot.Secrets)
 
 	for _, plug := range t.plugins {
 		upstreamPlugin, ok := plug.(plugins.UpstreamPlugin)
@@ -77,7 +77,6 @@ func (t *translatorInstance) computeCluster(
 
 func (t *translatorInstance) initializeCluster(
 	upstream *v1.Upstream,
-	endpoints []*v1.Endpoint,
 	upstreamRefKeyToEndpoints map[string][]*v1.Endpoint,
 	reports reporter.ResourceReports,
 	secrets *v1.SecretList,
@@ -101,10 +100,11 @@ func (t *translatorInstance) initializeCluster(
 		OutlierDetection: detectCfg,
 		// this field can be overridden by plugins
 		ConnectTimeout:       ptypes.DurationProto(ClusterConnectionTimeout),
-		Http2ProtocolOptions: getHttp2ptions(upstream),
+		Http2ProtocolOptions: getHttp2options(upstream),
 	}
 
 	if sslConfig := upstream.SslConfig; sslConfig != nil {
+		applyDefaultsToUpstreamSslConfig(sslConfig, t.settings.GetUpstreamOptions())
 		cfg, err := utils.NewSslConfigTranslator().ResolveUpstreamSslConfig(*secrets, sslConfig)
 		if err != nil {
 			reports.AddError(upstream, err)
@@ -149,7 +149,7 @@ func createHealthCheckConfig(upstream *v1.Upstream, secrets *v1.SecretList) ([]*
 			return nil, NilFieldError(fmt.Sprintf("HealthCheck[%d].UnhealthyThreshold", i))
 		}
 		if hc.GetHealthChecker() == nil {
-			return nil, NilFieldError(fmt.Sprintf(fmt.Sprintf("HealthCheck[%d].HealthChecker", i)))
+			return nil, NilFieldError(fmt.Sprintf("HealthCheck[%d].HealthChecker", i))
 		}
 		converted, err := api_conversion.ToEnvoyHealthCheck(hc, secrets)
 		if err != nil {
@@ -161,14 +161,11 @@ func createHealthCheckConfig(upstream *v1.Upstream, secrets *v1.SecretList) ([]*
 }
 
 func createOutlierDetectionConfig(upstream *v1.Upstream) (*envoy_config_cluster_v3.OutlierDetection, error) {
-	if upstream == nil {
-		return nil, nil
-	}
 	if upstream.GetOutlierDetection() == nil {
 		return nil, nil
 	}
 	if upstream.GetOutlierDetection().GetInterval() == nil {
-		return nil, NilFieldError(fmt.Sprintf(fmt.Sprintf("OutlierDetection.HealthChecker")))
+		return nil, NilFieldError("OutlierDetection.HealthChecker.Interval")
 	}
 	return api_conversion.ToEnvoyOutlierDetection(upstream.GetOutlierDetection()), nil
 }
@@ -229,7 +226,7 @@ func getCircuitBreakers(cfgs ...*v1.CircuitBreakerConfig) *envoy_config_cluster_
 	return nil
 }
 
-func getHttp2ptions(us *v1.Upstream) *envoy_config_core_v3.Http2ProtocolOptions {
+func getHttp2options(us *v1.Upstream) *envoy_config_core_v3.Http2ProtocolOptions {
 	if us.GetUseHttp2().GetValue() {
 		return &envoy_config_core_v3.Http2ProtocolOptions{}
 	}
@@ -336,4 +333,16 @@ func validateRouteDestinationForValidLambdas(
 		}
 	}
 
+}
+
+// Apply defaults to UpstreamSslConfig
+func applyDefaultsToUpstreamSslConfig(sslConfig *v1.UpstreamSslConfig, options *v1.UpstreamOptions) {
+	if options == nil {
+		return
+	}
+
+	// Apply default SslParameters if none are defined on upstream
+	if sslConfig.GetParameters() == nil {
+		sslConfig.Parameters = options.GetSslParameters()
+	}
 }

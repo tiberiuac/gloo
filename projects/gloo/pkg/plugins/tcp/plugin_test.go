@@ -3,10 +3,8 @@ package tcp_test
 import (
 	"time"
 
-	envoy_config_listener_v3 "github.com/envoyproxy/go-control-plane/envoy/config/listener/v3"
 	envoytcp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/tcp_proxy/v3"
 	envoyauth "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
-	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
 	"github.com/golang/mock/gomock"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -101,7 +99,8 @@ var _ = Describe("Plugin", func() {
 				MaxConnectAttempts: &wrappers.UInt32Value{
 					Value: 5,
 				},
-				IdleTimeout: prototime.DurationToProto(5 * time.Second),
+				IdleTimeout:     prototime.DurationToProto(5 * time.Second),
+				TunnelingConfig: &tcp.TcpProxySettings_TunnelingConfig{Hostname: "proxyhostname"},
 			}
 			tcpListener = &v1.TcpListener{
 				TcpHosts: []*v1.TcpHost{},
@@ -144,6 +143,7 @@ var _ = Describe("Plugin", func() {
 
 			Expect(cfg.IdleTimeout).To(matchers.MatchProto(tcps.IdleTimeout))
 			Expect(cfg.MaxConnectAttempts).To(matchers.MatchProto(tcps.MaxConnectAttempts))
+			Expect(cfg.TunnelingConfig.GetHostname()).To(Equal(tcps.TunnelingConfig.GetHostname()))
 		})
 
 		It("can transform a single destination", func() {
@@ -173,6 +173,7 @@ var _ = Describe("Plugin", func() {
 			cluster := cfg.GetCluster()
 			Expect(cluster).To(Equal(translatorutil.UpstreamToClusterName(&core.ResourceRef{Namespace: ns, Name: "one"})))
 		})
+
 		It("can transform a multi destination", func() {
 			tcpListener.TcpHosts = append(tcpListener.TcpHosts, &v1.TcpHost{
 				Name: "one",
@@ -199,6 +200,7 @@ var _ = Describe("Plugin", func() {
 			Expect(clusters.Clusters[1].Name).To(Equal(translatorutil.UpstreamToClusterName(&core.ResourceRef{Namespace: ns, Name: "two"})))
 			Expect(clusters.Clusters[1].Weight).To(Equal(uint32(1)))
 		})
+
 		It("can transform an upstream group", func() {
 			snap.UpstreamGroups = append(snap.UpstreamGroups, &v1.UpstreamGroup{
 				Destinations: wd,
@@ -276,64 +278,4 @@ var _ = Describe("Plugin", func() {
 
 	})
 
-	Context("ListenerPlugin", func() {
-		It("will not prepend the TlsInspector when ServerName match present", func() {
-			snap := &v1.ApiSnapshot{}
-			out := &envoy_config_listener_v3.Listener{}
-			tcpListener := &v1.TcpListener{
-				TcpHosts: []*v1.TcpHost{
-					{
-						Name: "one",
-						Destination: &v1.TcpHost_TcpAction{
-							Destination: &v1.TcpHost_TcpAction_ForwardSniClusterName{
-								ForwardSniClusterName: &empty.Empty{},
-							},
-						},
-						SslConfig: &v1.SslConfig{
-							SniDomains: []string{"hello.world"},
-						},
-					},
-				},
-			}
-			listener := &v1.Listener{
-				ListenerType: &v1.Listener_TcpListener{
-					TcpListener: tcpListener,
-				},
-			}
-
-			p := NewPlugin(sslTranslator)
-			err := p.ProcessListener(plugins.Params{Snapshot: snap}, listener, out)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(out.ListenerFilters).To(HaveLen(0))
-		})
-
-		It("will prepend the TlsInspector when NO ServerName match present", func() {
-			snap := &v1.ApiSnapshot{}
-			out := &envoy_config_listener_v3.Listener{}
-			tcpListener := &v1.TcpListener{
-				TcpHosts: []*v1.TcpHost{
-					{
-						Name: "one",
-						Destination: &v1.TcpHost_TcpAction{
-							Destination: &v1.TcpHost_TcpAction_ForwardSniClusterName{
-								ForwardSniClusterName: &empty.Empty{},
-							},
-						},
-					},
-				},
-			}
-			listener := &v1.Listener{
-				ListenerType: &v1.Listener_TcpListener{
-					TcpListener: tcpListener,
-				},
-			}
-
-			p := NewPlugin(sslTranslator)
-			err := p.ProcessListener(plugins.Params{Snapshot: snap}, listener, out)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(out.ListenerFilters).To(HaveLen(1))
-			Expect(out.ListenerFilters[0].GetName()).To(Equal(wellknown.TlsInspector))
-			Expect(out.ListenerFilters[0].GetTypedConfig()).To(BeNil())
-		})
-	})
 })

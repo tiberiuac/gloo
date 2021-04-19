@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net"
 
-	envoy_data_accesslog_v2 "github.com/envoyproxy/go-control-plane/envoy/data/accesslog/v2"
-	pb "github.com/envoyproxy/go-control-plane/envoy/service/accesslog/v2"
+	envoy_data_accesslog_v3 "github.com/envoyproxy/go-control-plane/envoy/data/accesslog/v3"
+	pb "github.com/envoyproxy/go-control-plane/envoy/service/accesslog/v3"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	"github.com/solo-io/gloo/pkg/utils"
 	"github.com/solo-io/gloo/projects/accesslogger/pkg/loggingservice"
@@ -190,7 +190,7 @@ func StartAccessLog(ctx context.Context, clientSettings Settings, service *loggi
 	srv := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{}))
 
 	pb.RegisterAccessLogServiceServer(srv, service)
-	hc := healthchecker.NewGrpc(clientSettings.ServiceName, health.NewServer(), false)
+	hc := healthchecker.NewGrpc(clientSettings.ServiceName, health.NewServer(), false, healthpb.HealthCheckResponse_SERVING)
 	healthpb.RegisterHealthServer(srv, hc.GetServer())
 	reflection.Register(srv)
 
@@ -241,7 +241,7 @@ func getClaimFromJwtInDynamicMetadata(claim string, filterMetadata map[string]*_
 	return ""
 }
 
-func firstToFirstNs(entry *envoy_data_accesslog_v2.HTTPAccessLogEntry) int64 {
+func firstToFirstNs(entry *envoy_data_accesslog_v3.HTTPAccessLogEntry) int64 {
 	timeToFirstUpstreamRxByte := entry.GetCommonProperties().GetTimeToFirstUpstreamRxByte()
 	timeToFirstUpstreamRxByteNs := int64(timeToFirstUpstreamRxByte.GetNanos()) + (timeToFirstUpstreamRxByte.GetSeconds()*1 ^ 9)
 	timeToFirstUpstreamTxByte := entry.GetCommonProperties().GetTimeToFirstUpstreamTxByte()
@@ -252,7 +252,7 @@ func firstToFirstNs(entry *envoy_data_accesslog_v2.HTTPAccessLogEntry) int64 {
 	return upstreamRespTimeNs
 }
 
-func lastToFirstNs(entry *envoy_data_accesslog_v2.HTTPAccessLogEntry) int64 {
+func lastToFirstNs(entry *envoy_data_accesslog_v3.HTTPAccessLogEntry) int64 {
 	timeToFirstUpstreamRxByte := entry.GetCommonProperties().GetTimeToFirstUpstreamRxByte()
 	timeToFirstUpstreamRxByteNs := int64(timeToFirstUpstreamRxByte.GetNanos()) + (timeToFirstUpstreamRxByte.GetSeconds()*1 ^ 9)
 	timeToLastUpstreamTxByte := entry.GetCommonProperties().GetTimeToLastUpstreamTxByte()

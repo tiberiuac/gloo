@@ -23,13 +23,21 @@ Gloo Edge Federation is installed in an admin cluster, which may or may not incl
 
 The `glooctl` tool uses Helm in the background to perform the deployment of Gloo Edge Federation. By default, the deployment will create the `gloo-fed` namespace and instantiate the Gloo Edge Federation components in that namespace. Additional information and flags can be found by running `glooctl install federation -h`. You can override the default settings by specify the `--values` argument and providing a yaml file with the necessary values.
 
-With your kubectl context set to the admin cluster, run the following command:
+Gloo Edge Federation is installed alongside Gloo Enterprise automatically. With your kubectl context set to the admin cluster, run the following command:
+
+```
+glooctl install gateway enterprise --license-key <LICENSE_KEY>
+```
+
+The `--with-gloo-fed=false` flag can be used to install only Gloo Enterprise without Gloo Edge Federation.
+
+Gloo Edge Federation can also be installed independently of Gloo Edge Enterprise. With your kubectl context set to the admin cluster, run the following command:
 
 ```
 glooctl install federation --license-key <LICENSE_KEY>
 ```
 
-Make sure to change the placeholder `<LICENSE_KEY>` to the license key you have procured for Gloo Edge Federation.
+Make sure to change the placeholder `<LICENSE_KEY>` to the license key you have procured for Gloo Edge Enterprise.
 
 The installation will create the necessary Kubernetes components for running Gloo Edge Federation.
 
@@ -50,7 +58,7 @@ helm repo update
 kubectl create namespace gloo-fed
 
 # Install using helm
-helm install -n gloo-fed gloo-fed gloo-fed/gloo-fed --set license.key <LICENSE_KEY>
+helm install -n gloo-fed gloo-fed gloo-fed/gloo-fed --set license_key <LICENSE_KEY>
 ```
 
 Make sure to change the placeholder `<LICENSE_KEY>` to the license key you have procured for Gloo Edge Federation.
@@ -118,6 +126,20 @@ glooinstances.fed.solo.io                          2020-07-21T02:00:15Z
 ```
 
 Your instance of Gloo Edge Federation has now been successfully deployed. The next step is to register clusters with Gloo Edge Federation.
+
+## Uninstall {#uninstall}
+
+To uninstall only the Gloo Federation namespace and CRDs, run the following.
+
+```shell
+glooctl uninstall federation --all
+```
+
+To uninstall Gloo Edge Enterprise, Federation and all related components, simply run the following.
+
+```shell
+glooctl uninstall --all
+```
 
 ## Next Steps
 

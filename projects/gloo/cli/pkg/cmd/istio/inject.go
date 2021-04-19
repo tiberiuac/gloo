@@ -7,14 +7,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ghodss/yaml"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/golang/protobuf/ptypes/duration"
 	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/istio/sidecars"
 	"github.com/solo-io/gloo/projects/gloo/cli/pkg/cmd/options"
 	"github.com/solo-io/gloo/projects/gloo/cli/pkg/helpers"
 	"github.com/solo-io/go-utils/cliutils"
-
-	"github.com/ghodss/yaml"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/ptypes/duration"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
@@ -59,9 +58,6 @@ func Inject(opts *options.Options, optionsFunc ...cliutils.OptionsFunc) *cobra.C
 		Short: "Enable SDS & istio-proxy sidecars in gateway-proxy pod",
 		Long: "Adds an istio-proxy sidecar to the gateway-proxy pod for mTLS certificate generation purposes. " +
 			"Also adds an sds sidecar to the gateway-proxy pod for mTLS certificate rotation purposes.",
-		PreRunE: func(cmd *cobra.Command, args []string) error {
-			return nil
-		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			err := istioInject(args, opts)
 			if err != nil {
@@ -80,6 +76,8 @@ func Inject(opts *options.Options, optionsFunc ...cliutils.OptionsFunc) *cobra.C
 func istioInject(args []string, opts *options.Options) error {
 	glooNS := opts.Metadata.Namespace
 	istioNS := opts.Istio.Namespace
+	istioMetaMeshID := getIstioMetaMeshID(opts.Istio.IstioMetaMeshId)
+	istioMetaClusterID := getIstioMetaClusterID(opts.Istio.IstioMetaClusterId)
 
 	client := helpers.MustKubeClient()
 	_, err := client.CoreV1().Namespaces().Get(opts.Top.Ctx, glooNS, metav1.GetOptions{})
@@ -87,7 +85,20 @@ func istioInject(args []string, opts *options.Options) error {
 		return err
 	}
 
-	// Add gateway_proxy_sds configmap
+	// It would be preferable to delegate to the control plane to manage
+	// the sds cluster. However, doing so produces the following error:
+	//
+	//		gRPC config for type.googleapis.com/envoy.config.cluster.v3.Cluster rejected:
+	//		Error adding/updating cluster(s) [CLUSTER NAME]:
+	//		envoy.config.core.v3.ApiConfigSource must have a statically defined non-EDS cluster:
+	//		[CLUSTER NAME] does not exist, was added via api, or is an EDS cluster
+	//
+	// There is an open envoy issue to track this bug/feature request:
+	// https://github.com/envoyproxy/envoy/issues/12954
+	// Tracking Gloo Issue: https://github.com/solo-io/gloo/issues/4398
+	//
+	// To get around this, we write the gateway_proxy_sds cluster into the configmap that
+	// gateway-proxy loads at bootstrap time.
 	configMaps, err := client.CoreV1().ConfigMaps(glooNS).List(opts.Top.Ctx, metav1.ListOptions{})
 	for _, configMap := range configMaps.Items {
 		if configMap.Name == gatewayProxyConfigMap {
@@ -131,7 +142,7 @@ func istioInject(args []string, opts *options.Options) error {
 			if err != nil {
 				return err
 			}
-			err = addIstioSidecar(opts.Top.Ctx, &deployment, istioNS)
+			err = addIstioSidecar(opts.Top.Ctx, &deployment, istioNS, istioMetaMeshID, istioMetaClusterID)
 			if err != nil {
 				return err
 			}
@@ -161,7 +172,7 @@ func addSdsSidecar(ctx context.Context, deployment *appsv1.Deployment, glooNames
 }
 
 // addIstioSidecar adds an Istio sidecar to the given deployment's containers
-func addIstioSidecar(ctx context.Context, deployment *appsv1.Deployment, istioNamespace string) error {
+func addIstioSidecar(ctx context.Context, deployment *appsv1.Deployment, istioNamespace string, istioMetaMeshID string, istioMetaClusterID string) error {
 	// Get current istio version & JWT policy from cluster
 	istioPilotContainer, err := getIstiodContainer(ctx, istioNamespace)
 	if err != nil {
@@ -177,7 +188,7 @@ func addIstioSidecar(ctx context.Context, deployment *appsv1.Deployment, istioNa
 	jwtPolicy := getJWTPolicy(istioPilotContainer)
 
 	// Get the appropriate sidecar based on Istio configuration currently deployed
-	istioSidecar, err := sidecars.GetIstioSidecar(istioVersion, jwtPolicy)
+	istioSidecar, err := sidecars.GetIstioSidecar(istioVersion, jwtPolicy, istioMetaMeshID, istioMetaClusterID)
 	if err != nil {
 		return err
 	}

@@ -71,7 +71,7 @@ func NewSetupFunc() setuputils.SetupFunc {
 //noinspection GoUnusedExportedFunction
 func NewSetupFuncWithExtensions(extensions Extensions) setuputils.SetupFunc {
 	runWithExtensions := func(opts bootstrap.Opts) error {
-		return RunGlooWithExtensions(opts, extensions)
+		return RunGlooWithExtensions(opts, extensions, make(chan struct{}))
 	}
 	return NewSetupFuncWithRunAndExtensions(runWithExtensions, &extensions)
 }
@@ -364,15 +364,18 @@ func GetPluginsWithExtensions(opts bootstrap.Opts, extensions Extensions) func()
 }
 
 func RunGloo(opts bootstrap.Opts) error {
-	return RunGlooWithExtensions(opts, Extensions{
-		SyncerExtensions: []syncer.TranslatorSyncerExtensionFactory{
-			ratelimitExt.NewTranslatorSyncerExtension,
-			extauthExt.NewTranslatorSyncerExtension,
-		},
-	})
+	return RunGlooWithExtensions(
+		opts,
+		Extensions{
+			SyncerExtensions: []syncer.TranslatorSyncerExtensionFactory{
+				ratelimitExt.NewTranslatorSyncerExtension,
+				extauthExt.NewTranslatorSyncerExtension,
+			}},
+		make(chan struct{}),
+	)
 }
 
-func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions) error {
+func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions, apiEmitterChan chan struct{}) error {
 	watchOpts := opts.WatchOpts.WithDefaults()
 	opts.WatchOpts.Ctx = contextutils.WithLogger(opts.WatchOpts.Ctx, "gloo")
 
@@ -495,7 +498,7 @@ func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions) error {
 
 	go errutils.AggregateErrs(watchOpts.Ctx, errs, edsErrs, "eds.gloo")
 
-	apiCache := v1.NewApiEmitter(
+	apiCache := v1.NewApiEmitterWithEmit(
 		artifactClient,
 		endpointClient,
 		proxyClient,
@@ -504,6 +507,7 @@ func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions) error {
 		hybridUsClient,
 		authConfigClient,
 		rlClient,
+		apiEmitterChan,
 	)
 
 	rpt := reporter.NewReporter("gloo",
@@ -516,11 +520,6 @@ func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions) error {
 
 	t := translator.NewTranslator(sslutils.NewSslConfigTranslator(), opts.Settings, getPlugins)
 
-	validator := validation.NewValidator(watchOpts.Ctx, t)
-	if opts.ValidationServer.Server != nil {
-		opts.ValidationServer.Server.SetValidator(validator)
-	}
-
 	routeReplacingSanitizer, err := sanitizer.NewRouteReplacingSanitizer(opts.Settings.GetGloo().GetInvalidConfigPolicy())
 	if err != nil {
 		return err
@@ -529,6 +528,11 @@ func RunGlooWithExtensions(opts bootstrap.Opts, extensions Extensions) error {
 	xdsSanitizer := sanitizer.XdsSanitizers{
 		sanitizer.NewUpstreamRemovingSanitizer(),
 		routeReplacingSanitizer,
+	}
+
+	validator := validation.NewValidator(watchOpts.Ctx, t, xdsSanitizer)
+	if opts.ValidationServer.Server != nil {
+		opts.ValidationServer.Server.SetValidator(validator)
 	}
 
 	params := syncer.TranslatorSyncerExtensionParams{

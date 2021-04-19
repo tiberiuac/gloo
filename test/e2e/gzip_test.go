@@ -64,7 +64,7 @@ var _ = Describe("gzip", func() {
 		// run envoy
 		envoyInstance, err = envoyFactory.NewEnvoyInstance()
 		Expect(err).NotTo(HaveOccurred())
-		err = envoyInstance.RunWithRole(writeNamespace+"~"+gatewaydefaults.GatewayProxyName, testClients.GlooPort)
+		err = envoyInstance.RunWithRoleAndRestXds(writeNamespace+"~"+gatewaydefaults.GatewayProxyName, testClients.GlooPort, testClients.RestXdsPort)
 		Expect(err).NotTo(HaveOccurred())
 
 		// write a test upstream
@@ -167,6 +167,18 @@ var _ = Describe("gzip", func() {
 			}
 			_, err = gatewayClient.Write(gw, clients.WriteOpts{Ctx: ctx, OverwriteExisting: true})
 			Expect(err).NotTo(HaveOccurred())
+
+			// Wait until the gateway is written
+			Eventually(func() error {
+				readGateway, err := gatewayClient.Read(writeNamespace, gatewaydefaults.GatewayProxyName, clients.ReadOpts{})
+				if err != nil {
+					return err
+				}
+				if readGateway.GetHttpGateway() == nil || readGateway.GetHttpGateway().GetOptions() == nil || readGateway.GetHttpGateway().GetOptions().Gzip == nil {
+					return fmt.Errorf("gzip not set, new gateway is not yet written")
+				}
+				return nil
+			}, "15s", "0.5s").ShouldNot(HaveOccurred())
 
 			// write a virtual service so we have a proxy to our test upstream
 			testVs := getTrivialVirtualServiceForUpstream(writeNamespace, up.Metadata.Ref())
