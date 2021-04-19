@@ -251,7 +251,7 @@ var _ = Describe("Staged Transformation", func() {
 		})
 
 		FIt("should apply transforms from vhost and route level", func() {
-			setProxyWithModifier(&transformation.TransformationStages{
+			vhostTransform := &transformation.TransformationStages{
 				Regular: &transformation.RequestResponseTransformations{
 					ResponseTransforms: []*transformation.ResponseMatch{{
 						ResponseTransformation: &envoytransformation.Transformation{
@@ -266,7 +266,8 @@ var _ = Describe("Staged Transformation", func() {
 						},
 					}},
 				},
-			}, func(vhost *gloov1.VirtualHost) {
+			}
+			setProxyWithModifier(vhostTransform, func(vhost *gloov1.VirtualHost) {
 				vhost.GetRoutes()[0].Options = &gloov1.RouteOptions{
 					StagedTransformations: &transformation.TransformationStages{
 						Regular: &transformation.RequestResponseTransformations{
@@ -293,8 +294,58 @@ var _ = Describe("Staged Transformation", func() {
 				response, err = http.DefaultClient.Get(fmt.Sprintf("http://localhost:%d/1", envoyPort))
 				return err
 			}, "30s", "1s").ShouldNot(HaveOccurred())
-			//Expect(response.Header.Get("x-solo-1")).NotTo(BeEmpty())
-			Expect(response.Header.Get("x-solo-2")).NotTo(BeEmpty())
+			// Only route level transformations should be applied here.
+			Expect(response.Header.Get("x-solo-2")).To(Equal("route header"))
+			Expect(response.Header.Get("x-solo-1")).To(BeEmpty())
+		})
+
+		FIt("should apply transforms from vhost and route level", func() {
+			vhostTransform := &transformation.TransformationStages{
+				Regular: &transformation.RequestResponseTransformations{
+					ResponseTransforms: []*transformation.ResponseMatch{{
+						ResponseTransformation: &envoytransformation.Transformation{
+							TransformationType: &envoytransformation.Transformation_TransformationTemplate{
+								TransformationTemplate: &envoytransformation.TransformationTemplate{
+									ParseBodyBehavior: envoytransformation.TransformationTemplate_DontParse,
+									Headers: map[string]*envoytransformation.InjaTemplate{
+										"x-solo-1": {Text: "vhost header"},
+									},
+								},
+							},
+						},
+					}},
+				},
+			}
+			setProxyWithModifier(vhostTransform, func(vhost *gloov1.VirtualHost) {
+				vhost.GetRoutes()[0].Options = &gloov1.RouteOptions{
+					StagedTransformations: &transformation.TransformationStages{
+						Regular: &transformation.RequestResponseTransformations{
+							ResponseTransforms: []*transformation.ResponseMatch{{
+								ResponseTransformation: &envoytransformation.Transformation{
+									TransformationType: &envoytransformation.Transformation_TransformationTemplate{
+										TransformationTemplate: &envoytransformation.TransformationTemplate{
+											ParseBodyBehavior: envoytransformation.TransformationTemplate_DontParse,
+											Headers: map[string]*envoytransformation.InjaTemplate{
+												"x-solo-2": {Text: "route header"},
+											},
+										},
+									},
+								},
+							}},
+						},
+					},
+				}
+			})
+			TestUpstreamReachable()
+			var response *http.Response
+			Eventually(func() error {
+				var err error
+				response, err = http.DefaultClient.Get(fmt.Sprintf("http://localhost:%d/1", envoyPort))
+				return err
+			}, "30s", "1s").ShouldNot(HaveOccurred())
+			// Only route level transformations should be applied here.
+			Expect(response.Header.Get("x-solo-2")).To(Equal("route header"))
+			Expect(response.Header.Get("x-solo-1")).To(BeEmpty())
 		})
 	})
 

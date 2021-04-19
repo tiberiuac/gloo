@@ -200,7 +200,7 @@ func (rv *routeVisitor) visit(
 			}
 
 			// merge StagedTransformations config from virtualHost to child route
-			inheritableTransformations(routeClone,
+			inheritableStagedTransformations(routeClone,
 				reporterHelper.topLevelVirtualService.GetVirtualHost().GetOptions().GetStagedTransformations())
 		}
 
@@ -472,7 +472,7 @@ func validateAndMergeParentRoute(child *gatewayv1.Route, parent *routeInfo) (*ga
 		}
 	}
 
-	inheritableTransformations(child, parent.options.GetStagedTransformations())
+	inheritableStagedTransformations(child, parent.options.GetStagedTransformations())
 
 	// Verify that the matchers are compatible with the parent prefix
 	if err := isRouteTableValidForDelegateMatcher(parent.matcher, child); err != nil {
@@ -559,25 +559,27 @@ func buildCycleInfoString(routeTables gatewayv1.RouteTableList) string {
 	return strings.Join(visitedTables, " -> ")
 }
 
-func inheritableTransformations(child *gatewayv1.Route, parentTransformationStages *transformation.TransformationStages) {
+func inheritableStagedTransformations(child *gatewayv1.Route, parentTransformationStages *transformation.TransformationStages) {
+	childTransformationStages := child.GetOptions().GetStagedTransformations()
 	// inherit transformation config from parent
 	if child.GetInheritableStagedTransformation().GetValue() {
-		mergeTransformations(child.GetOptions().GetStagedTransformations().GetRegular(),
+		mergeTransformations(&childTransformationStages.Regular,
 			parentTransformationStages.GetRegular())
-		mergeTransformations(child.GetOptions().GetStagedTransformations().GetEarly(),
+		mergeTransformations(&childTransformationStages.Early,
 			parentTransformationStages.GetEarly())
 	}
 
 }
 
-func mergeTransformations(childTransformations *transformation.RequestResponseTransformations, parentTransformations *transformation.RequestResponseTransformations) {
+func mergeTransformations(childTransformationsPtr **transformation.RequestResponseTransformations, parentTransformations *transformation.RequestResponseTransformations) {
 	if parentTransformations == nil {
 		// no transformations from parent to merge in
 		return
 	}
+	childTransformations := *childTransformationsPtr
 	if childTransformations == nil {
 		// if child has no transformation config, merge in parent config
-		childTransformations = parentTransformations
+		*childTransformationsPtr = parentTransformations
 		return
 	}
 	// Append transformations from parent after child transformation

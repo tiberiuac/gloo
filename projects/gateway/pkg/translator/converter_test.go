@@ -622,7 +622,7 @@ var _ = Describe("Route converter", func() {
 						},
 					},
 				}
-				rtOnlyTransformation = &transformation.Transformation{
+				routeOnlyTransformation = &transformation.Transformation{
 					TransformationType: &transformation.Transformation_TransformationTemplate{
 						TransformationTemplate: &transformation.TransformationTemplate{
 							Headers: map[string]*transformation.InjaTemplate{
@@ -755,6 +755,33 @@ var _ = Describe("Route converter", func() {
 					RequestTransformation: vsOnlyTransformation,
 				}))
 
+			})
+
+			It("merges transformations from different stages to child routes", func() {
+				vs.GetVirtualHost().GetOptions().GetStagedTransformations().Early =
+					vs.GetVirtualHost().GetOptions().GetStagedTransformations().GetRegular()
+				vs.GetVirtualHost().GetOptions().GetStagedTransformations().Regular = nil
+
+				rpt := reporter.ResourceReports{}
+				converted, err := rv.ConvertVirtualService(vs, rpt)
+				Expect(rpt).To(HaveLen(0))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(converted).To(HaveLen(1))
+				regularStageTransforms := converted[0].GetOptions().GetStagedTransformations().GetRegular().GetRequestTransforms()
+				earlyStageTransforms := converted[0].GetOptions().GetStagedTransformations().GetEarly().GetRequestTransforms()
+				Expect(regularStageTransforms).To(HaveLen(2))
+				Expect(earlyStageTransforms).To(HaveLen(1))
+
+				By("verify order of transformations, child first")
+				Expect(regularStageTransforms[0]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: routeOnlyTransformation,
+				}))
+				Expect(regularStageTransforms[1]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: rtOnlyTransformation,
+				}))
+				Expect(earlyStageTransforms[0]).To(Equal(&transformation1.RequestMatch{
+					RequestTransformation: vsOnlyTransformation,
+				}))
 			})
 		})
 	})
