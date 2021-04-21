@@ -213,15 +213,21 @@ spec:
     - http01:
         ingress:
           serviceType: ClusterIP
+          podTemplate:
+            metadata:
+              labels:
+                role: acme-solver
       selector:
         dnsNames:
         - $(glooctl proxy address | cut -f 1 -d ':').nip.io
 EOF
 ```
 
-Notice the use of the `http01` solver. By default, cert-manager will create a `Service` of type `NodePort` to be routed via an `Ingress`. However, since we are running Gloo Edge in gateway mode, incoming traffic is routed via a `VirtualService` and does not require a `NodePort`, so we are explicitly setting the `serviceType` to `ClusterIP`. 
+Notice the use of the `http01` solver. By default, cert-manager will create a `Service` of type `NodePort` to be routed via an `Ingress`. However, since we are running Gloo Edge in gateway mode, incoming traffic is routed via a `VirtualService` and does not require a `NodePort`, so we are explicitly setting the `serviceType` to `ClusterIP`.
 
-Additionally, we are specifying the `dnsName` to be a [nip.io](https://nip.io/) subdomain with the IP of our external facing LoadBalancer IP. The inline command uses `glooctl proxy address` to get the external facing IP address of our proxy and we append the 'nip.io' domain, leaving us with a domain that looks something like: `34.71.xx.xx.nip.io`.
+Additionally, note the `podTemplate` object. That will add the given labels to the solver pod. This way, the (ephemeral) solver pod gets a consistent identity that we can target from a Kubernetes Service.
+
+Finally, if you want to force the HTTP01 challenge on a given domain, you can list it under the `dnsName` attribute. Here, it's a [nip.io](https://nip.io/) subdomain with the IP of our external facing LoadBalancer IP. The inline command uses `glooctl proxy address` to get the external facing IP address of our proxy and we append the 'nip.io' domain, leaving us with a domain that looks something like: `34.71.xx.xx.nip.io`.
 
 ### Create the Certificate
 
@@ -245,47 +251,49 @@ spec:
 EOF
 ```
 
-Once this `Certificate` resource is created, behind the scenes cert-manager will create the relevant `CertificateRequest` and `Order` resources. To satisfy this 'order', cert-manager will spin up a pod and service that will present the correct token.
+Once this `Certificate` resource is created, behind the scenes cert-manager will create the relevant `CertificateRequest` and `Order` resources. To satisfy this 'order', cert-manager will spin up a 'solver' pod and service that will present the correct token.
 
-### Routing to the cert-manager pod
+In our case, we will create the Service manually, so that it has a well-known name, `acme-solver`:
 
-Now that the pod which will serve this token is created, we need to configure Gloo Edge to route to it. In this case, we will create a Virtual Service for our custom domain that will route requests for the path `/.well-known/acme-challenge/<TOKEN>` to the cert-manager created pod.
-
-We can see this pod present in our `default` namespace:
-```shell
-% kubectl get pod
-NAME                        READY   STATUS    RESTARTS   AGE
-cm-acme-http-solver-s69mw   1/1     Running   0          1m6s
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: acme-solver
+  namespace: default
+spec:
+  ports:
+    - port: 8089
+      protocol: TCP
+      targetPort: 8089
+  selector:
+    role: acme-solver
 ```
 
-And the `Service` that corresponds to it:
-```shell
-% kubectl get service
-NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                               AGE
-cm-acme-http-solver-f6mdb   ClusterIP      10.35.254.161   <none>           8089/TCP                              2m5s
-```
+Now depending on whether or not you disable the Discovery service, you might need to create yourself the Upstream object, referencing our `acme-solver` Service.
 
 With Upstream discovery enabled, an Upstream to this `Service` will automatically be generated:
 ```shell
-% glooctl get us default-cm-acme-http-solver-f6mdb-8089
+% glooctl get us default-acme-solver-8089
 +----------------------------------------+------------+----------+--------------------------------+
 |                UPSTREAM                |    TYPE    |  STATUS  |            DETAILS             |
 +----------------------------------------+------------+----------+--------------------------------+
-| default-cm-acme-http-solver-f6mdb-8089 | Kubernetes | Accepted | svc name:                      |
-|                                        |            |          | cm-acme-http-solver-f6mdb      |
+| default-acme-solver-8089               | Kubernetes | Accepted | svc name:                      |
+|                                        |            |          | acme-solver                    |
 |                                        |            |          | svc namespace: default         |
 |                                        |            |          | port:          8089            |
 |                                        |            |          |                                |
 +----------------------------------------+------------+----------+--------------------------------+
 ```
 
-In order to view the `token` value for this `Order`, we can inspect the `Order` itself:
+Or, with Upstream discovery disabled, you can run this command to quicky get your Upstream:
 ```shell
-kubectl get orders.acme.cert-manager.io nip-io-556035424-1317610542 -o=jsonpath='{.status.authorizations[0].challenges[?(@.type=="http-01")].token}'
-q5x9q1C4pPg1RtDEiXK9aMAb9ExpepU4Pp14pGKDPXo
+glooctl create upstream kube --name default-acme-solver-8089 --namespace gloo-system --kube-service acme-solver --kube-service-namespace default --kube-service-port 8089
 ```
 
-Now we have all the information necessary to create a Virtual Service to route to this pod at the expected path:
+### Routing to the cert-manager pod
+
+Now that the pod which will serve this token is created, we can create a new route to this pod at the expected path:
 
 ```shell
 cat << EOF | kubectl apply -f -
@@ -300,11 +308,11 @@ spec:
     - $(glooctl proxy address | cut -f 1 -d ':').nip.io
     routes:
     - matchers:
-      - exact: /.well-known/acme-challenge/q5x9q1C4pPg1RtDEiXK9aMAb9ExpepU4Pp14pGKDPXo
+      - prefix: /.well-known/acme-challenge/
       routeAction:
         single:
           upstream:
-            name: default-cm-acme-http-solver-f6mdb-8089
+            name: default-acme-solver-8089
             namespace: gloo-system
 EOF
 ```
@@ -328,7 +336,11 @@ kubectl apply -f https://raw.githubusercontent.com/solo-io/gloo/v1.2.9/example/p
 
 Then, we configure our Virtual Service to use our newly created TLS secret and route to the petstore application:
 ```shell
-cat << EOF | kubectl apply -f -
+glooctl edit vs --name letsencrypt --namespace gloo-system --ssl-secret-name nip-io-tls --ssl-secret-namespace default
+```
+
+That will generate something like this:
+```yaml
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
@@ -350,7 +362,6 @@ spec:
     secretRef:
       name: nip-io-tls
       namespace: default
-EOF
 ```
 
 Now we can `curl` the service:
