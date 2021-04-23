@@ -1,0 +1,6 @@
+changelog:
+  - type: NON_USER_FACING
+    description: >-
+      Update the doc about Let's Encrypt integration. There is no more manual intervention
+      to fetch the token and to adjust the path to the solver pod. It uses labels and this
+      makes routing more natural.
