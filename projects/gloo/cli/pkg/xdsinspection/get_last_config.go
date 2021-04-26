@@ -20,10 +20,12 @@ import (
 	envoyhttp "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	envoyutil "github.com/envoyproxy/go-control-plane/pkg/conversion"
 	"github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/jsonpb"
+	proto2 "github.com/golang/protobuf/proto"
 	"github.com/rotisserie/eris"
+	"github.com/solo-io/gloo/projects/gloo/pkg/api/external/envoy/extensions/extauth"
 	"github.com/solo-io/gloo/projects/gloo/pkg/defaults"
 	"github.com/solo-io/go-utils/contextutils"
-	"github.com/solo-io/go-utils/protoutils"
 	"google.golang.org/grpc"
 	"sigs.k8s.io/yaml"
 )
@@ -31,6 +33,10 @@ import (
 const (
 	envoySidecarConfig = "envoy-sidecar-config"
 )
+
+func init() {
+	proto2.RegisterType((*extauth.Sanitize)(nil), "envoy.config.filter.http.sanitize.v2.Sanitize")
+}
 
 func GetGlooXdsDump(ctx context.Context, proxyName, namespace string, verboseErrors bool) (*XdsDump, error) {
 
@@ -294,9 +300,11 @@ func (xd *XdsDump) String() string {
 }
 
 func toYaml(pb proto.Message) ([]byte, error) {
-	jsn, err := protoutils.MarshalBytes(pb)
+	buf := &bytes.Buffer{}
+	jpb := &jsonpb.Marshaler{}
+	err := jpb.Marshal(buf, pb)
 	if err != nil {
 		return nil, err
 	}
-	return yaml.JSONToYAML(jsn)
+	return yaml.JSONToYAML(buf.Bytes())
 }
