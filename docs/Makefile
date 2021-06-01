@@ -24,7 +24,7 @@ IMAGE_REPO := $(GCR_REPO_PREFIX)/gloo-docs
 PRODUCT_SCOPE := gloo
 
 HUGO_VERSION := 0.69.2
-SOLO_HUGO_THEME_REVISION := 5a29d20f92fabafb2e41ec0576320e284b624c5e
+SOLO_HUGO_THEME_REVISION := cfeb6176705f27da8e370fb3b20dc1514dcc4d9b
 
 #----------------------------------------------------------------------------------
 # Docs
