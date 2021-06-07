@@ -82,7 +82,9 @@ func (t *HttpTranslator) GenerateListeners(ctx context.Context, snap *v1.ApiSnap
 
 		virtualServices := getVirtualServicesForGateway(gateway, snap.VirtualServices)
 		validateVirtualServiceDomains(gateway, virtualServices, reports)
-		flattenVhOpts(virtualServices, snap.VirtualHostOptions, reports)
+		// Merge deligated options into route options
+		// Route options specified on the Route override delegated options
+		//flattenVhOpts(virtualServices, snap.VirtualHostOptions, reports)
 		listener := t.desiredListenerForHttp(gateway, snap, reports)
 		result = append(result, listener)
 	}
@@ -98,17 +100,12 @@ func flattenVhOpts(virtualServices v1.VirtualServiceList, options v1.VirtualHost
 				reports.AddError(vs, err)
 				continue
 			}
-			err = mergeVhostOptions(vs.GetVirtualHost().GetOptions(), vhOption.GetOptions())
+			err = mergo.Merge(vs.GetVirtualHost().GetOptions(), vhOption.GetOptions())
 			if err != nil {
 				reports.AddError(vs, err)
 			}
 		}
 	}
-}
-
-func mergeVhostOptions(topLevelOptions, options *gloov1.VirtualHostOptions) error {
-	err := mergo.Merge(topLevelOptions, options, mergo.WithOverride)
-	return err
 }
 
 // Errors will be added to the report object.
