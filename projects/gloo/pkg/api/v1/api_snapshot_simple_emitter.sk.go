@@ -107,10 +107,6 @@ func (c *apiSimpleEmitter) Snapshots(ctx context.Context) (<-chan *ApiSnapshot, 
 						currentSnapshot.AuthConfigs = append(currentSnapshot.AuthConfigs, typed)
 					case *github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfig:
 						currentSnapshot.Ratelimitconfigs = append(currentSnapshot.Ratelimitconfigs, typed)
-					case *VirtualHostOption:
-						currentSnapshot.VirtualHostOptions = append(currentSnapshot.VirtualHostOptions, typed)
-					case *RouteOption:
-						currentSnapshot.RouteOptions = append(currentSnapshot.RouteOptions, typed)
 					default:
 						select {
 						case errs <- fmt.Errorf("ApiSnapshotEmitter "+

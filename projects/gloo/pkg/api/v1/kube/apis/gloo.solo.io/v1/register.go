@@ -33,8 +33,6 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&EndpointList{},
 		&Proxy{},
 		&ProxyList{},
-		&RouteOption{},
-		&RouteOptionList{},
 		&Secret{},
 		&SecretList{},
 		&Settings{},
@@ -43,8 +41,6 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&UpstreamList{},
 		&UpstreamGroup{},
 		&UpstreamGroupList{},
-		&VirtualHostOption{},
-		&VirtualHostOptionList{},
 	)
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)
 	return nil

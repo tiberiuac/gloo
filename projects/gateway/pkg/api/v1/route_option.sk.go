@@ -151,7 +151,7 @@ var (
 var (
 	RouteOptionGVK = schema.GroupVersionKind{
 		Version: "v1",
-		Group:   "gloo.solo.io",
+		Group:   "gateway.solo.io",
 		Kind:    "RouteOption",
 	}
 )

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/imdario/mergo"
+
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
 
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -63,7 +65,7 @@ var (
 type RouteConverter interface {
 	// Converts a VirtualService to a set of Gloo API routes (i.e. routes on a Proxy resource).
 	// A non-nil error indicates an unexpected internal failure, all configuration errors are added to the given report object.
-	ConvertVirtualService(virtualService *gatewayv1.VirtualService, reports reporter.ResourceReports) ([]*gloov1.Route, error)
+	ConvertVirtualService(virtualService *gatewayv1.VirtualService, snapshot *gatewayv1.ApiSnapshot, reports reporter.ResourceReports) ([]*gloov1.Route, error)
 }
 
 func NewRouteConverter(selector RouteTableSelector, indexer RouteTableIndexer) RouteConverter {
@@ -127,6 +129,7 @@ type routeInfo struct {
 type reporterHelper struct {
 	reports                reporter.ResourceReports
 	topLevelVirtualService *gatewayv1.VirtualService
+	snapshot               *gatewayv1.ApiSnapshot
 }
 
 func (r *reporterHelper) addError(resource resources.InputResource, err error) {
@@ -147,7 +150,7 @@ func (r *reporterHelper) addWarning(resource resources.InputResource, err error)
 	}
 }
 
-func (rv *routeVisitor) ConvertVirtualService(virtualService *gatewayv1.VirtualService, reports reporter.ResourceReports) ([]*gloov1.Route, error) {
+func (rv *routeVisitor) ConvertVirtualService(virtualService *gatewayv1.VirtualService, snapshot *gatewayv1.ApiSnapshot, reports reporter.ResourceReports) ([]*gloov1.Route, error) {
 	wrapper := &visitableVirtualService{VirtualService: virtualService}
 	return rv.visit(
 		wrapper,
@@ -156,6 +159,7 @@ func (rv *routeVisitor) ConvertVirtualService(virtualService *gatewayv1.VirtualS
 		&reporterHelper{
 			reports:                reports,
 			topLevelVirtualService: virtualService,
+			snapshot:               snapshot,
 		},
 	)
 }
@@ -178,6 +182,20 @@ func (rv *routeVisitor) visit(
 		// Determine route name
 		name, routeHasName := routeName(resource.InputResource(), routeClone, parentRoute)
 		routeClone.Name = name
+
+		optionRefs := routeClone.GetDelegateOption().GetRefs()
+		for _, optionRef := range optionRefs {
+			routeOpts, err := reporterHelper.snapshot.RouteOptions.Find(optionRef.GetNamespace(), optionRef.GetName())
+			if err != nil {
+				reporterHelper.addError(resource.InputResource(), err)
+				continue
+			}
+			err = mergo.Merge(routeClone.GetOptions(), routeOpts)
+			if err != nil {
+				reporterHelper.addError(resource.InputResource(), err)
+				continue
+			}
+		}
 
 		// If the parent route is not nil, this route has been delegated to and we need to perform additional operations
 		if parentRoute != nil {
@@ -456,6 +474,7 @@ func validateAndMergeParentRoute(child *gatewayv1.Route, parent *routeInfo) (*ga
 			childMatch.QueryParameters = append(parent.matcher.QueryParameters, childMatch.QueryParameters...)
 		}
 	}
+	// If child has inheritTransformations specified, append transformations from parent to child route
 	if child.GetOptions().GetStagedTransformations().GetInheritTransformation() {
 		inheritStagedTransformations(child, parent.options.GetStagedTransformations())
 	}
@@ -466,6 +485,7 @@ func validateAndMergeParentRoute(child *gatewayv1.Route, parent *routeInfo) (*ga
 	}
 
 	// Merge options from parent routes
+	// If an option is defined on a parent route, it will override the child route's option
 	merged, err := mergeRouteOptions(child.GetOptions(), parent.options)
 	if err != nil {
 		// Should never happen

@@ -17,30 +17,26 @@ import (
 )
 
 type ApiSnapshot struct {
-	Artifacts          ArtifactList
-	Endpoints          EndpointList
-	Proxies            ProxyList
-	UpstreamGroups     UpstreamGroupList
-	Secrets            SecretList
-	Upstreams          UpstreamList
-	AuthConfigs        enterprise_gloo_solo_io.AuthConfigList
-	Ratelimitconfigs   github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList
-	VirtualHostOptions VirtualHostOptionList
-	RouteOptions       RouteOptionList
+	Artifacts        ArtifactList
+	Endpoints        EndpointList
+	Proxies          ProxyList
+	UpstreamGroups   UpstreamGroupList
+	Secrets          SecretList
+	Upstreams        UpstreamList
+	AuthConfigs      enterprise_gloo_solo_io.AuthConfigList
+	Ratelimitconfigs github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList
 }
 
 func (s ApiSnapshot) Clone() ApiSnapshot {
 	return ApiSnapshot{
-		Artifacts:          s.Artifacts.Clone(),
-		Endpoints:          s.Endpoints.Clone(),
-		Proxies:            s.Proxies.Clone(),
-		UpstreamGroups:     s.UpstreamGroups.Clone(),
-		Secrets:            s.Secrets.Clone(),
-		Upstreams:          s.Upstreams.Clone(),
-		AuthConfigs:        s.AuthConfigs.Clone(),
-		Ratelimitconfigs:   s.Ratelimitconfigs.Clone(),
-		VirtualHostOptions: s.VirtualHostOptions.Clone(),
-		RouteOptions:       s.RouteOptions.Clone(),
+		Artifacts:        s.Artifacts.Clone(),
+		Endpoints:        s.Endpoints.Clone(),
+		Proxies:          s.Proxies.Clone(),
+		UpstreamGroups:   s.UpstreamGroups.Clone(),
+		Secrets:          s.Secrets.Clone(),
+		Upstreams:        s.Upstreams.Clone(),
+		AuthConfigs:      s.AuthConfigs.Clone(),
+		Ratelimitconfigs: s.Ratelimitconfigs.Clone(),
 	}
 }
 
@@ -70,12 +66,6 @@ func (s ApiSnapshot) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 	if _, err := s.hashRatelimitconfigs(hasher); err != nil {
-		return 0, err
-	}
-	if _, err := s.hashVirtualHostOptions(hasher); err != nil {
-		return 0, err
-	}
-	if _, err := s.hashRouteOptions(hasher); err != nil {
 		return 0, err
 	}
 	return hasher.Sum64(), nil
@@ -121,14 +111,6 @@ func (s ApiSnapshot) hashRatelimitconfigs(hasher hash.Hash64) (uint64, error) {
 	return hashutils.HashAllSafe(hasher, s.Ratelimitconfigs.AsInterfaces()...)
 }
 
-func (s ApiSnapshot) hashVirtualHostOptions(hasher hash.Hash64) (uint64, error) {
-	return hashutils.HashAllSafe(hasher, s.VirtualHostOptions.AsInterfaces()...)
-}
-
-func (s ApiSnapshot) hashRouteOptions(hasher hash.Hash64) (uint64, error) {
-	return hashutils.HashAllSafe(hasher, s.RouteOptions.AsInterfaces()...)
-}
-
 func (s ApiSnapshot) HashFields() []zap.Field {
 	var fields []zap.Field
 	hasher := fnv.New64()
@@ -172,16 +154,6 @@ func (s ApiSnapshot) HashFields() []zap.Field {
 		log.Println(eris.Wrapf(err, "error hashing, this should never happen"))
 	}
 	fields = append(fields, zap.Uint64("ratelimitconfigs", RatelimitconfigsHash))
-	VirtualHostOptionsHash, err := s.hashVirtualHostOptions(hasher)
-	if err != nil {
-		log.Println(eris.Wrapf(err, "error hashing, this should never happen"))
-	}
-	fields = append(fields, zap.Uint64("virtualHostOptions", VirtualHostOptionsHash))
-	RouteOptionsHash, err := s.hashRouteOptions(hasher)
-	if err != nil {
-		log.Println(eris.Wrapf(err, "error hashing, this should never happen"))
-	}
-	fields = append(fields, zap.Uint64("routeOptions", RouteOptionsHash))
 	snapshotHash, err := s.Hash(hasher)
 	if err != nil {
 		log.Println(eris.Wrapf(err, "error hashing, this should never happen"))
@@ -190,17 +162,15 @@ func (s ApiSnapshot) HashFields() []zap.Field {
 }
 
 type ApiSnapshotStringer struct {
-	Version            uint64
-	Artifacts          []string
-	Endpoints          []string
-	Proxies            []string
-	UpstreamGroups     []string
-	Secrets            []string
-	Upstreams          []string
-	AuthConfigs        []string
-	Ratelimitconfigs   []string
-	VirtualHostOptions []string
-	RouteOptions       []string
+	Version          uint64
+	Artifacts        []string
+	Endpoints        []string
+	Proxies          []string
+	UpstreamGroups   []string
+	Secrets          []string
+	Upstreams        []string
+	AuthConfigs      []string
+	Ratelimitconfigs []string
 }
 
 func (ss ApiSnapshotStringer) String() string {
@@ -246,16 +216,6 @@ func (ss ApiSnapshotStringer) String() string {
 		s += fmt.Sprintf("    %v\n", name)
 	}
 
-	s += fmt.Sprintf("  VirtualHostOptions %v\n", len(ss.VirtualHostOptions))
-	for _, name := range ss.VirtualHostOptions {
-		s += fmt.Sprintf("    %v\n", name)
-	}
-
-	s += fmt.Sprintf("  RouteOptions %v\n", len(ss.RouteOptions))
-	for _, name := range ss.RouteOptions {
-		s += fmt.Sprintf("    %v\n", name)
-	}
-
 	return s
 }
 
@@ -265,16 +225,14 @@ func (s ApiSnapshot) Stringer() ApiSnapshotStringer {
 		log.Println(eris.Wrapf(err, "error hashing, this should never happen"))
 	}
 	return ApiSnapshotStringer{
-		Version:            snapshotHash,
-		Artifacts:          s.Artifacts.NamespacesDotNames(),
-		Endpoints:          s.Endpoints.NamespacesDotNames(),
-		Proxies:            s.Proxies.NamespacesDotNames(),
-		UpstreamGroups:     s.UpstreamGroups.NamespacesDotNames(),
-		Secrets:            s.Secrets.NamespacesDotNames(),
-		Upstreams:          s.Upstreams.NamespacesDotNames(),
-		AuthConfigs:        s.AuthConfigs.NamespacesDotNames(),
-		Ratelimitconfigs:   s.Ratelimitconfigs.NamespacesDotNames(),
-		VirtualHostOptions: s.VirtualHostOptions.NamespacesDotNames(),
-		RouteOptions:       s.RouteOptions.NamespacesDotNames(),
+		Version:          snapshotHash,
+		Artifacts:        s.Artifacts.NamespacesDotNames(),
+		Endpoints:        s.Endpoints.NamespacesDotNames(),
+		Proxies:          s.Proxies.NamespacesDotNames(),
+		UpstreamGroups:   s.UpstreamGroups.NamespacesDotNames(),
+		Secrets:          s.Secrets.NamespacesDotNames(),
+		Upstreams:        s.Upstreams.NamespacesDotNames(),
+		AuthConfigs:      s.AuthConfigs.NamespacesDotNames(),
+		Ratelimitconfigs: s.Ratelimitconfigs.NamespacesDotNames(),
 	}
 }

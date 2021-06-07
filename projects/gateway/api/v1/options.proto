@@ -1,0 +1,70 @@
+syntax = "proto3";
+package gateway.solo.io;
+option go_package = "github.com/solo-io/gloo/projects/gateway/pkg/api/v1";
+
+import "extproto/ext.proto";
+option (extproto.equal_all) = true;
+option (extproto.hash_all) = true;
+
+import "google/protobuf/wrappers.proto";
+import "github.com/solo-io/solo-kit/api/v1/metadata.proto";
+import "github.com/solo-io/solo-kit/api/v1/status.proto";
+import "github.com/solo-io/solo-kit/api/v1/ref.proto";
+import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
+import "github.com/solo-io/gloo/projects/gloo/api/v1/options.proto";
+
+
+message VirtualHostOption {
+
+  option (core.solo.io.resource).short_name = "vsopts";
+  option (core.solo.io.resource).plural_name = "virtual_host_options";
+
+  // Display only, optional descriptive name.
+  // Unlike metadata.name, DisplayName can be any string
+  // and can be changed after creating the resource.
+  string display_name = 1 [(extproto.skip_hashing) = true];
+
+  // Status indicates the validation status of this resource.
+  // Status is read-only by clients, and set by gloo during validation
+  core.solo.io.Status status = 2 [(extproto.skip_hashing) = true];
+
+  // Metadata contains the object metadata for this resource
+  core.solo.io.Metadata metadata = 3;
+
+  // Virtual host options
+  gloo.solo.io.VirtualHostOptions options = 4;
+}
+
+// Reference to the VirtualHostOption CRD
+message VirtualHostOptionRefs {
+  repeated core.solo.io.ResourceRef refs = 1;
+}
+
+message RouteOption {
+
+  // RouteOption ref
+
+  option (core.solo.io.resource).short_name = "rtopts";
+  option (core.solo.io.resource).plural_name = "route_options";
+
+
+  // Display only, optional descriptive name.
+  // Unlike metadata.name, DisplayName can be any string
+  // and can be changed after creating the resource.
+  string display_name = 1 [(extproto.skip_hashing) = true];
+
+  // Status indicates the validation status of this resource.
+  // Status is read-only by clients, and set by gloo during validation
+  core.solo.io.Status status = 2 [(extproto.skip_hashing) = true];
+
+  // Metadata contains the object metadata for this resource
+  core.solo.io.Metadata metadata = 3;
+
+  // Route options
+  gloo.solo.io.RouteOptions options = 4;
+}
+
+// Reference to the RouteOption CRD
+message RouteOptionRefs {
+  repeated core.solo.io.ResourceRef refs = 1;
+}

@@ -133,8 +133,6 @@ func (t *translatorInstance) computeVirtualHost(
 		RequireTls: envoyRequireTls,
 	}
 
-	computeVirtualHostOptions(virtualHost)
-
 	// run the plugins
 	for _, plug := range t.plugins {
 		virtualHostPlugin, ok := plug.(plugins.VirtualHostPlugin)
@@ -447,14 +445,6 @@ func (t *translatorInstance) setWeightedClusters(params plugins.RouteParams, mul
 	clusterSpecifier.WeightedClusters.TotalWeight = &wrappers.UInt32Value{Value: totalWeight}
 
 	out.ClusterSpecifier = clusterSpecifier
-	return nil
-}
-
-// Flattens options referenced in optionsRef
-func computeVirtualHostOptions(vhost *v1.VirtualHost) error {
-	for _, _ = range vhost.GetOptions().GetOptionsRefs().GetRefs() {
-
-	}
 	return nil
 }
 

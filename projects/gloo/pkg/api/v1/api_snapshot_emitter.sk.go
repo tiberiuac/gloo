@@ -91,42 +91,36 @@ type ApiEmitter interface {
 	Upstream() UpstreamClient
 	AuthConfig() enterprise_gloo_solo_io.AuthConfigClient
 	RateLimitConfig() github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient
-	VirtualHostOption() VirtualHostOptionClient
-	RouteOption() RouteOptionClient
 }
 
-func NewApiEmitter(artifactClient ArtifactClient, endpointClient EndpointClient, proxyClient ProxyClient, upstreamGroupClient UpstreamGroupClient, secretClient SecretClient, upstreamClient UpstreamClient, authConfigClient enterprise_gloo_solo_io.AuthConfigClient, rateLimitConfigClient github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient, virtualHostOptionClient VirtualHostOptionClient, routeOptionClient RouteOptionClient) ApiEmitter {
-	return NewApiEmitterWithEmit(artifactClient, endpointClient, proxyClient, upstreamGroupClient, secretClient, upstreamClient, authConfigClient, rateLimitConfigClient, virtualHostOptionClient, routeOptionClient, make(chan struct{}))
+func NewApiEmitter(artifactClient ArtifactClient, endpointClient EndpointClient, proxyClient ProxyClient, upstreamGroupClient UpstreamGroupClient, secretClient SecretClient, upstreamClient UpstreamClient, authConfigClient enterprise_gloo_solo_io.AuthConfigClient, rateLimitConfigClient github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient) ApiEmitter {
+	return NewApiEmitterWithEmit(artifactClient, endpointClient, proxyClient, upstreamGroupClient, secretClient, upstreamClient, authConfigClient, rateLimitConfigClient, make(chan struct{}))
 }
 
-func NewApiEmitterWithEmit(artifactClient ArtifactClient, endpointClient EndpointClient, proxyClient ProxyClient, upstreamGroupClient UpstreamGroupClient, secretClient SecretClient, upstreamClient UpstreamClient, authConfigClient enterprise_gloo_solo_io.AuthConfigClient, rateLimitConfigClient github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient, virtualHostOptionClient VirtualHostOptionClient, routeOptionClient RouteOptionClient, emit <-chan struct{}) ApiEmitter {
+func NewApiEmitterWithEmit(artifactClient ArtifactClient, endpointClient EndpointClient, proxyClient ProxyClient, upstreamGroupClient UpstreamGroupClient, secretClient SecretClient, upstreamClient UpstreamClient, authConfigClient enterprise_gloo_solo_io.AuthConfigClient, rateLimitConfigClient github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient, emit <-chan struct{}) ApiEmitter {
 	return &apiEmitter{
-		artifact:          artifactClient,
-		endpoint:          endpointClient,
-		proxy:             proxyClient,
-		upstreamGroup:     upstreamGroupClient,
-		secret:            secretClient,
-		upstream:          upstreamClient,
-		authConfig:        authConfigClient,
-		rateLimitConfig:   rateLimitConfigClient,
-		virtualHostOption: virtualHostOptionClient,
-		routeOption:       routeOptionClient,
-		forceEmit:         emit,
+		artifact:        artifactClient,
+		endpoint:        endpointClient,
+		proxy:           proxyClient,
+		upstreamGroup:   upstreamGroupClient,
+		secret:          secretClient,
+		upstream:        upstreamClient,
+		authConfig:      authConfigClient,
+		rateLimitConfig: rateLimitConfigClient,
+		forceEmit:       emit,
 	}
 }
 
 type apiEmitter struct {
-	forceEmit         <-chan struct{}
-	artifact          ArtifactClient
-	endpoint          EndpointClient
-	proxy             ProxyClient
-	upstreamGroup     UpstreamGroupClient
-	secret            SecretClient
-	upstream          UpstreamClient
-	authConfig        enterprise_gloo_solo_io.AuthConfigClient
-	rateLimitConfig   github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient
-	virtualHostOption VirtualHostOptionClient
-	routeOption       RouteOptionClient
+	forceEmit       <-chan struct{}
+	artifact        ArtifactClient
+	endpoint        EndpointClient
+	proxy           ProxyClient
+	upstreamGroup   UpstreamGroupClient
+	secret          SecretClient
+	upstream        UpstreamClient
+	authConfig      enterprise_gloo_solo_io.AuthConfigClient
+	rateLimitConfig github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient
 }
 
 func (c *apiEmitter) Register() error {
@@ -152,12 +146,6 @@ func (c *apiEmitter) Register() error {
 		return err
 	}
 	if err := c.rateLimitConfig.Register(); err != nil {
-		return err
-	}
-	if err := c.virtualHostOption.Register(); err != nil {
-		return err
-	}
-	if err := c.routeOption.Register(); err != nil {
 		return err
 	}
 	return nil
@@ -193,14 +181,6 @@ func (c *apiEmitter) AuthConfig() enterprise_gloo_solo_io.AuthConfigClient {
 
 func (c *apiEmitter) RateLimitConfig() github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigClient {
 	return c.rateLimitConfig
-}
-
-func (c *apiEmitter) VirtualHostOption() VirtualHostOptionClient {
-	return c.virtualHostOption
-}
-
-func (c *apiEmitter) RouteOption() RouteOptionClient {
-	return c.routeOption
 }
 
 func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts) (<-chan *ApiSnapshot, <-chan error, error) {
@@ -283,22 +263,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 	rateLimitConfigChan := make(chan rateLimitConfigListWithNamespace)
 
 	var initialRateLimitConfigList github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList
-	/* Create channel for VirtualHostOption */
-	type virtualHostOptionListWithNamespace struct {
-		list      VirtualHostOptionList
-		namespace string
-	}
-	virtualHostOptionChan := make(chan virtualHostOptionListWithNamespace)
-
-	var initialVirtualHostOptionList VirtualHostOptionList
-	/* Create channel for RouteOption */
-	type routeOptionListWithNamespace struct {
-		list      RouteOptionList
-		namespace string
-	}
-	routeOptionChan := make(chan routeOptionListWithNamespace)
-
-	var initialRouteOptionList RouteOptionList
 
 	currentSnapshot := ApiSnapshot{}
 
@@ -447,42 +411,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 			defer done.Done()
 			errutils.AggregateErrs(ctx, errs, rateLimitConfigErrs, namespace+"-ratelimitconfigs")
 		}(namespace)
-		/* Setup namespaced watch for VirtualHostOption */
-		{
-			virtualHostOptions, err := c.virtualHostOption.List(namespace, clients.ListOpts{Ctx: opts.Ctx, Selector: opts.Selector})
-			if err != nil {
-				return nil, nil, errors.Wrapf(err, "initial VirtualHostOption list")
-			}
-			initialVirtualHostOptionList = append(initialVirtualHostOptionList, virtualHostOptions...)
-		}
-		virtualHostOptionNamespacesChan, virtualHostOptionErrs, err := c.virtualHostOption.Watch(namespace, opts)
-		if err != nil {
-			return nil, nil, errors.Wrapf(err, "starting VirtualHostOption watch")
-		}
-
-		done.Add(1)
-		go func(namespace string) {
-			defer done.Done()
-			errutils.AggregateErrs(ctx, errs, virtualHostOptionErrs, namespace+"-virtualHostOptions")
-		}(namespace)
-		/* Setup namespaced watch for RouteOption */
-		{
-			routeOptions, err := c.routeOption.List(namespace, clients.ListOpts{Ctx: opts.Ctx, Selector: opts.Selector})
-			if err != nil {
-				return nil, nil, errors.Wrapf(err, "initial RouteOption list")
-			}
-			initialRouteOptionList = append(initialRouteOptionList, routeOptions...)
-		}
-		routeOptionNamespacesChan, routeOptionErrs, err := c.routeOption.Watch(namespace, opts)
-		if err != nil {
-			return nil, nil, errors.Wrapf(err, "starting RouteOption watch")
-		}
-
-		done.Add(1)
-		go func(namespace string) {
-			defer done.Done()
-			errutils.AggregateErrs(ctx, errs, routeOptionErrs, namespace+"-routeOptions")
-		}(namespace)
 
 		/* Watch for changes and update snapshot */
 		go func(namespace string) {
@@ -562,24 +490,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 						return
 					case rateLimitConfigChan <- rateLimitConfigListWithNamespace{list: rateLimitConfigList, namespace: namespace}:
 					}
-				case virtualHostOptionList, ok := <-virtualHostOptionNamespacesChan:
-					if !ok {
-						return
-					}
-					select {
-					case <-ctx.Done():
-						return
-					case virtualHostOptionChan <- virtualHostOptionListWithNamespace{list: virtualHostOptionList, namespace: namespace}:
-					}
-				case routeOptionList, ok := <-routeOptionNamespacesChan:
-					if !ok {
-						return
-					}
-					select {
-					case <-ctx.Done():
-						return
-					case routeOptionChan <- routeOptionListWithNamespace{list: routeOptionList, namespace: namespace}:
-					}
 				}
 			}
 		}(namespace)
@@ -600,10 +510,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 	currentSnapshot.AuthConfigs = initialAuthConfigList.Sort()
 	/* Initialize snapshot for Ratelimitconfigs */
 	currentSnapshot.Ratelimitconfigs = initialRateLimitConfigList.Sort()
-	/* Initialize snapshot for VirtualHostOptions */
-	currentSnapshot.VirtualHostOptions = initialVirtualHostOptionList.Sort()
-	/* Initialize snapshot for RouteOptions */
-	currentSnapshot.RouteOptions = initialRouteOptionList.Sort()
 
 	snapshots := make(chan *ApiSnapshot)
 	go func() {
@@ -643,8 +549,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 		upstreamsByNamespace := make(map[string]UpstreamList)
 		authConfigsByNamespace := make(map[string]enterprise_gloo_solo_io.AuthConfigList)
 		ratelimitconfigsByNamespace := make(map[string]github_com_solo_io_gloo_projects_gloo_pkg_api_external_solo_ratelimit.RateLimitConfigList)
-		virtualHostOptionsByNamespace := make(map[string]VirtualHostOptionList)
-		routeOptionsByNamespace := make(map[string]RouteOptionList)
 		defer func() {
 			close(snapshots)
 			// we must wait for done before closing the error chan,
@@ -839,50 +743,6 @@ func (c *apiEmitter) Snapshots(watchNamespaces []string, opts clients.WatchOpts)
 					rateLimitConfigList = append(rateLimitConfigList, ratelimitconfigs...)
 				}
 				currentSnapshot.Ratelimitconfigs = rateLimitConfigList.Sort()
-			case virtualHostOptionNamespacedList, ok := <-virtualHostOptionChan:
-				if !ok {
-					return
-				}
-				record()
-
-				namespace := virtualHostOptionNamespacedList.namespace
-
-				skstats.IncrementResourceCount(
-					ctx,
-					namespace,
-					"virtual_host_option",
-					mApiResourcesIn,
-				)
-
-				// merge lists by namespace
-				virtualHostOptionsByNamespace[namespace] = virtualHostOptionNamespacedList.list
-				var virtualHostOptionList VirtualHostOptionList
-				for _, virtualHostOptions := range virtualHostOptionsByNamespace {
-					virtualHostOptionList = append(virtualHostOptionList, virtualHostOptions...)
-				}
-				currentSnapshot.VirtualHostOptions = virtualHostOptionList.Sort()
-			case routeOptionNamespacedList, ok := <-routeOptionChan:
-				if !ok {
-					return
-				}
-				record()
-
-				namespace := routeOptionNamespacedList.namespace
-
-				skstats.IncrementResourceCount(
-					ctx,
-					namespace,
-					"route_option",
-					mApiResourcesIn,
-				)
-
-				// merge lists by namespace
-				routeOptionsByNamespace[namespace] = routeOptionNamespacedList.list
-				var routeOptionList RouteOptionList
-				for _, routeOptions := range routeOptionsByNamespace {
-					routeOptionList = append(routeOptionList, routeOptions...)
-				}
-				currentSnapshot.RouteOptions = routeOptionList.Sort()
 			}
 		}
 	}()
