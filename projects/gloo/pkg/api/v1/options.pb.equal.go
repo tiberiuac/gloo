@@ -529,6 +529,16 @@ func (m *VirtualHostOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetOptionsRefs()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptionsRefs()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptionsRefs(), target.GetOptionsRefs()) {
+			return false
+		}
+	}
+
 	switch m.RateLimitConfigType.(type) {
 
 	case *VirtualHostOptions_Ratelimit:
@@ -605,6 +615,105 @@ func (m *VirtualHostOptions) Equal(that interface{}) bool {
 		if m.JwtConfig != target.JwtConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualHostOption) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualHostOption)
+	if !ok {
+		that2, ok := that.(VirtualHostOption)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetDisplayName(), target.GetDisplayName()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetStatus()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetStatus(), target.GetStatus()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMetadata()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMetadata(), target.GetMetadata()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *VirtualHostOptionRefs) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*VirtualHostOptionRefs)
+	if !ok {
+		that2, ok := that.(VirtualHostOptionRefs)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetRefs()) != len(target.GetRefs()) {
+		return false
+	}
+	for idx, v := range m.GetRefs() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetRefs()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetRefs()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true
@@ -865,6 +974,16 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 		}
 	}
 
+	if h, ok := interface{}(m.GetOptionsRefs()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptionsRefs()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptionsRefs(), target.GetOptionsRefs()) {
+			return false
+		}
+	}
+
 	switch m.HostRewriteType.(type) {
 
 	case *RouteOptions_HostRewrite:
@@ -974,6 +1093,105 @@ func (m *RouteOptions) Equal(that interface{}) bool {
 		if m.JwtConfig != target.JwtConfig {
 			return false
 		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *RouteOption) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteOption)
+	if !ok {
+		that2, ok := that.(RouteOption)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if strings.Compare(m.GetDisplayName(), target.GetDisplayName()) != 0 {
+		return false
+	}
+
+	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetStatus()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetStatus(), target.GetStatus()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetMetadata()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetMetadata(), target.GetMetadata()) {
+			return false
+		}
+	}
+
+	if h, ok := interface{}(m.GetOptions()).(equality.Equalizer); ok {
+		if !h.Equal(target.GetOptions()) {
+			return false
+		}
+	} else {
+		if !proto.Equal(m.GetOptions(), target.GetOptions()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Equal function
+func (m *RouteOptionRefs) Equal(that interface{}) bool {
+	if that == nil {
+		return m == nil
+	}
+
+	target, ok := that.(*RouteOptionRefs)
+	if !ok {
+		that2, ok := that.(RouteOptionRefs)
+		if ok {
+			target = &that2
+		} else {
+			return false
+		}
+	}
+	if target == nil {
+		return m == nil
+	} else if m == nil {
+		return false
+	}
+
+	if len(m.GetRefs()) != len(target.GetRefs()) {
+		return false
+	}
+	for idx, v := range m.GetRefs() {
+
+		if h, ok := interface{}(v).(equality.Equalizer); ok {
+			if !h.Equal(target.GetRefs()[idx]) {
+				return false
+			}
+		} else {
+			if !proto.Equal(v, target.GetRefs()[idx]) {
+				return false
+			}
+		}
+
 	}
 
 	return true

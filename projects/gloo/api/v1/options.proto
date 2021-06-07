@@ -44,6 +44,8 @@ import "github.com/solo-io/gloo/projects/gloo/api/v1/enterprise/options/waf/waf.
 import "github.com/solo-io/gloo/projects/gloo/api/v1/enterprise/options/dlp/dlp.proto";
 import "github.com/solo-io/gloo/projects/gloo/api/v1/options/transformation/transformation.proto";
 
+//import "github.com/solo-io/gloo/projects/gateway/api/v1/virtual_service.proto";
+
 import "github.com/solo-io/solo-kit/api/external/envoy/api/v2/core/base.proto";
 import "github.com/solo-io/solo-kit/api/external/envoy/api/v2/core/socket_option.proto";
 
@@ -254,6 +256,9 @@ message VirtualHostOptions {
     // If the `regular` field is set in here, the `transformations` field is ignored.
     transformation.options.gloo.solo.io.TransformationStages staged_transformations = 17;
 
+    // Delegate options to external VirtualHostOptions CRD
+//    gateway.solo.io.VirtualHostOptionRefs options_refs = 20;
+
 }
 
 // Optional, feature-specific configuration that lives on routes.
@@ -383,8 +388,11 @@ message RouteOptions {
     // Please refer to the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/v1.14.1/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-routeaction-regex-rewrite)
     // for more details about the `regex_rewrite` attribute
     .solo.io.envoy.type.matcher.v3.RegexMatchAndSubstitute regex_rewrite = 27;
-}
 
+    // Delegate options to external VirtualHostOptions CRD
+//    gateway.solo.io.RouteOptionRefs options_refs = 28;
+
+}
 // Configuration for Destinations that are tied to the UpstreamSpec or ServiceSpec on that destination
 message DestinationSpec {
     // Note to developers: new DestinationSpecs must be added to this oneof field

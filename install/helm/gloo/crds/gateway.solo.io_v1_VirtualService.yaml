@@ -973,6 +973,21 @@ spec:
                               type: object
                           type: object
                       type: object
+                    optionsRefs:
+                      description: Delegate options to external VirtualHostOptions
+                        CRD
+                      properties:
+                        refs:
+                          items:
+                            description: A way to reference resources across namespaces
+                            properties:
+                              name:
+                                type: string
+                              namespace:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
                     rateLimitConfigs:
                       description: References to RateLimitConfig resources. This is
                         used to configure the GlooE rate limit server. Only one of
@@ -4418,6 +4433,22 @@ spec:
                                         policies and limiting the time Envoy spends
                                         generating hash keys.
                                       type: boolean
+                                  type: object
+                                type: array
+                            type: object
+                          optionsRefs:
+                            description: Delegate options to external VirtualHostOptions
+                              CRD
+                            properties:
+                              refs:
+                                items:
+                                  description: A way to reference resources across
+                                    namespaces
+                                  properties:
+                                    name:
+                                      type: string
+                                    namespace:
+                                      type: string
                                   type: object
                                 type: array
                             type: object

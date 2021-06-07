@@ -452,6 +452,12 @@ apis:
   gloo.solo.io.RouteConfigurationOptions:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#RouteConfigurationOptions
     package: gloo.solo.io
+  gloo.solo.io.RouteOption:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#RouteOption
+    package: gloo.solo.io
+  gloo.solo.io.RouteOptionRefs:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#RouteOptionRefs
+    package: gloo.solo.io
   gloo.solo.io.RouteOptions:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#RouteOptions
     package: gloo.solo.io
@@ -517,6 +523,12 @@ apis:
     package: gloo.solo.io
   gloo.solo.io.VirtualHost:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/proxy.proto.sk/#VirtualHost
+    package: gloo.solo.io
+  gloo.solo.io.VirtualHostOption:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#VirtualHostOption
+    package: gloo.solo.io
+  gloo.solo.io.VirtualHostOptionRefs:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#VirtualHostOptionRefs
     package: gloo.solo.io
   gloo.solo.io.VirtualHostOptions:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options.proto.sk/#VirtualHostOptions

@@ -803,6 +803,21 @@ spec:
                               type: object
                             type: array
                         type: object
+                      optionsRefs:
+                        description: Delegate options to external VirtualHostOptions
+                          CRD
+                        properties:
+                          refs:
+                            items:
+                              description: A way to reference resources across namespaces
+                              properties:
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       prefixRewrite:
                         description: For requests matched on this route, rewrite the
                           HTTP request path to the provided value before forwarding

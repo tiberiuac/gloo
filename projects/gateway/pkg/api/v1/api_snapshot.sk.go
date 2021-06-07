@@ -17,6 +17,7 @@ type ApiSnapshot struct {
 	VirtualServices VirtualServiceList
 	RouteTables     RouteTableList
 	Gateways        GatewayList
+	// expect something here
 }
 
 func (s ApiSnapshot) Clone() ApiSnapshot {
