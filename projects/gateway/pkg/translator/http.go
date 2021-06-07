@@ -84,8 +84,8 @@ func (t *HttpTranslator) GenerateListeners(ctx context.Context, snap *v1.ApiSnap
 		validateVirtualServiceDomains(gateway, virtualServices, reports)
 		// Merge deligated options into route options
 		// Route options specified on the Route override delegated options
-		//flattenVhOpts(virtualServices, snap.VirtualHostOptions, reports)
-		listener := t.desiredListenerForHttp(gateway, snap, reports)
+		flattenVhOpts(virtualServices, snap.VirtualHostOptions, reports)
+		listener := t.desiredListenerForHttp(gateway, virtualServices, snap, reports)
 		result = append(result, listener)
 	}
 	return result
@@ -224,13 +224,11 @@ func hasSsl(vs *v1.VirtualService) bool {
 	return vs.SslConfig != nil
 }
 
-func (t *HttpTranslator) desiredListenerForHttp(gateway *v1.Gateway, snapshot *v1.ApiSnapshot, reports reporter.ResourceReports) *gloov1.Listener {
+func (t *HttpTranslator) desiredListenerForHttp(gateway *v1.Gateway, virtualServicesForGateway v1.VirtualServiceList, snapshot *v1.ApiSnapshot, reports reporter.ResourceReports) *gloov1.Listener {
 	var (
 		virtualHosts []*gloov1.VirtualHost
 		sslConfigs   []*gloov1.SslConfig
 	)
-
-	virtualServicesForGateway := snapshot.VirtualServices
 
 	for _, virtualService := range virtualServicesForGateway.Sort() {
 		if virtualService.VirtualHost == nil {
