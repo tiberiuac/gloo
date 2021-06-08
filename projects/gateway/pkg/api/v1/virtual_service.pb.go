@@ -320,7 +320,15 @@ type VirtualHost struct {
 	Routes []*Route `protobuf:"bytes,3,rep,name=routes,proto3" json:"routes,omitempty"`
 	// Virtual host options contain additional configuration to be applied to all traffic served by the Virtual Host.
 	// Some configuration here can be overridden by Route Options.
-	Options        *v1.VirtualHostOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
+	Options *v1.VirtualHostOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
+	// Delegate the VirtualHost options to an external VirtualHostOption Resource.
+	// Any options configured in the VirtualHost's `options` field will override all
+	// delegated options. If multiple VirtualHostOption CRs are delegated to, configuration will
+	// be taken from prior VirtualHostOption CRs over later ones.
+	// For example if `headerManipulation` is specified on the VirtualHost options, a delegated
+	// `VirtualHostOption` vhost-opt-1, and a second delegated `VirtualHostOption` vhost-opt-2, the `headerManipulation`
+	// config from only the VirtualHost-level `options` will be applied. If the config is removed from the VirtualHost-level `options` field,
+	// then the config from the first delegated `VirtualHostOption`, vhost-opt-1, is applied.
 	DelegateOption *VirtualHostOptionRefs `protobuf:"bytes,5,opt,name=delegate_option,json=delegateOption,proto3" json:"delegate_option,omitempty"`
 }
 
@@ -422,7 +430,15 @@ type Route struct {
 	// RouteOption behavior will be inherited by delegated routes which do not specify their own `options`
 	Options *v1.RouteOptions `protobuf:"bytes,6,opt,name=options,proto3" json:"options,omitempty"`
 	// The name provides a convenience for users to be able to refer to a route by name.
-	Name           string           `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
+	Name string `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
+	// Delegate the Route options to an external RouteOption Resource.
+	// Any options configured in the Route's `options` field will override all
+	// delegated options. If multiple RouteOption CRs are delegated to, configuration will
+	// be taken from prior RouteOption CRs over later ones.
+	// For example if `headerManipulation` is specified on the route options, a delegated
+	// `RouteOption` route-opt-1, and a second delegated `RouteOption` route-opt-2, the `headerManipulation`
+	// config from only the Route-level `options` will be applied. If the config is removed from the Route-level `options` field,
+	// then the config from the first delegated `RouteOption`, route-opt-1, is applied.
 	DelegateOption *RouteOptionRefs `protobuf:"bytes,10,opt,name=delegate_option,json=delegateOption,proto3" json:"delegate_option,omitempty"`
 }
 

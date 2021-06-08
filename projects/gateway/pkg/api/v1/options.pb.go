@@ -30,6 +30,8 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
+// VirtualHostOption CRD, used to externalize VirtualHost options configuration,
+// and can be reused across multiple VirtualHosts
 type VirtualHostOption struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -40,7 +42,7 @@ type VirtualHostOption struct {
 	Status *core.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Metadata contains the object metadata for this resource
 	Metadata *core.Metadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
-	// Virtual host options
+	// VirtualHost options. See VirtualHost for delegation behavior.
 	Options *v1.VirtualHostOptions `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
 }
 
@@ -97,12 +99,13 @@ func (x *VirtualHostOption) GetOptions() *v1.VirtualHostOptions {
 	return nil
 }
 
-// Reference to the VirtualHostOption CRD
+// List of references to VirtualHostOption custom resources
 type VirtualHostOptionRefs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// reference to a `VirtualHostOption` resource
 	Refs []*core.ResourceRef `protobuf:"bytes,1,rep,name=refs,proto3" json:"refs,omitempty"`
 }
 
@@ -145,6 +148,8 @@ func (x *VirtualHostOptionRefs) GetRefs() []*core.ResourceRef {
 	return nil
 }
 
+// RouteOption CRD, used to externalize Route options configuration,
+// and can be reused across multiple Routes
 type RouteOption struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -155,7 +160,7 @@ type RouteOption struct {
 	Status *core.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Metadata contains the object metadata for this resource
 	Metadata *core.Metadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
-	// Route options
+	// Route options. See Route for delegation behavior.
 	Options *v1.RouteOptions `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
 }
 
@@ -212,12 +217,13 @@ func (x *RouteOption) GetOptions() *v1.RouteOptions {
 	return nil
 }
 
-// Reference to the RouteOption CRD
+// List of references to RouteOption custom resources
 type RouteOptionRefs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// reference to a `RouteOption` resource
 	Refs []*core.ResourceRef `protobuf:"bytes,1,rep,name=refs,proto3" json:"refs,omitempty"`
 }
 

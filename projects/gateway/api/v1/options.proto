@@ -13,7 +13,8 @@ import "github.com/solo-io/solo-kit/api/v1/ref.proto";
 import "github.com/solo-io/solo-kit/api/v1/solo-kit.proto";
 import "github.com/solo-io/gloo/projects/gloo/api/v1/options.proto";
 
-
+// VirtualHostOption CRD, used to externalize VirtualHost options configuration,
+// and can be reused across multiple VirtualHosts
 message VirtualHostOption {
 
   option (core.solo.io.resource).short_name = "vsopts";
@@ -26,15 +27,18 @@ message VirtualHostOption {
   // Metadata contains the object metadata for this resource
   core.solo.io.Metadata metadata = 2;
 
-  // Virtual host options
+  // VirtualHost options. See VirtualHost for delegation behavior.
   gloo.solo.io.VirtualHostOptions options = 3;
 }
 
-// Reference to the VirtualHostOption CRD
+// List of references to VirtualHostOption custom resources
 message VirtualHostOptionRefs {
+  // reference to a `VirtualHostOption` resource
   repeated core.solo.io.ResourceRef refs = 1;
 }
 
+// RouteOption CRD, used to externalize Route options configuration,
+// and can be reused across multiple Routes
 message RouteOption {
 
   // RouteOption ref
@@ -50,11 +54,12 @@ message RouteOption {
   // Metadata contains the object metadata for this resource
   core.solo.io.Metadata metadata = 2;
 
-  // Route options
+  // Route options. See Route for delegation behavior.
   gloo.solo.io.RouteOptions options = 3;
 }
 
-// Reference to the RouteOption CRD
+// List of references to RouteOption custom resources
 message RouteOptionRefs {
+  // reference to a `RouteOption` resource
   repeated core.solo.io.ResourceRef refs = 1;
 }

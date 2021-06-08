@@ -28,7 +28,9 @@ weight: 5
 ---
 ### VirtualHostOption
 
-
+ 
+VirtualHostOption CRD, used to externalize VirtualHost options configuration,
+and can be reused across multiple VirtualHosts
 
 ```yaml
 "status": .core.solo.io.Status
@@ -41,7 +43,7 @@ weight: 5
 | ----- | ---- | ----------- | 
 | `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
-| `options` | [.gloo.solo.io.VirtualHostOptions](../../../../gloo/api/v1/options.proto.sk/#virtualhostoptions) | Virtual host options. |
+| `options` | [.gloo.solo.io.VirtualHostOptions](../../../../gloo/api/v1/options.proto.sk/#virtualhostoptions) | VirtualHost options. See VirtualHost for delegation behavior. |
 
 
 
@@ -50,7 +52,7 @@ weight: 5
 ### VirtualHostOptionRefs
 
  
-Reference to the VirtualHostOption CRD
+List of references to VirtualHostOption custom resources
 
 ```yaml
 "refs": []core.solo.io.ResourceRef
@@ -59,7 +61,7 @@ Reference to the VirtualHostOption CRD
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `refs` | [[]core.solo.io.ResourceRef](../../../../../../solo-kit/api/v1/ref.proto.sk/#resourceref) |  |
+| `refs` | [[]core.solo.io.ResourceRef](../../../../../../solo-kit/api/v1/ref.proto.sk/#resourceref) | reference to a `VirtualHostOption` resource. |
 
 
 
@@ -67,7 +69,9 @@ Reference to the VirtualHostOption CRD
 ---
 ### RouteOption
 
-
+ 
+RouteOption CRD, used to externalize Route options configuration,
+and can be reused across multiple Routes
 
 ```yaml
 "status": .core.solo.io.Status
@@ -80,7 +84,7 @@ Reference to the VirtualHostOption CRD
 | ----- | ---- | ----------- | 
 | `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
-| `options` | [.gloo.solo.io.RouteOptions](../../../../gloo/api/v1/options.proto.sk/#routeoptions) | Route options. |
+| `options` | [.gloo.solo.io.RouteOptions](../../../../gloo/api/v1/options.proto.sk/#routeoptions) | Route options. See Route for delegation behavior. |
 
 
 
@@ -89,7 +93,7 @@ Reference to the VirtualHostOption CRD
 ### RouteOptionRefs
 
  
-Reference to the RouteOption CRD
+List of references to RouteOption custom resources
 
 ```yaml
 "refs": []core.solo.io.ResourceRef
@@ -98,7 +102,7 @@ Reference to the RouteOption CRD
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `refs` | [[]core.solo.io.ResourceRef](../../../../../../solo-kit/api/v1/ref.proto.sk/#resourceref) |  |
+| `refs` | [[]core.solo.io.ResourceRef](../../../../../../solo-kit/api/v1/ref.proto.sk/#resourceref) | reference to a `RouteOption` resource. |
 
 
 
