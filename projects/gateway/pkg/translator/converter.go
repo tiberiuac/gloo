@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/imdario/mergo"
-
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
 
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -192,7 +190,11 @@ func (rv *routeVisitor) visit(
 				reporterHelper.addError(resource.InputResource(), err)
 				continue
 			}
-			err = mergo.Merge(routeClone.GetOptions(), routeOpts)
+			if routeClone.GetOptions() == nil {
+				routeClone.Options = routeOpts.GetOptions()
+				continue
+			}
+			routeClone.Options, err = mergeRouteOptions(routeClone.GetOptions(), routeOpts.GetOptions())
 			if err != nil {
 				reporterHelper.addError(resource.InputResource(), err)
 				continue

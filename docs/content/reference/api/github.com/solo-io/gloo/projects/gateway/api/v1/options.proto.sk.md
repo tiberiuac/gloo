@@ -31,7 +31,6 @@ weight: 5
 
 
 ```yaml
-"displayName": string
 "status": .core.solo.io.Status
 "metadata": .core.solo.io.Metadata
 "options": .gloo.solo.io.VirtualHostOptions
@@ -40,7 +39,6 @@ weight: 5
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `displayName` | `string` | Display only, optional descriptive name. Unlike metadata.name, DisplayName can be any string and can be changed after creating the resource. |
 | `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `options` | [.gloo.solo.io.VirtualHostOptions](../../../../gloo/api/v1/options.proto.sk/#virtualhostoptions) | Virtual host options. |
@@ -72,7 +70,6 @@ Reference to the VirtualHostOption CRD
 
 
 ```yaml
-"displayName": string
 "status": .core.solo.io.Status
 "metadata": .core.solo.io.Metadata
 "options": .gloo.solo.io.RouteOptions
@@ -81,7 +78,6 @@ Reference to the VirtualHostOption CRD
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `displayName` | `string` | Display only, optional descriptive name. Unlike metadata.name, DisplayName can be any string and can be changed after creating the resource. |
 | `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `options` | [.gloo.solo.io.RouteOptions](../../../../gloo/api/v1/options.proto.sk/#routeoptions) | Route options. |

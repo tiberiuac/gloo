@@ -6,8 +6,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/imdario/mergo"
-
 	"github.com/solo-io/gloo/projects/gloo/pkg/utils"
 
 	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/core/matchers"
@@ -100,7 +98,11 @@ func flattenVhOpts(virtualServices v1.VirtualServiceList, options v1.VirtualHost
 				reports.AddError(vs, err)
 				continue
 			}
-			err = mergo.Merge(vs.GetVirtualHost().GetOptions(), vhOption.GetOptions())
+			if vs.GetVirtualHost().GetOptions() == nil {
+				vs.GetVirtualHost().Options = vhOption.GetOptions()
+				continue
+			}
+			vs.GetVirtualHost().Options, err = mergeVirtualHostOptions(vs.GetVirtualHost().GetOptions(), vhOption.GetOptions())
 			if err != nil {
 				reports.AddError(vs, err)
 			}

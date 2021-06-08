@@ -4,6 +4,9 @@ import (
 	"context"
 	"time"
 
+	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/headers"
+	"github.com/solo-io/gloo/projects/gloo/pkg/api/v1/options/transformation"
+
 	. "github.com/onsi/ginkgo/extensions/table"
 
 	"github.com/golang/protobuf/ptypes/duration"
@@ -1229,6 +1232,414 @@ var _ = Describe("Translator", func() {
 			})
 
 		})
+
+		Context("delegating vhost options", func() {
+
+			var (
+				delegatedVhOptions v1.VirtualHostOptionList
+				delegatedOptionRef *v1.VirtualHostOptionRefs
+				vHost              v1.VirtualHost
+			)
+
+			BeforeEach(func() {
+				delegatedVhOptions = nil
+				delegatedOptionRef = nil
+			})
+
+			setupTranslator := func() {
+				factory := &HttpTranslator{}
+				translator = NewTranslator([]ListenerFactory{factory}, Opts{})
+				vHost = v1.VirtualHost{
+					DelegateOption: delegatedOptionRef,
+					Domains:        []string{"d1.com"},
+					Routes: []*v1.Route{
+						{
+							Matchers: []*matchers.Matcher{{
+								PathSpecifier: &matchers.Matcher_Prefix{
+									Prefix: "/1",
+								},
+							}},
+							Action: &v1.Route_DirectResponseAction{
+								DirectResponseAction: &gloov1.DirectResponseAction{
+									Body: "d1",
+								},
+							},
+						},
+					},
+				}
+				snap = &v1.ApiSnapshot{
+					Gateways: v1.GatewayList{
+						{
+							Metadata: &core.Metadata{Namespace: ns, Name: "name"},
+							GatewayType: &v1.Gateway_HttpGateway{
+								HttpGateway: &v1.HttpGateway{},
+							},
+							BindPort: 2,
+						},
+					},
+					VirtualServices: v1.VirtualServiceList{
+						{
+							Metadata:    &core.Metadata{Namespace: ns, Name: "name1", Labels: labelSet},
+							VirtualHost: &vHost,
+						},
+					},
+					VirtualHostOptions: delegatedVhOptions,
+				}
+			}
+
+			It("allows for vhost option delegation", func() {
+				delegatedVhOptions = v1.VirtualHostOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+						Options: &gloov1.VirtualHostOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-1"},
+							},
+						},
+					},
+				}
+				delegatedOptionRef = &v1.VirtualHostOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+					},
+				}
+				setupTranslator()
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				Expect(proxy.GetListeners()).To(HaveLen(1))
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				vhOpts := listener.GetVirtualHosts()[0].GetOptions()
+				Expect(vhOpts.GetHeaderManipulation()).To(Equal(delegatedVhOptions[0].GetOptions().GetHeaderManipulation()))
+			})
+
+			It("options baked into vhost override delegated options", func() {
+				delegatedVhOptions = v1.VirtualHostOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+						Options: &gloov1.VirtualHostOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-delegated-options"},
+							},
+							Transformations: &transformation.Transformations{
+								ClearRouteCache: true,
+							},
+						},
+					},
+				}
+				delegatedOptionRef = &v1.VirtualHostOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+					},
+				}
+				setupTranslator()
+				// The following options should override options on the delegated options CRD
+				headerManipulation := &headers.HeaderManipulation{
+					ResponseHeadersToRemove: []string{"x-header-from-virtual-host-options"},
+				}
+				vHost.Options = &gloov1.VirtualHostOptions{
+					HeaderManipulation: headerManipulation,
+				}
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				vhOpts := listener.GetVirtualHosts()[0].GetOptions()
+				// Expect the resulting virtualhost to have options from the original virtual host
+				// because virtual-host level options will override delegated options
+				Expect(vhOpts.GetHeaderManipulation()).To(Equal(
+					&headers.HeaderManipulation{
+						ResponseHeadersToRemove: []string{"x-header-from-virtual-host-options"},
+					}))
+				// Still expect the transformations config to be merged in from the delegated options
+				// because no transformation config is present on the virtual host
+				Expect(vhOpts.GetTransformations()).To(Equal(delegatedVhOptions[0].GetOptions().GetTransformations()))
+			})
+			It("when multiple delegated options are specified, the previous ones get priority", func() {
+				delegatedVhOptions = v1.VirtualHostOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+						Options: &gloov1.VirtualHostOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-first-delegated-options"},
+							},
+							Transformations: &transformation.Transformations{
+								ClearRouteCache: true,
+							},
+						},
+					},
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "vhOpt2",
+						},
+						Options: &gloov1.VirtualHostOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-second-delegated-options"},
+							},
+							Waf: &waf.Settings{
+								CustomInterventionMessage: "You have been INTERVENED",
+							},
+							StagedTransformations: &transformation.TransformationStages{
+								InheritTransformation: false,
+							},
+						},
+					},
+				}
+				delegatedOptionRef = &v1.VirtualHostOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "vhOpt1",
+						},
+						{
+							Namespace: "option-ns",
+							Name:      "vhOpt2",
+						},
+					},
+				}
+				setupTranslator()
+				// The following options should override options on the delegated options CRD
+				vHost.Options = &gloov1.VirtualHostOptions{
+					StagedTransformations: &transformation.TransformationStages{
+						InheritTransformation: true,
+					},
+				}
+
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				translatedVhOpts := listener.GetVirtualHosts()[0].GetOptions()
+				// Waf Options config from Delegated vhOpt2
+				Expect(translatedVhOpts.GetWaf()).To(Equal(delegatedVhOptions[1].GetOptions().GetWaf()))
+				// Header Manipulation config from Delegated vHOpt1
+				By("previous delegated vh options override later ones (vhOpt1 > vhOpt2)")
+				Expect(translatedVhOpts.GetHeaderManipulation()).To(Equal(delegatedVhOptions[0].GetOptions().GetHeaderManipulation()))
+				Expect(translatedVhOpts.GetTransformations()).To(Equal(delegatedVhOptions[0].GetOptions().GetTransformations()))
+				// Virtual-host level option config overrides all delegated options
+				Expect(translatedVhOpts.GetStagedTransformations()).To(Equal(&transformation.TransformationStages{
+					InheritTransformation: true,
+				}))
+			})
+		})
+
+		Context("delegating route options", func() {
+
+			var (
+				delegatedRouteOpts v1.RouteOptionList
+				delegatedOptRef    *v1.RouteOptionRefs
+				route              v1.Route
+			)
+
+			BeforeEach(func() {
+				delegatedRouteOpts = nil
+				delegatedOptRef = nil
+			})
+
+			setupTranslator := func() {
+				factory := &HttpTranslator{}
+				translator = NewTranslator([]ListenerFactory{factory}, Opts{})
+				route = v1.Route{
+					Matchers: []*matchers.Matcher{{
+						PathSpecifier: &matchers.Matcher_Prefix{
+							Prefix: "/1",
+						},
+					}},
+					Action: &v1.Route_DirectResponseAction{
+						DirectResponseAction: &gloov1.DirectResponseAction{
+							Body: "d1",
+						},
+					},
+					DelegateOption: delegatedOptRef,
+				}
+				snap = &v1.ApiSnapshot{
+					Gateways: v1.GatewayList{
+						{
+							Metadata: &core.Metadata{Namespace: ns, Name: "name"},
+							GatewayType: &v1.Gateway_HttpGateway{
+								HttpGateway: &v1.HttpGateway{},
+							},
+							BindPort: 2,
+						},
+					},
+					VirtualServices: v1.VirtualServiceList{
+						{
+							Metadata: &core.Metadata{Namespace: ns, Name: "name1", Labels: labelSet},
+							VirtualHost: &v1.VirtualHost{
+								Domains: []string{"d1.com"},
+								Routes: []*v1.Route{
+									&route,
+								},
+							},
+						},
+					},
+					RouteOptions: delegatedRouteOpts,
+				}
+			}
+
+			It("allows for route option delegation", func() {
+				delegatedRouteOpts = v1.RouteOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+						Options: &gloov1.RouteOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-1"},
+							},
+						},
+					},
+				}
+				delegatedOptRef = &v1.RouteOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+					},
+				}
+				setupTranslator()
+
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				Expect(proxy.GetListeners()).To(HaveLen(1))
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				rtOpts := listener.GetVirtualHosts()[0].GetRoutes()[0].GetOptions()
+				Expect(rtOpts.GetHeaderManipulation()).To(Equal(delegatedRouteOpts[0].GetOptions().GetHeaderManipulation()))
+			})
+
+			It("options baked into the route override delegated options", func() {
+				delegatedRouteOpts = v1.RouteOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+						Options: &gloov1.RouteOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-delegated-options"},
+							},
+							Transformations: &transformation.Transformations{
+								ClearRouteCache: true,
+							},
+						},
+					},
+				}
+				delegatedOptRef = &v1.RouteOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+					},
+				}
+				setupTranslator()
+				// The following options should override options on the delegated options CRD
+				route.Options = &gloov1.RouteOptions{
+					HeaderManipulation: &headers.HeaderManipulation{
+						ResponseHeadersToRemove: []string{"x-header-from-route-options"},
+					},
+				}
+
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				routeOpts := listener.GetVirtualHosts()[0].GetRoutes()[0].GetOptions()
+				// Expect the resulting virtualhost to have options from the original virtual host
+				// because virtual-host level options will override delegated options
+				Expect(routeOpts.GetHeaderManipulation()).To(Equal(route.GetOptions().GetHeaderManipulation()))
+				// Still expect the transformations config to be merged in from the delegated options
+				// because no transformation config is present on the virtual host
+				Expect(routeOpts.GetTransformations()).To(Equal(delegatedRouteOpts[0].GetOptions().GetTransformations()))
+			})
+			It("when multiple delegated options are specified, the previous ones get priority", func() {
+				delegatedRouteOpts = v1.RouteOptionList{
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+						Options: &gloov1.RouteOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-first-delegated-options"},
+							},
+							Transformations: &transformation.Transformations{
+								ClearRouteCache: true,
+							},
+						},
+					},
+					{
+						Metadata: &core.Metadata{
+							Namespace: "option-ns",
+							Name:      "routeOpt2",
+						},
+						Options: &gloov1.RouteOptions{
+							HeaderManipulation: &headers.HeaderManipulation{
+								RequestHeadersToRemove: []string{"x-header-from-second-delegated-options"},
+							},
+							Waf: &waf.Settings{
+								CustomInterventionMessage: "You have been INTERVENED",
+							},
+							StagedTransformations: &transformation.TransformationStages{
+								InheritTransformation: false,
+							},
+						},
+					},
+				}
+				setupTranslator()
+				// The following options should override options on the delegated options CRD
+				route.Options = &gloov1.RouteOptions{
+					StagedTransformations: &transformation.TransformationStages{
+						InheritTransformation: true,
+					},
+				}
+				route.DelegateOption = &v1.RouteOptionRefs{
+					Refs: []*core.ResourceRef{
+						{
+							Namespace: "option-ns",
+							Name:      "routeOpt1",
+						},
+						{
+							Namespace: "option-ns",
+							Name:      "routeOpt2",
+						},
+					},
+				}
+				proxy, errs := translator.Translate(context.TODO(), "", ns, snap, snap.Gateways)
+				Expect(errs.ValidateStrict()).NotTo(HaveOccurred())
+				listener := proxy.GetListeners()[0].GetListenerType().(*gloov1.Listener_HttpListener).HttpListener
+				Expect(listener.GetVirtualHosts()).To(HaveLen(1))
+				translatedRouteOpts := listener.GetVirtualHosts()[0].GetRoutes()[0].GetOptions()
+				// Waf Options config from Delegated routeOpt2
+				Expect(translatedRouteOpts.GetWaf()).To(Equal(delegatedRouteOpts[1].GetOptions().GetWaf()))
+				// Header Manipulation config from Delegated routeOpt1
+				By("previous delegated route options override later ones (routeOpt1 > routeOpt2)")
+				Expect(translatedRouteOpts.GetHeaderManipulation()).To(Equal(delegatedRouteOpts[0].GetOptions().GetHeaderManipulation()))
+				Expect(translatedRouteOpts.GetTransformations()).To(Equal(delegatedRouteOpts[0].GetOptions().GetTransformations()))
+				// Virtual-host level option config overrides all delegated options
+				Expect(translatedRouteOpts.GetStagedTransformations()).To(Equal(route.GetOptions().GetStagedTransformations()))
+			})
+		})
+
 	})
 
 	Context("tcp", func() {

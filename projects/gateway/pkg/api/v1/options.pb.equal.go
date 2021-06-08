@@ -46,10 +46,6 @@ func (m *VirtualHostOption) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetDisplayName(), target.GetDisplayName()) != 0 {
-		return false
-	}
-
 	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetStatus()) {
 			return false
@@ -142,10 +138,6 @@ func (m *RouteOption) Equal(that interface{}) bool {
 	if target == nil {
 		return m == nil
 	} else if m == nil {
-		return false
-	}
-
-	if strings.Compare(m.GetDisplayName(), target.GetDisplayName()) != 0 {
 		return false
 	}
 
