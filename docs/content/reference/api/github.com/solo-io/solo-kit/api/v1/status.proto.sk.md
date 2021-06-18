@@ -11,7 +11,6 @@ weight: 5
 #### Types:
 
 
-- [ReporterStatus](#reporterstatus)
 - [Status](#status)
 - [State](#state)
   
@@ -20,25 +19,6 @@ weight: 5
 
 ##### Source File: [github.com/solo-io/solo-kit/api/v1/status.proto](https://github.com/solo-io/solo-kit/blob/master/api/v1/status.proto)
 
-
-
-
-
----
-### ReporterStatus
-
- 
-*
-ReporterStatus indicates the Status of a resource according to each reporter
-
-```yaml
-"statuses": map<string, .core.solo.io.Status>
-
-```
-
-| Field | Type | Description |
-| ----- | ---- | ----------- | 
-| `statuses` | `map<string, .core.solo.io.Status>` | Mapping from reporter (Status.reported_by) to that reporter's Status. |
 
 
 
