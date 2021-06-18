@@ -281,6 +281,7 @@ func (s *statusSyncer) syncStatusOnEmit(ctx context.Context) error {
 	}
 }
 
+// TODO: Starting point
 func (s *statusSyncer) syncStatus(ctx context.Context) error {
 	var nilProxy *gloov1.Proxy
 	allReports := reporter.ResourceReports{}
