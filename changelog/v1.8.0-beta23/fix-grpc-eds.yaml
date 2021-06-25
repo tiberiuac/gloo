@@ -1,0 +1,5 @@
+changelog:
+  - type: FIX
+    issueLink: https://github.com/solo-io/gloo/issues/4901
+    description: >
+      Fixed gRPC EDS. Envoy clusters will now exit warming on cluster updates.
