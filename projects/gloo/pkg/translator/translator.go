@@ -1,16 +1,16 @@
 package translator
 
 import (
+	"crypto/md5"
+	"encoding/json"
 	"fmt"
-	"hash/fnv"
-
-	proto2 "google.golang.org/protobuf/proto"
-
 	envoy_config_cluster_v3 "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	envoy_config_endpoint_v3 "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
 	envoy_config_listener_v3 "github.com/envoyproxy/go-control-plane/envoy/config/listener/v3"
 	envoy_config_route_v3 "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	"github.com/golang/protobuf/proto"
+	"github.com/mitchellh/hashstructure"
+	errors "github.com/rotisserie/eris"
 	validationapi "github.com/solo-io/gloo/projects/gloo/pkg/api/grpc/validation"
 	v1 "github.com/solo-io/gloo/projects/gloo/pkg/api/v1"
 	"github.com/solo-io/gloo/projects/gloo/pkg/plugins"
@@ -22,10 +22,9 @@ import (
 	"github.com/solo-io/solo-kit/pkg/api/v1/control-plane/resource"
 	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"github.com/solo-io/solo-kit/pkg/api/v2/reporter"
-
-	"github.com/mitchellh/hashstructure"
-	errors "github.com/rotisserie/eris"
 	"go.opencensus.io/trace"
+	proto2 "google.golang.org/protobuf/proto"
+	"hash/fnv"
 )
 
 type Translator interface {
@@ -128,6 +127,15 @@ ClusterLoop:
 		}
 		for _, ep := range endpoints {
 			if ep.ClusterName == c.Name {
+				// Workaround for envoy bug: https://github.com/envoyproxy/envoy/issues/13009
+				endpointClusterName, err := getEndpointClusterName(c.Name, params.Snapshot)
+				if err != nil {
+					// todo(sai): What to do with error here?
+				}
+				// Change the cluster eds config, forcing envoy to re-request latest EDS config
+				c.EdsClusterConfig.ServiceName = endpointClusterName
+				// the endpoint ClusterName needs to match the cluster's EdsClusterConfig ServiceName
+				ep.ClusterName = endpointClusterName
 				continue ClusterLoop
 			}
 		}
@@ -327,4 +335,15 @@ func MakeRdsResources(routeConfigs []*envoy_config_route_v3.RouteConfiguration) 
 		panic(errors.Wrap(err, "constructing version hash for routes envoy snapshot components"))
 	}
 	return envoycache.NewResources(fmt.Sprintf("%v", routesVersion), routesProto)
+}
+
+func getEndpointClusterName(clusterName string, snap *v1.ApiSnapshot) (string, error) {
+	mUpstreams, err := json.Marshal(snap.Upstreams)
+	if err != nil {
+		return "", err
+	}
+	sum := md5.Sum(mUpstreams)
+	uId := fmt.Sprintf("%x", sum)
+	endpointClusterName := clusterName + "-" + uId
+	return endpointClusterName, nil
 }
