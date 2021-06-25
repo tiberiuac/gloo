@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"regexp"
 
 	"github.com/solo-io/gloo/test/kube2e"
@@ -49,12 +48,12 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		gatewayProxyPodName string
 		prevConfigDumpLen   int
 
-		findPetstoreClusterEndpoints = func() (int, string) {
+		findPetstoreClusterEndpoints = func() int {
 			clusters := kubeutils.CurlWithEphemeralPod(ctx, ioutil.Discard, kubeCtx, defaults.GlooSystem, gatewayProxyPodName, clustersPath)
 			petstoreClusterEndpoints := regexp.MustCompile("\ndefault-petstore-8080_gloo-system::[0-9.]+:8080::")
 			matches := petstoreClusterEndpoints.FindAllStringIndex(clusters, -1)
 			fmt.Println(fmt.Sprintf("Number of cluster stats for petstore (i.e., checking for endpoints) on clusters page: %d", len(matches)))
-			return len(matches), clusters
+			return len(matches)
 		}
 		findConfigDumpHttp2Count = func() int {
 			configDump := kubeutils.CurlWithEphemeralPod(ctx, ioutil.Discard, kubeCtx, defaults.GlooSystem, gatewayProxyPodName, configDumpPath, "-s")
@@ -77,12 +76,9 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		checkClusterEndpoints = func() {
 			Eventually(func() bool {
 				if upstreamChangesPickedUp() {
-					numEndpoints, clusters := findPetstoreClusterEndpoints()
+					numEndpoints := findPetstoreClusterEndpoints()
 					By("check that endpoints were discovered")
 					Expect(numEndpoints).Should(BeNumerically(">", 0), "petstore endpoints should exist")
-					if numEndpoints <= 0 {
-						log.Fatalf("PETSTORE ENDPOINTS NOT FOUND: \n%s", clusters)
-					}
 					fmt.Println("Endpoints exist for cluster!")
 					return true
 				}
@@ -154,6 +150,15 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 			return nil
 		}, "3m", "5s").Should(BeNil()) // 3 min to be safe, usually repros in ~40s when running locally without REST EDS
 	}
+
+	Context("rest EDS", func() {
+
+		BeforeEach(func() {
+			kube2e.UpdateRestEdsSetting(ctx, true, defaults.GlooSystem)
+		})
+
+		It("can modify upstreams repeatedly, and endpoints don't lag via EDS", endpointsDontLagTest)
+	})
 
 	Context("gRPC", func() {
 
