@@ -2,8 +2,6 @@ package translator_test
 
 import (
 	"context"
-	"crypto/md5"
-	"encoding/json"
 	"fmt"
 
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
@@ -240,18 +238,8 @@ var _ = Describe("Translator", func() {
 	}
 
 	// returns md5 Sum of current snapshot
-	translate := func() string {
-		marshalledUpstreams, err := json.Marshal(params.Snapshot.Upstreams)
-		ExpectWithOffset(1, err).NotTo(HaveOccurred())
-		preTranslationSum := md5.Sum(marshalledUpstreams)
+	translate := func() {
 		snap, errs, report, err := translator.Translate(params, proxy)
-		marshalledUpstreams, err = json.Marshal(params.Snapshot.Upstreams)
-		ExpectWithOffset(1, err).NotTo(HaveOccurred())
-		postTranslationSum := md5.Sum(marshalledUpstreams)
-		// Make sure that upstreams in the snapshot were not changed,
-		// we use the hash as a key for EDS, so we want to make sure that the translation function
-		// isn't changing the actual snapshot upstreams
-		ExpectWithOffset(1, preTranslationSum).To(Equal(postTranslationSum))
 		ExpectWithOffset(1, err).NotTo(HaveOccurred())
 		ExpectWithOffset(1, errs.Validate()).NotTo(HaveOccurred())
 		ExpectWithOffset(1, snap).NotTo(BeNil())
@@ -282,7 +270,6 @@ var _ = Describe("Translator", func() {
 
 		snapshot = snap
 
-		return fmt.Sprintf("%x", postTranslationSum)
 	}
 
 	It("sanitizes an invalid virtual host name", func() {
@@ -1266,11 +1253,12 @@ var _ = Describe("Translator", func() {
 			}
 		})
 		It("should transfer annotations to snapshot", func() {
-			uid := translate()
+			translate()
 
 			endpoints := snapshot.GetResources(resource.EndpointTypeV3)
 
-			clusterName := fmt.Sprintf("%s-%s", UpstreamToClusterName(upstream.Metadata.Ref()), uid)
+			clusterName := getEndpointClusterName(upstream)
+
 			Expect(endpoints.Items).To(HaveKey(clusterName))
 			endpointsResource := endpoints.Items[clusterName]
 			claConfiguration = endpointsResource.ResourceProto().(*envoy_config_endpoint_v3.ClusterLoadAssignment)
@@ -1344,11 +1332,10 @@ var _ = Describe("Translator", func() {
 		})
 
 		translateWithEndpoints := func() {
-			uid := translate()
+			translate()
 
 			endpoints := snapshot.GetResources(resource.EndpointTypeV3)
-
-			clusterName := fmt.Sprintf("%s-%s", UpstreamToClusterName(upstream.Metadata.Ref()), uid)
+			clusterName := getEndpointClusterName(upstream)
 			Expect(endpoints.Items).To(HaveKey(clusterName))
 			endpointsResource := endpoints.Items[clusterName]
 			claConfiguration = endpointsResource.ResourceProto().(*envoy_config_endpoint_v3.ClusterLoadAssignment)
@@ -2762,6 +2749,12 @@ var _ = Describe("Translator", func() {
 		Expect(listener.GetListenerFilters()[0].GetName()).To(Equal(wellknown.TlsInspector))
 	})
 })
+
+// The endpoint Cluster is now the UpstreamToClusterName-<hash of upstream> to facilitate
+// gRPC EDS updates
+func getEndpointClusterName(upstream *v1.Upstream) string {
+	return fmt.Sprintf("%s-%d", UpstreamToClusterName(upstream.Metadata.Ref()), upstream.MustHash())
+}
 
 func sv(s string) *structpb.Value {
 	return &structpb.Value{

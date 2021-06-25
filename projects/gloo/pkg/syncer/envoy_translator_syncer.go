@@ -2,6 +2,7 @@ package syncer
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -128,6 +129,8 @@ func (s *translatorSyncer) syncEnvoy(ctx context.Context, snap *v1.ApiSnapshot, 
 			logger.DPanicw("", zap.Error(err))
 			return err
 		}
+		snapshot, _ := json.Marshal(xdsSnapshot)
+		fmt.Printf("{\"SNAPSHOT\":%s}\n", snapshot)
 
 		if validateErr := reports.ValidateStrict(); validateErr != nil {
 			logger.Warnw("Proxy had invalid config", zap.Any("proxy", proxy.Metadata.Ref()), zap.Error(validateErr))

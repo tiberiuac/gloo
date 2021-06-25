@@ -1,8 +1,6 @@
 package translator
 
 import (
-	"crypto/md5"
-	"encoding/json"
 	"fmt"
 	envoy_config_cluster_v3 "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	envoy_config_endpoint_v3 "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
@@ -113,7 +111,7 @@ func (t *translatorInstance) Translate(
 
 	// endpoints and listeners are shared between listeners
 	logger.Debugf("computing envoy clusters for proxy: %v", proxy.Metadata.Name)
-	clusters := t.computeClusters(params, reports, upstreamRefKeyToEndpoints, proxy)
+	clusters, clusterToUpstreamMap := t.computeClusters(params, reports, upstreamRefKeyToEndpoints, proxy)
 	logger.Debugf("computing envoy endpoints for proxy: %v", proxy.Metadata.Name)
 
 	endpoints := t.computeClusterEndpoints(params, upstreamRefKeyToEndpoints, reports)
@@ -125,13 +123,16 @@ ClusterLoop:
 		if c.GetType() != envoy_config_cluster_v3.Cluster_EDS {
 			continue
 		}
+		// get upstream that generated this cluster
+		upstream := clusterToUpstreamMap[c]
+		endpointClusterName, err := getEndpointClusterName(c.Name, upstream)
+		if err != nil {
+			reports.AddError(upstream, errors.Wrapf(err, "Could not marshal upstream to JSON"))
+		}
 		for _, ep := range endpoints {
+			fmt.Println("Endpoint cluster name:", ep.ClusterName)
 			if ep.ClusterName == c.Name {
 				// Workaround for envoy bug: https://github.com/envoyproxy/envoy/issues/13009
-				endpointClusterName, err := getEndpointClusterName(c.Name, params.Snapshot)
-				if err != nil {
-					// todo(sai): What to do with error here?
-				}
 				// Change the cluster eds config, forcing envoy to re-request latest EDS config
 				c.EdsClusterConfig.ServiceName = endpointClusterName
 				// the endpoint ClusterName needs to match the cluster's EdsClusterConfig ServiceName
@@ -140,7 +141,7 @@ ClusterLoop:
 			}
 		}
 		emptyendpointlist := &envoy_config_endpoint_v3.ClusterLoadAssignment{
-			ClusterName: c.Name,
+			ClusterName: endpointClusterName,
 		}
 		// make sure to call EndpointPlugin with empty endpoint
 		for _, upstream := range params.Snapshot.Upstreams {
@@ -337,13 +338,12 @@ func MakeRdsResources(routeConfigs []*envoy_config_route_v3.RouteConfiguration) 
 	return envoycache.NewResources(fmt.Sprintf("%v", routesVersion), routesProto)
 }
 
-func getEndpointClusterName(clusterName string, snap *v1.ApiSnapshot) (string, error) {
-	mUpstreams, err := json.Marshal(snap.Upstreams)
+func getEndpointClusterName(clusterName string, upstream *v1.Upstream) (string, error) {
+	hash, err := upstream.Hash(nil)
 	if err != nil {
 		return "", err
 	}
-	sum := md5.Sum(mUpstreams)
-	uId := fmt.Sprintf("%x", sum)
+	uId := fmt.Sprintf("%d", hash)
 	endpointClusterName := clusterName + "-" + uId
 	return endpointClusterName, nil
 }
