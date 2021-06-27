@@ -91,6 +91,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		ctx, cancel = context.WithCancel(context.Background())
 		cfg, err = utils.GetConfig("", "")
 		Expect(err).NotTo(HaveOccurred())
+		prevConfigDumpLen = 0
 
 		cache := kube.NewKubeCache(ctx)
 		upstreamClientFactory := &factory.KubeResourceClientFactory{
