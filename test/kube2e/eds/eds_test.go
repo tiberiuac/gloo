@@ -26,7 +26,7 @@ import (
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 
-var _ = Describe("endpoint discovery (EDS) works", func() {
+var _ = FDescribe("endpoint discovery (EDS) works", func() {
 
 	var (
 		ctx    context.Context
@@ -152,7 +152,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		}, "3m", "5s").Should(BeNil()) // 3 min to be safe, usually repros in ~40s when running locally without REST EDS
 	}
 
-	Context("rest EDS", func() {
+	FContext("rest EDS", func() {
 
 		BeforeEach(func() {
 			kube2e.UpdateRestEdsSetting(ctx, true, defaults.GlooSystem)
