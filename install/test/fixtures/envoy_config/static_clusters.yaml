@@ -77,12 +77,12 @@ static_resources:
     load_assignment:
       cluster_name: rest_xds_cluster
       endpoints:
-        - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: gloo.gloo-system.svc.cluster.local
-                    port_value: 9976
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: gloo.gloo-system.svc.cluster.local
+                port_value: 9976
     upstream_connection_options:
       tcp_keepalive: {}
     type: STRICT_DNS

@@ -285,7 +285,7 @@ func ExpectHttpStatusWithOffset(offset int, body []byte, rootca *string, envoyPo
 		}
 
 		return nil
-	}, "30s", "1s").Should(BeNil())
+	}, "45s", "1s").Should(BeNil())
 
 	if response != "" {
 		body, err := ioutil.ReadAll(res.Body)
