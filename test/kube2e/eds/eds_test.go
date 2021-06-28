@@ -26,7 +26,7 @@ import (
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients"
 )
 
-var _ = FDescribe("endpoint discovery (EDS) works", func() {
+var _ = Describe("endpoint discovery (EDS) works", func() {
 
 	var (
 		ctx    context.Context
