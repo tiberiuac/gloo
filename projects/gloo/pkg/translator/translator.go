@@ -130,11 +130,12 @@ ClusterLoop:
 		if err != nil {
 			reports.AddError(upstream, errors.Wrapf(err, "Could not marshal upstream to JSON"))
 		}
+		// Workaround for envoy bug: https://github.com/envoyproxy/envoy/issues/13009
+		// Change the cluster eds config, forcing envoy to re-request latest EDS config
+		c.EdsClusterConfig.ServiceName = endpointClusterName
 		for _, ep := range endpoints {
 			if ep.ClusterName == c.Name {
-				// Workaround for envoy bug: https://github.com/envoyproxy/envoy/issues/13009
-				// Change the cluster eds config, forcing envoy to re-request latest EDS config
-				c.EdsClusterConfig.ServiceName = endpointClusterName
+
 				// the endpoint ClusterName needs to match the cluster's EdsClusterConfig ServiceName
 				ep.ClusterName = endpointClusterName
 				continue ClusterLoop
