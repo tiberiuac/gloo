@@ -337,6 +337,7 @@ func (s *statusSyncer) syncStatus(ctx context.Context) error {
 		// on status changes.
 		if status, ok := localInputResourceLastStatus[inputResource]; ok {
 			clonedInputResource.SetStatus(status)
+			// TODO(mitchaman): clonedInputResource.SetReporterStatus(status)
 		}
 		if err := s.reporter.WriteReports(ctx, reports, currentStatuses); err != nil {
 			errs = multierror.Append(errs, err)

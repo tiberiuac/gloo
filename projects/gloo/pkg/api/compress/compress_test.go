@@ -118,6 +118,54 @@ var _ = Describe("Compress", func() {
 		})
 	})
 
+	Context("ReporterStatus", func() {
+
+		It("Should not unmarshall to the same thing even when annotated", func() {
+			p := &v1.Proxy{
+				Metadata: &core.Metadata{
+					Name:        "foo",
+					Annotations: map[string]string{"gloo.solo.io/compress": "true"},
+				},
+				ReporterStatus: &core.ReporterStatus{
+					Statuses: map[string]*core.Status{
+						"test-namespace:gloo": {
+							State: core.Status_Accepted,
+						},
+					},
+				},
+			}
+			reporterStatus, err := MarshalReporterStatus(p)
+			Expect(err).NotTo(HaveOccurred())
+
+			p2 := &v1.Proxy{}
+			err = UnmarshalReporterStatus(p2, reporterStatus)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(p.ReporterStatus).To(BeEquivalentTo(p2.ReporterStatus))
+		})
+
+		It("Should not compress even when annotated", func() {
+			p := &v1.Proxy{
+				Metadata: &core.Metadata{
+					Name: "foo",
+				},
+				ReporterStatus: &core.ReporterStatus{
+					Statuses: map[string]*core.Status{
+						"test-namespace:gloo": {
+							State: core.Status_Accepted,
+						},
+					},
+				},
+			}
+			reporterStatus1, err := MarshalReporterStatus(p)
+			Expect(err).NotTo(HaveOccurred())
+			p.Metadata.Annotations = map[string]string{"gloo.solo.io/compress": "true"}
+
+			reporterStatus2, err := MarshalReporterStatus(p)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(reporterStatus1).To(BeEquivalentTo(reporterStatus2))
+		})
+	})
 })
 
 func size(s interface{}) int {
