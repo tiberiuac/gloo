@@ -1,4 +1,4 @@
-name: CI
+name: Verify Generated Code
 on: pull_request
 jobs:
   codegen:
