@@ -7,12 +7,11 @@ env:
   PROJECT_URL: 'https://github.com/orgs/solo-io/projects/4'
 
 jobs:
-  assign_gloo_edge_project:
-    runs-on: ubuntu-latest
+  assign-gloo-edge-project:
+    runs-on: ubuntu-18.04
     name: Assign to Gloo-Edge Project
     steps:
       - name: Assign OPENED issues to project
         uses: srggrs/assign-one-project-github-action@1.2.1
-        if: github.event.action == 'opened'
         with:
           project: ${PROJECT_URL}
