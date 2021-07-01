@@ -1065,6 +1065,10 @@ func (m *OidcAuthorizationCode) Equal(that interface{}) bool {
 		}
 	}
 
+	if strings.Compare(m.GetSessionIdHeaderName(), target.GetSessionIdHeaderName()) != 0 {
+		return false
+	}
+
 	return true
 }
 
@@ -2543,6 +2547,10 @@ func (m *ExtAuthConfig_OidcAuthorizationCodeConfig) Equal(that interface{}) bool
 		if !proto.Equal(m.GetJwksCacheRefreshPolicy(), target.GetJwksCacheRefreshPolicy()) {
 			return false
 		}
+	}
+
+	if strings.Compare(m.GetSessionIdHeaderName(), target.GetSessionIdHeaderName()) != 0 {
+		return false
 	}
 
 	return true
