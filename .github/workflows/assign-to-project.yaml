@@ -14,4 +14,4 @@ jobs:
       - name: Assign OPENED issues to project
         uses: srggrs/assign-one-project-github-action@1.2.1
         with:
-          project: ${PROJECT_URL}
+          project: "$PROJECT_URL"
