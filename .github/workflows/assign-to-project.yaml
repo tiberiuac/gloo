@@ -1,12 +1,6 @@
 name: Assign to Project
 
-on:
-  issues:
-    types: [opened]
-
-  pull_request:
-    paths:
-      - "gha-*"
+on: pull_request
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
