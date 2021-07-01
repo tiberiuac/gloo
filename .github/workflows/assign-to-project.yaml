@@ -3,7 +3,7 @@ name: Assign to Project
 on: pull_request
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  MY_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   assign-gloo-edge-project:
