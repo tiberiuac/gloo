@@ -2,9 +2,6 @@ name: Assign to Project
 
 on: pull_request
 
-env:
-  MY_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   assign-gloo-edge-project:
     runs-on: ubuntu-18.04
@@ -14,4 +11,4 @@ jobs:
         uses: srggrs/assign-one-project-github-action@1.2.1
         with:
           project: 'https://github.com/orgs/solo-io/projects/4'
-          column_name: 'Triage'
+          column_name: Triage
