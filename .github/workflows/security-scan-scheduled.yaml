@@ -1,5 +1,8 @@
 name: security-scan-scheduled
 on:
+  pull_request:
+    branches:
+      - master
   schedule:
     # Monday 9am EST
     - cron: "0 13 * * 1"
