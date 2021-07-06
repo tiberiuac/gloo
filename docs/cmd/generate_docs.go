@@ -279,11 +279,14 @@ func generateSecurityScanMd(args []string) error {
 }
 
 func generateSecurityScanGloo(ctx context.Context) error {
-	client := github.NewClient(nil)
 	var (
 		allReleases []*github.RepositoryRelease
 		err         error
 	)
+	client, err := githubutils.GetClient(ctx)
+	if err != nil {
+		return err
+	}
 	if useCachedReleases() {
 		allReleases = getCachedReleases(glooCachedReleasesFile)
 	} else {
@@ -292,6 +295,11 @@ func generateSecurityScanGloo(ctx context.Context) error {
 			return err
 		}
 	}
+	freqCount := map[string]int{}
+	for _, r := range allReleases {
+		freqCount[r.GetTagName()] += 1
+	}
+	fmt.Println(freqCount)
 	githubutils.SortReleasesBySemver(allReleases)
 
 	var tagNames []string

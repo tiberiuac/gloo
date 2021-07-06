@@ -1,0 +1,37 @@
+name: security-scan-scheduled
+on:
+  schedule:
+    # Monday 9am EST
+    - cron: "0 13 * * 1"
+  workflow_dispatch: # on button click
+    inputs:
+      gloo-version:
+        description: 'Gloo Version'
+        required: false
+        default: ''
+jobs:
+  scan-latest-version-images:
+    if: '${{ github.event.inputs.version == 0 }}'
+    name: Trivy Scan
+    runs-on: "ubuntu-18.04"
+    strategy:
+      matrix:
+        image-type: [ 'access-logger', 'certgen', 'discovery', 'gateway', 'gloo', 'gloo-envoy-wrapper', 'ingress', 'sds' ]
+        gloo-version: [ 'master', 'v1.8.x', 'v1.7.x', 'v1.6.x', 'v1.5.x']
+    steps:
+      - uses: actions/sec-scan@v1
+        with:
+          image-type: ${{ matrix.image-type }}
+          gloo-version: ${{ matrix.gloo-version }}
+  scan-specific-image:
+    if: '${{ github.event.inputs.version != 0 }}'
+    name: Manual Trivy Scan
+    runs-on: "ubuntu-18.04"
+    strategy:
+      matrix:
+        image-type: [ 'access-logger', 'certgen', 'discovery', 'gateway', 'gloo', 'gloo-envoy-wrapper', 'ingress', 'sds' ]
+    steps:
+      - uses: actions/sec-scan@v1
+        with:
+          image-type: ${{ matrix.image-type }}
+          gloo-version: ${{ github.event.inputs.gloo-version }}
