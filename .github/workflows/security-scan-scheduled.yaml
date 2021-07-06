@@ -23,7 +23,7 @@ jobs:
         gloo-version: [ 'master', 'v1.8.x', 'v1.7.x', 'v1.6.x', 'v1.5.x']
     steps:
       - uses: actions/checkout@v1
-      - uses: 'solo-io/gloo/.github/actions/sec-scan'
+      - uses: 'solo-io/gloo/.github/actions/sec-scan@v1'
         with:
           image-type: ${{ matrix.image-type }}
           gloo-version: ${{ matrix.gloo-version }}
@@ -36,7 +36,7 @@ jobs:
         image-type: [ 'access-logger', 'certgen', 'discovery', 'gateway', 'gloo', 'gloo-envoy-wrapper', 'ingress', 'sds' ]
     steps:
       - uses: actions/checkout@v1
-      - uses: 'solo-io/gloo/.github/actions/sec-scan'
+      - uses: 'solo-io/gloo/.github/actions/sec-scan@v1'
         with:
           image-type: ${{ matrix.image-type }}
           gloo-version: ${{ github.event.inputs.gloo-version }}
