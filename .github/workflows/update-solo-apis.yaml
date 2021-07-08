@@ -1,9 +1,37 @@
 name: Update solo-apis
 on:
-  release:
-    types: [created]
+  #release:
+  #  types: [created]
+  workflow_dispatch: # TEMP
+    inputs:
+      release-tag-name:
+        description: 'release tag name'
+        required: false
+        default: ''
+      release-branch-name:
+        description: 'release branch name'
+        required: false
+        default: ''
 jobs:
   publish-apis:
+    env:
+      # The tag for the release commit (ie v1.8.0)
+      RELEASE_TAG_NAME: ${{github.event.inputs.release-tag-name}} # ${{ github.event.release.tag_name }}
+      # The LTS branch that was released (ie v1.8.x)
+      RELEASE_BRANCH: ${{github.event.inputs.release-branch-name}} # ${{ github.event.release.target_commitish }}
+      # The tag to apply after merging the published apis (ie gloo-v1.8.0)
+      SOLO_APIS_RELEASE_TAG_NAME: 'gloo-${{ env.RELEASE_TAG_NAME }}'
+      # The LTS branch in solo-apis that will hold the published apis (ie gloo-v1.8.x)
+      SOLO_APIS_RELEASE_BRANCH: 'gloo-${{ env.RELEASE_BRANCH }}'
+      # The branch that this GHA will commit to.
+      # The structure of this branch name allows the solo-apis repo to generate pull requests
+      # to LTS branches in solo-apis that track gloo and generate corresponding tags
+      # For example, releasing v1.8.0 will create a pull request:
+      #   gloo-v1.8.x <-- sync-apis/gloo-v1.8.x/gloo-v1.8.0
+      SOLO_APIS_SOURCE_BRANCH: 'sync-apis/${{ env.SOLO_APIS_RELEASE_BRANCH }}/${{ env.SOLO_APIS_RELEASE_TAG_NAME }}'
+      # GitHub user details
+      GIT_USER_NAME: soloio-bot
+      GIT_USER_EMAIL: soloio-bot@github.com
     name: Publish Gloo APIs
     runs-on: ubuntu-18.04
     steps:
@@ -51,16 +79,16 @@ jobs:
         with:
           repository: solo-io/solo-apis
           path: solo-apis
+          # Ensure that we checkout the solo-apis LTS branch initially (ie gloo-v1.8.x)
+          ref: ${{ env.SOLO_APIS_RELEASE_BRANCH }}
       - name: Update solo-apis
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
         run: |
           cd solo-apis
           make mod-download update-deps; ./hack/sync-gloo-apis.sh; make generate
-          git config --local user.name soloio-bot
-          git config --local user.email soloio-bot@github.com
+          git config --local user.name ${{ env.GIT_USER_NAME }}
+          git config --local user.email ${{ env.GIT_USER_EMAIL }}
           git add .
-          git commit -m "Sync Gloo APIs to ${TAG_NAME}" --allow-empty
-          git checkout -B gloo-${TAG_NAME}
+          git checkout -B ${{ env.SOLO_APIS_SOURCE_BRANCH }}
+          git commit -m "Sync Gloo APIs" --allow-empty
           git remote add solo-apis git@github.com:solo-io/solo-apis.git
-          git push solo-apis gloo-${TAG_NAME}
+          git push solo-apis ${{ env.SOLO_APIS_SOURCE_BRANCH }}
