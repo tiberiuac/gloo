@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - 'master'
-  pull_request:
+  # TEMP - to avoid spamming
+  #pull_request:
 jobs:
   regression_tests:
     name: k8s regression tests

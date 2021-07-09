@@ -2,23 +2,16 @@ name: Update solo-apis
 on:
   #release:
   #  types: [created]
-  workflow_dispatch: # TEMP
-    inputs:
-      release-tag-name:
-        description: 'release tag name'
-        required: false
-        default: ''
-      release-branch-name:
-        description: 'release branch name'
-        required: false
-        default: ''
+  pull_request:
+    branches:
+      - solo-apis-gha
 jobs:
   publish-apis:
     env:
       # The tag for the release commit (ie v1.8.0)
-      RELEASE_TAG_NAME: ${{github.event.inputs.release-tag-name}} # ${{ github.event.release.tag_name }}
+      RELEASE_TAG_NAME: v1.6.0 # ${{ github.event.release.tag_name }}
       # The LTS branch that was released (ie v1.8.x)
-      RELEASE_BRANCH: ${{github.event.inputs.release-branch-name}} # ${{ github.event.release.target_commitish }}
+      RELEASE_BRANCH: v1.6.x # ${{ github.event.release.target_commitish }}
       # The tag to apply after merging the published apis (ie gloo-v1.8.0)
       SOLO_APIS_RELEASE_TAG_NAME: 'gloo-${{ env.RELEASE_TAG_NAME }}'
       # The LTS branch in solo-apis that will hold the published apis (ie gloo-v1.8.x)
