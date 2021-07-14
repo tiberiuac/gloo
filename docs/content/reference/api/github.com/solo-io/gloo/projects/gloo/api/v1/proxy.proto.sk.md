@@ -66,7 +66,7 @@ Node ID can be specified in Envoy with the `--service-node` flag, or in the Envo
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
 | `listeners` | [[]gloo.solo.io.Listener](../proxy.proto.sk/#listener) | Define here each listener the proxy should create. Listeners define the a set of behaviors for a single bind address/port where the proxy will listen If no listeners are specified, the instances configured with the proxy resource will not accept connections. |
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation TODO: try removing this field. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  |
 
