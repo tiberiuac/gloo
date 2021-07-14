@@ -143,16 +143,16 @@ func MarshalSpec(in resources.Resource) (v1.Spec, error) {
 }
 
 func UnmarshalStatus(in resources.InputResource, status v1.Status) error {
-	typedStatus := core.Status{}
+	typedStatus := core.ReporterStatus{}
 	if err := protoutils.UnmarshalMapToProto(status, &typedStatus); err != nil {
 		return err
 	}
-	in.SetStatus(&typedStatus)
+	in.SetReporterStatus(&typedStatus)
 	return nil
 }
 
 func MarshalStatus(in resources.InputResource) (v1.Status, error) {
-	statusProto := in.GetStatus()
+	statusProto := in.GetReporterStatus()
 	if statusProto == nil {
 		return v1.Status{}, nil
 	}
@@ -163,23 +163,23 @@ func MarshalStatus(in resources.InputResource) (v1.Status, error) {
 	return statusMap, nil
 }
 
-func UnmarshalReporterStatus(in resources.InputResource, status v1.Status) error {
-	typedReporterStatus := core.ReporterStatus{}
-	if err := protoutils.UnmarshalMapToProto(status, &typedReporterStatus); err != nil {
-		return err
-	}
-	in.SetReporterStatus(&typedReporterStatus)
-	return nil
-}
-
-func MarshalReporterStatus(in resources.InputResource) (v1.Status, error) {
-	reporterStatusProto := in.GetReporterStatus()
-	if reporterStatusProto == nil {
-		return v1.Status{}, nil
-	}
-	statusMap, err := protoutils.MarshalMapFromProtoWithEnumsAsInts(reporterStatusProto)
-	if err != nil {
-		return nil, crd.MarshalErr(err, "resource ReporterStatus to map")
-	}
-	return statusMap, nil
-}
+//func UnmarshalReporterStatus(in resources.InputResource, status v1.Status) error {
+//	typedReporterStatus := core.ReporterStatus{}
+//	if err := protoutils.UnmarshalMapToProto(status, &typedReporterStatus); err != nil {
+//		return err
+//	}
+//	in.SetReporterStatus(&typedReporterStatus)
+//	return nil
+//}
+//
+//func MarshalReporterStatus(in resources.InputResource) (v1.Status, error) {
+//	reporterStatusProto := in.GetReporterStatus()
+//	if reporterStatusProto == nil {
+//		return v1.Status{}, nil
+//	}
+//	statusMap, err := protoutils.MarshalMapFromProtoWithEnumsAsInts(reporterStatusProto)
+//	if err != nil {
+//		return nil, crd.MarshalErr(err, "resource ReporterStatus to map")
+//	}
+//	return statusMap, nil
+//}
