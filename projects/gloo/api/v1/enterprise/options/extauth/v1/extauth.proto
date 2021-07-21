@@ -165,11 +165,11 @@ message HttpService {
     Request request = 2;
 
     message Response {
-        // When this is set, authorization response headers that have a will be added to the original client request and sent to the upstream.
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream.
         // Note that coexistent headers will be overridden.
         repeated string allowed_upstream_headers = 1;
 
-        // When this. is set, authorization response headers that will be added to the client's response when auth request is denied.
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
         // Note that when this list is *not* set, all the authorization response headers, except *Authority
         // (Host)* will be in the response to the client. When a header is included in this list, *Path*,
         // *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added.
@@ -753,6 +753,45 @@ message PassThroughGrpc {
 
     // Timeout for the auth server to respond. Defaults to 5s
     google.protobuf.Duration connection_timeout = 2;
+}
+
+message PassThroughHttp {
+
+    string uri = 1;
+    // todo: do we need a port?
+    // Sets a prefix to the value of authorization request header *Path*.
+    string path_prefix = 2;
+
+    message Request {
+        // These headers will be copied from the incoming request to the request going
+        // to the auth server. Note that in addition to the user's supplied matchers:
+        //
+        // 1. *Host*, *Method*, *Path* and *Content-Length* are automatically included to the list.
+        //
+        // 2. *Content-Length* will be set to 0 and the request to the authorization service will not have
+        // a message body.
+        repeated string allowed_headers = 1;
+
+        // These headers that will be included to the request to authorization service. Note that
+        // client request of the same key will be overridden.
+        map<string, string> headers_to_add = 2;
+    }
+    Request request = 3;
+
+    message Response {
+        // When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream.
+        // Note that coexistent headers will be overridden.
+        repeated string allowed_upstream_headers = 1;
+
+        // When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied.
+        // Note that when this list is *not* set, all the authorization response headers, except *Authority
+        // (Host)* will be in the response to the client. When a header is included in this list, *Path*,
+        // *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added.
+        repeated string allowed_client_headers = 2;
+    }
+    Response response = 4;
+
+    bool pass_through_state = 5;
 }
 
 /*
