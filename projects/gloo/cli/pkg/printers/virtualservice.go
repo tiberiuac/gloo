@@ -134,6 +134,7 @@ func getRouteTableStatus(vs *v1.RouteTable) string {
 	}
 }
 
+// TODO(mitchaman): This and analogous functions need reworking
 func getStatus(ctx context.Context, res resources.InputResource, namespace string) string {
 
 	// If the virtual service is still pending and may yet be accepted, don't clutter the status with other errors.

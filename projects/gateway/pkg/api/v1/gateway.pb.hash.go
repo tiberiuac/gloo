@@ -140,6 +140,14 @@ func (m *Gateway) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *Gateway_Status:
+
+	case *Gateway_ReporterStatus:
+
+	}
+
 	switch m.GatewayType.(type) {
 
 	case *Gateway_HttpGateway:

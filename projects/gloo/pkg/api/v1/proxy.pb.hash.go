@@ -82,6 +82,14 @@ func (m *Proxy) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *Proxy_Status:
+
+	case *Proxy_ReporterStatus:
+
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -990,6 +998,14 @@ func (m *UpstreamGroup) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			}
 		}
+	}
+
+	switch m.StatusOneof.(type) {
+
+	case *UpstreamGroup_Status:
+
+	case *UpstreamGroup_ReporterStatus:
+
 	}
 
 	return hasher.Sum64(), nil

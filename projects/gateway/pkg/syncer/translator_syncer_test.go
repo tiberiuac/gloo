@@ -3,6 +3,7 @@ package syncer
 import (
 	"context"
 	"fmt"
+	"os"
 	"sync"
 
 	"github.com/golang/mock/gomock"
@@ -29,9 +30,14 @@ var _ = Describe("TranslatorSyncer", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		mockReporter = &fakeReporter{}
 		curSyncer := newStatusSyncer("gloo-system", fakeWatcher, mockReporter)
 		syncer = &curSyncer
+	})
+
+	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
 	})
 
 	getMapOnlyKey := func(r map[string]reporter.Report) string {
@@ -45,12 +51,12 @@ var _ = Describe("TranslatorSyncer", func() {
 	It("should set status correctly", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		vs := &gatewayv1.VirtualService{
 			Metadata: &core.Metadata{
 				Name:      "vs",
@@ -81,20 +87,19 @@ var _ = Describe("TranslatorSyncer", func() {
 	It("should set status correctly when resources are in both proxies", func() {
 		acceptedProxy1 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test1", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy1.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			}})
 		acceptedProxy2 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy2.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		errs1 := reporter.ResourceReports{}
 		errs2 := reporter.ResourceReports{}
 		expectedErr := reporter.ResourceReports{}
@@ -138,20 +143,20 @@ var _ = Describe("TranslatorSyncer", func() {
 		}
 		pendingProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Pending},
-				},
-			},
 		}
+		pendingProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Pending},
+			},
+		})
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		vs := &gatewayv1.VirtualService{}
 		errs := reporter.ResourceReports{}
 		errs.Accept(vs)
@@ -185,12 +190,12 @@ var _ = Describe("TranslatorSyncer", func() {
 		}
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		mockReporter.Err = fmt.Errorf("error")
 		vs := &gatewayv1.VirtualService{}
 		errs := reporter.ResourceReports{}
@@ -221,20 +226,20 @@ var _ = Describe("TranslatorSyncer", func() {
 	It("should set status correctly when one proxy errors", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		rejectedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Rejected},
-				},
-			},
 		}
+		rejectedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Rejected},
+			},
+		})
 		vs := &gatewayv1.VirtualService{}
 		errs := reporter.ResourceReports{}
 		errs.Accept(vs)
@@ -264,20 +269,20 @@ var _ = Describe("TranslatorSyncer", func() {
 	It("should set status correctly when one proxy errors but is irrelevant", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Accepted},
-				},
-			},
 		}
+		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Accepted},
+			},
+		})
 		rejectedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Rejected},
-				},
-			},
 		}
+		rejectedProxy.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Rejected},
+			},
+		})
 		vs := &gatewayv1.VirtualService{}
 		errs := reporter.ResourceReports{}
 		errs.Accept(vs)
@@ -306,20 +311,20 @@ var _ = Describe("TranslatorSyncer", func() {
 	It("should set status correctly when one proxy errors", func() {
 		rejectedProxy1 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Rejected},
-				},
-			},
 		}
+		rejectedProxy1.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Rejected},
+			},
+		})
 		rejectedProxy2 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
-			ReporterStatus: &core.ReporterStatus{
-				Statuses: map[string]*core.Status{
-					"gloo-system:gateway": {State: core.Status_Rejected},
-				},
-			},
 		}
+		rejectedProxy2.SetReporterStatus(&core.ReporterStatus{
+			Statuses: map[string]*core.Status{
+				"gloo-system:gateway": {State: core.Status_Rejected},
+			},
+		})
 		vs := &gatewayv1.VirtualService{}
 		errsProxy1 := reporter.ResourceReports{}
 		errsProxy1.Accept(vs)

@@ -66,13 +66,13 @@ func (o *Gateway) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -136,13 +136,13 @@ func (o *RouteOption) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -206,13 +206,13 @@ func (o *RouteTable) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -276,13 +276,13 @@ func (o *VirtualHostOption) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -346,13 +346,13 @@ func (o *VirtualService) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil

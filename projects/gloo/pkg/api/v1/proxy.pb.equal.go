@@ -63,16 +63,6 @@ func (m *Proxy) Equal(that interface{}) bool {
 
 	}
 
-	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetStatus()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetStatus(), target.GetStatus()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetMetadata()) {
 			return false
@@ -83,12 +73,41 @@ func (m *Proxy) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetReporterStatus()) {
+	switch m.StatusOneof.(type) {
+
+	case *Proxy_Status:
+		if _, ok := target.StatusOneof.(*Proxy_Status); !ok {
 			return false
 		}
-	} else {
-		if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+
+		if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStatus(), target.GetStatus()) {
+				return false
+			}
+		}
+
+	case *Proxy_ReporterStatus:
+		if _, ok := target.StatusOneof.(*Proxy_ReporterStatus); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReporterStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.StatusOneof != target.StatusOneof {
 			return false
 		}
 	}
@@ -892,16 +911,6 @@ func (m *UpstreamGroup) Equal(that interface{}) bool {
 
 	}
 
-	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetStatus()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetStatus(), target.GetStatus()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetMetadata()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetMetadata()) {
 			return false
@@ -912,12 +921,41 @@ func (m *UpstreamGroup) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetReporterStatus()) {
+	switch m.StatusOneof.(type) {
+
+	case *UpstreamGroup_Status:
+		if _, ok := target.StatusOneof.(*UpstreamGroup_Status); !ok {
 			return false
 		}
-	} else {
-		if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+
+		if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStatus(), target.GetStatus()) {
+				return false
+			}
+		}
+
+	case *UpstreamGroup_ReporterStatus:
+		if _, ok := target.StatusOneof.(*UpstreamGroup_ReporterStatus); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReporterStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.StatusOneof != target.StatusOneof {
 			return false
 		}
 	}

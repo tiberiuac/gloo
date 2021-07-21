@@ -1,6 +1,8 @@
 package reconciler_test
 
 import (
+	"os"
+
 	"github.com/golang/mock/gomock"
 	"github.com/golang/protobuf/proto"
 	. "github.com/onsi/ginkgo"
@@ -57,6 +59,7 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 	}
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", ns)).NotTo(HaveOccurred())
 		mockCtrl := gomock.NewController(GinkgoT())
 		proxyValidationClient = mock_validation.NewMockProxyValidationServiceClient(mockCtrl)
 		proxyValidationClient.EXPECT().ValidateProxy(ctx, gomock.Any()).DoAndReturn(
@@ -71,6 +74,10 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 		snap = samples.SimpleGatewaySnapshot(us, ns)
 
 		genProxy()
+	})
+
+	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
 	})
 
 	addErr := func(resource resources.InputResource) {
@@ -141,7 +148,12 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 				// simulate gloo accepting the proxy resource
 				liveProxy, err := proxyClient.Read(proxy.Metadata.Namespace, proxy.Metadata.Name, clients.ReadOpts{})
 				Expect(err).NotTo(HaveOccurred())
-				liveProxy.Status.State = core.Status_Accepted
+				liveProxyStatus := liveProxy.GetStatusForReporter("gateway")
+				if liveProxyStatus == nil {
+					liveProxy.AddToReporterStatus(&core.Status{State: core.Status_Accepted, ReportedBy: "gateway"})
+				} else {
+					liveProxyStatus.State = core.Status_Accepted
+				}
 				liveProxy, err = proxyClient.Write(liveProxy, clients.WriteOpts{OverwriteExisting: true})
 				Expect(err).NotTo(HaveOccurred())
 
@@ -154,7 +166,7 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 				// typically the reconciler sets resources to pending for processing, but here
 				// we expect the status to be carried over because nothing changed from gloo's
 				// point of view
-				Expect(px.GetStatus().State).To(Equal(core.Status_Accepted))
+				Expect(px.GetStatusForReporter("gateway").GetState()).To(Equal(core.Status_Accepted))
 
 				// after reconcile with the updated snapshot, we confirm that gateway-specific
 				// parts of the proxy have been updated

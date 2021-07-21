@@ -3,6 +3,7 @@ package syncer
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/solo-io/go-utils/contextutils"
@@ -34,6 +35,7 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 		cancel context.CancelFunc
 	)
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		memFactory := &factory.MemoryResourceClientFactory{
 			Cache: memory.NewInMemoryResourceCache(),
@@ -126,6 +128,7 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
 		cancel()
 	})
 
@@ -135,8 +138,6 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 			if err != nil {
 				return core.Status_Pending, err
 			}
-			contextutils.LoggerFrom(ctx).Debugf("newvs.GetReporterStatus(): %v", newvs.GetReporterStatus())
-			contextutils.LoggerFrom(ctx).Debugf("newvs.GetStatus(): %v", newvs.GetStatus())
 			subresource := newvs.GetStatusForReporter("gateway").GetSubresourceStatuses()
 			if subresource == nil {
 				contextutils.LoggerFrom(ctx).Debugf("nil subresource")

@@ -117,7 +117,7 @@ func getGrpcJsonGateway() *gatewayv1.Gateway {
 	return &gatewayv1.Gateway{
 		BindAddress: "::",
 		BindPort:    defaults.HttpPort,
-		Status:      &core.Status{},
+		StatusOneof: &gatewayv1.Gateway_ReporterStatus{ReporterStatus: &core.ReporterStatus{}},
 		Metadata: &core.Metadata{
 			Name:      "gateway-proxy",
 			Namespace: "gloo-system",

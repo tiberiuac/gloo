@@ -98,6 +98,14 @@ func (m *VirtualService) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *VirtualService_Status:
+
+	case *VirtualService_ReporterStatus:
+
+	}
+
 	return hasher.Sum64(), nil
 }
 

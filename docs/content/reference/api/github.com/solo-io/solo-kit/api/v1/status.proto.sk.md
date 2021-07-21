@@ -29,7 +29,12 @@ weight: 5
 
  
 *
-ReporterStatus indicates the Status of a resource according to each reporter
+ReporterStatus indicates the Status of a resource according to each controller.
+
+Note: ReporterStatus is intended to replace Status in resources. Resources may need both fields
+in order to handle reading from older versions that do not yet use ReporterStatus; in this case
+it is recommended and safe to move the existing Status and a new ReporterStatus into a oneof:
+https://developers.google.com/protocol-buffers/docs/proto3#updating.
 
 ```yaml
 "statuses": map<string, .core.solo.io.Status>

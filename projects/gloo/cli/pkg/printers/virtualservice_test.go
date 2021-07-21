@@ -31,17 +31,16 @@ var _ = Describe("getStatus", func() {
 	})
 
 	It("handles Pending resource state", func() {
-		vs := &v1.VirtualService{
-			Status: &core.Status{
-				State: core.Status_Pending,
-			},
-		}
+		vs := &v1.VirtualService{}
+		vs.SetStatus(&core.Status{
+			State: core.Status_Pending,
+		})
 		Expect(getStatus(ctx, vs, namespace)).To(Equal(core.Status_Pending.String()))
 
 		// range through all possible sub resource states
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
-			vs.Status.SubresourceStatuses = map[string]*core.Status{
+			vs.GetStatus().SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:  subResourceStatusState,
 					Reason: "any reason",
@@ -52,18 +51,17 @@ var _ = Describe("getStatus", func() {
 		}
 	})
 	It("handles Accepted resource state", func() {
-		vs := &v1.VirtualService{
-			Status: &core.Status{
-				State: core.Status_Accepted,
-			},
-		}
+		vs := &v1.VirtualService{}
+		vs.SetStatus(&core.Status{
+			State: core.Status_Accepted,
+		})
 		Expect(getStatus(ctx, vs, namespace)).To(Equal(core.Status_Accepted.String()))
 
 		// range through all possible sub resource states
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
 			By(fmt.Sprintf("subresource: %v", subResourceStatusString))
-			vs.Status.SubresourceStatuses = map[string]*core.Status{
+			vs.GetStatus().SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:  subResourceStatusState,
 					Reason: "any reason",
@@ -84,11 +82,10 @@ var _ = Describe("getStatus", func() {
 			// check all values other than accepted and pending
 			if resourceStatusString != core.Status_Accepted.String() && resourceStatusString != core.Status_Pending.String() {
 				By(fmt.Sprintf("resource: %v", resourceStatusString))
-				vs := &v1.VirtualService{
-					Status: &core.Status{
-						State: resourceStatusState,
-					},
-				}
+				vs := &v1.VirtualService{}
+				vs.SetStatus(&core.Status{
+					State: resourceStatusState,
+				})
 				Expect(getStatus(ctx, vs, namespace)).To(Equal(resourceStatusString))
 			}
 		}
@@ -105,12 +102,11 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs := &v1.VirtualService{
-					Status: &core.Status{
-						State:               resourceStatusState,
-						SubresourceStatuses: subStatuses,
-					},
-				}
+				vs := &v1.VirtualService{}
+				vs.SetStatus(&core.Status{
+					State:               resourceStatusState,
+					SubresourceStatuses: subStatuses,
+				})
 				Expect(getStatus(ctx, vs, namespace)).To(Equal(resourceStatusString))
 
 				By(fmt.Sprintf("resource: %v, two subresources accepted", resourceStatusString))
@@ -122,7 +118,7 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.Status.SubresourceStatuses = subStatuses
+				vs.GetStatus().SubresourceStatuses = subStatuses
 				Expect(getStatus(ctx, vs, namespace)).To(Equal(resourceStatusString))
 			}
 		}
@@ -141,12 +137,11 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUntracked,
 					},
 				}
-				vs := &v1.VirtualService{
-					Status: &core.Status{
-						State:               resourceStatusState,
-						SubresourceStatuses: subStatuses,
-					},
-				}
+				vs := &v1.VirtualService{}
+				vs.SetStatus(&core.Status{
+					State:               resourceStatusState,
+					SubresourceStatuses: subStatuses,
+				})
 				out := getStatus(ctx, vs, namespace)
 				Expect(out).To(Equal(resourceStatusString + "\n" + genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUntracked)))
 
@@ -161,7 +156,7 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUntracked,
 					},
 				}
-				vs.Status.SubresourceStatuses = subStatuses
+				vs.GetStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix(resourceStatusString + "\n"))
 				// Use regex because order does not matter
@@ -186,12 +181,11 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUpstreamList,
 					},
 				}
-				vs := &v1.VirtualService{
-					Status: &core.Status{
-						State:               resourceStatusState,
-						SubresourceStatuses: subStatuses,
-					},
-				}
+				vs := &v1.VirtualService{}
+				vs.SetStatus(&core.Status{
+					State:               resourceStatusState,
+					SubresourceStatuses: subStatuses,
+				})
 				out := getStatus(ctx, vs, namespace)
 				Expect(out).To(Equal(resourceStatusString + "\n" + subResourceErrorFormat(erroredResourceIdentifier)))
 
@@ -205,7 +199,7 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.Status.SubresourceStatuses = subStatuses
+				vs.GetStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix(resourceStatusString + "\n"))
 				Expect(out).To(MatchRegexp(reasonUpstreamList))
@@ -221,7 +215,7 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUpstreamList,
 					},
 				}
-				vs.Status.SubresourceStatuses = subStatuses
+				vs.GetStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix(resourceStatusString + "\n"))
 				// Use regex because order does not matter

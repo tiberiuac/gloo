@@ -124,6 +124,7 @@ type reportsAndStatus struct {
 	Reports reporter.ResourceReports
 }
 type statusSyncer struct {
+	// proxyToLastStatus persists the last known status for each proxy from previous syncs.
 	proxyToLastStatus       map[string]reportsAndStatus
 	inputResourceLastStatus map[resources.InputResource]*core.Status
 	currentGeneratedProxies []*core.ResourceRef

@@ -2,6 +2,7 @@ package syncer_test
 
 import (
 	"context"
+	"os"
 
 	envoy_config_cluster_v3 "github.com/envoyproxy/go-control-plane/envoy/config/cluster/v3"
 	envoy_config_endpoint_v3 "github.com/envoyproxy/go-control-plane/envoy/config/endpoint/v3"
@@ -41,6 +42,7 @@ var _ = Describe("Translate Proxy", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", ns)).NotTo(HaveOccurred())
 		var err error
 		xdsCache = &MockXdsCache{}
 		sanitizer = &MockXdsSanitizer{}
@@ -82,7 +84,7 @@ var _ = Describe("Translate Proxy", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].Status).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 			ReportedBy: ref,
@@ -103,14 +105,17 @@ var _ = Describe("Translate Proxy", func() {
 
 	})
 
-	AfterEach(func() { cancel() })
+	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
+		cancel()
+	})
 
 	It("writes the reports the translator spits out and calls SetSnapshot on the cache", func() {
 		proxies, err := proxyClient.List(ns, clients.ListOpts{})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].Status).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
 			State:      1,
 			ReportedBy: ref,
 		}))
@@ -269,7 +274,7 @@ var _ = Describe("Empty cache", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].Status).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 			ReportedBy: ref,
@@ -297,7 +302,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		Expect(proxies).To(HaveLen(numProxies))
 		for _, proxy := range proxies {
 			Expect(proxy).To(BeAssignableToTypeOf(&v1.Proxy{}))
-			Expect(proxy.Status).To(Equal(&core.Status{
+			Expect(proxy.GetStatusForReporter(ref)).To(Equal(&core.Status{
 				State:      2,
 				Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 				ReportedBy: ref,
@@ -386,7 +391,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(2))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].Status).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 			ReportedBy: ref,
@@ -411,7 +416,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		upstreams, err := upstreamClient.List(ns, clients.ListOpts{})
 		Expect(err).NotTo(HaveOccurred())
 
-		Expect(upstreams[0].Status).To(Equal(&core.Status{
+		Expect(upstreams[0].GetStatus()).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "2 errors occurred:\n\t* upstream is bad - determined by proxy-name1\n\t* upstream is bad - determined by proxy-name2\n\n",
 			ReportedBy: ref,
@@ -430,7 +435,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		upstreams, err := upstreamClient.List(ns, clients.ListOpts{})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(upstreams).To(HaveLen(1))
-		Expect(upstreams[0].Status).To(Equal(&core.Status{
+		Expect(upstreams[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* generic upstream error\n\n",
 			ReportedBy: ref,

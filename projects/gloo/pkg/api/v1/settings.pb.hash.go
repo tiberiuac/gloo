@@ -629,6 +629,14 @@ func (m *Settings) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *Settings_Status:
+
+	case *Settings_ReporterStatus:
+
+	}
+
 	return hasher.Sum64(), nil
 }
 

@@ -2,6 +2,7 @@ package translator
 
 import (
 	"context"
+	"os"
 	"time"
 
 	alpha1 "knative.dev/networking/pkg/client/clientset/versioned/typed/networking/v1alpha1"
@@ -22,6 +23,14 @@ import (
 )
 
 var _ = Describe("TranslatorSyncer", func() {
+	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "write-namespace")).NotTo(HaveOccurred())
+	})
+
+	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
+	})
+
 	It("propagates successful proxy status to the clusteringresses it was created from", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer func() { cancel() }()
@@ -44,9 +53,10 @@ var _ = Describe("TranslatorSyncer", func() {
 			defer GinkgoRecover()
 			// update status after a 1s sleep
 			time.Sleep(time.Second / 5)
-			proxy.Status = &core.Status{
-				State: core.Status_Accepted,
-			}
+			proxy.AddToReporterStatus(&core.Status{
+				State:      core.Status_Accepted,
+				ReportedBy: "gateway",
+			})
 			_, err := proxyClient.Write(proxy, clients.WriteOpts{OverwriteExisting: true})
 			Expect(err).NotTo(HaveOccurred())
 		}()

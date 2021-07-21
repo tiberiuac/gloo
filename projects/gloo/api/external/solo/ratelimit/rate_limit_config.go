@@ -20,6 +20,14 @@ var _ resources.CustomInputResource = &RateLimitConfig{}
 
 type RateLimitConfig v1alpha1.RateLimitConfig
 
+func (r *RateLimitConfig) HasStatus() bool {
+	panic("implement me")
+}
+
+func (r *RateLimitConfig) HasReporterStatus() bool {
+	panic("implement me")
+}
+
 func (r *RateLimitConfig) GetReporterStatus() *core.ReporterStatus {
 	panic("implement me")
 }

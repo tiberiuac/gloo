@@ -73,6 +73,7 @@ var _ = Describe("Happy path", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		defaults.HttpPort = services.NextBindPort()
 		defaults.HttpsPort = services.NextBindPort()
@@ -86,6 +87,7 @@ var _ = Describe("Happy path", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
 		if envoyInstance != nil {
 			_ = envoyInstance.Clean()
 		}
@@ -364,10 +366,10 @@ var _ = Describe("Happy path", func() {
 							if err != nil {
 								return 0, err
 							}
-							if updatedProxy.GetStatus() == nil {
+							if updatedProxy.GetStatusForReporter("gloo") == nil {
 								return 0, nil
 							}
-							return updatedProxy.GetStatus().GetState(), nil
+							return updatedProxy.GetStatusForReporter("gloo").GetState(), nil
 						}
 
 						Eventually(getStatus, "10s").ShouldNot(Equal(core.Status_Pending))
@@ -475,7 +477,7 @@ var _ = Describe("Happy path", func() {
 					if err != nil {
 						return core.Status_Pending, err
 					}
-					return u.GetStatus().GetState(), nil
+					return u.GetStatusForReporter("gloo").GetState(), nil
 				}
 
 				Context("specific namespace", func() {

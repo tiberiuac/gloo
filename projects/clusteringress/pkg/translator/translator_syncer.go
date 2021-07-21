@@ -115,12 +115,12 @@ func (s *translatorSyncer) propagateProxyStatus(ctx context.Context, proxy *gloo
 			if err != nil {
 				return err
 			}
-			switch updatedProxy.GetStatusForReporter("gateway").GetState() {
+			switch p := updatedProxy.GetStatusForReporter("gateway"); p.GetState() {
 			case core.Status_Pending:
 				continue
 			case core.Status_Rejected:
 				contextutils.LoggerFrom(ctx).Errorf("proxy was rejected by gloo: %v",
-					updatedProxy.Status.Reason)
+					p.GetReason())
 				return nil
 			case core.Status_Accepted:
 				return s.markClusterIngressesReady(ctx, clusterIngresses)

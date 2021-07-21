@@ -78,6 +78,14 @@ func (m *VirtualHostOption) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *VirtualHostOption_Status:
+
+	case *VirtualHostOption_ReporterStatus:
+
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -132,6 +140,14 @@ func (m *RouteOption) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			}
 		}
+	}
+
+	switch m.StatusOneof.(type) {
+
+	case *RouteOption_Status:
+
+	case *RouteOption_ReporterStatus:
+
 	}
 
 	return hasher.Sum64(), nil

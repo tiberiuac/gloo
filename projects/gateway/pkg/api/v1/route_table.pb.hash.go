@@ -102,5 +102,13 @@ func (m *RouteTable) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *RouteTable_Status:
+
+	case *RouteTable_ReporterStatus:
+
+	}
+
 	return hasher.Sum64(), nil
 }

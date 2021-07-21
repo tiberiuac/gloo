@@ -345,9 +345,12 @@ message Settings {
     // Metadata contains the object metadata for this resource
     core.solo.io.Metadata metadata = 14;
 
-    // Status indicates the validation status of this resource.
-    // Status is read-only by clients, and set by gloo during validation
-    core.solo.io.Status status = 15 [(extproto.skip_hashing) = true];
+    oneof status_oneof {
+        // Status indicates the validation status of this resource.
+        // Status is read-only by clients, and set by gloo during validation
+        core.solo.io.Status status = 15 [(extproto.skip_hashing) = true];
+        core.solo.io.ReporterStatus reporter_status = 34 [(extproto.skip_hashing) = true];
+    }
 
     message ObservabilityOptions {
 
@@ -381,8 +384,6 @@ message Settings {
     // Default configuration to use for upstreams, when not provided by specific upstream
     // When these properties are defined on an upstream, this configuration will be ignored
     UpstreamOptions upstreamOptions = 32;
-
-    core.solo.io.ReporterStatus reporter_status = 34 [(extproto.skip_hashing) = true];
 
 }
 

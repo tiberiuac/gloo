@@ -114,9 +114,9 @@ var _ = Describe("TranslatorSyncer", func() {
 			defer GinkgoRecover()
 			// update status after a 1s sleep
 			time.Sleep(time.Second / 5)
-			proxy.Status = &core.Status{
+			proxy.SetStatus(&core.Status{
 				State: core.Status_Accepted,
-			}
+			})
 			_, err := proxyClient.Write(proxy, clients.WriteOpts{OverwriteExisting: true})
 			Expect(err).NotTo(HaveOccurred())
 		}()

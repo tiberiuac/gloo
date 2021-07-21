@@ -226,16 +226,6 @@ func (m *Settings) Equal(that interface{}) bool {
 		}
 	}
 
-	if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetStatus()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetStatus(), target.GetStatus()) {
-			return false
-		}
-	}
-
 	if h, ok := interface{}(m.GetObservabilityOptions()).(equality.Equalizer); ok {
 		if !h.Equal(target.GetObservabilityOptions()) {
 			return false
@@ -252,16 +242,6 @@ func (m *Settings) Equal(that interface{}) bool {
 		}
 	} else {
 		if !proto.Equal(m.GetUpstreamOptions(), target.GetUpstreamOptions()) {
-			return false
-		}
-	}
-
-	if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-		if !h.Equal(target.GetReporterStatus()) {
-			return false
-		}
-	} else {
-		if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
 			return false
 		}
 	}
@@ -424,6 +404,45 @@ func (m *Settings) Equal(that interface{}) bool {
 	default:
 		// m is nil but target is not nil
 		if m.ArtifactSource != target.ArtifactSource {
+			return false
+		}
+	}
+
+	switch m.StatusOneof.(type) {
+
+	case *Settings_Status:
+		if _, ok := target.StatusOneof.(*Settings_Status); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetStatus(), target.GetStatus()) {
+				return false
+			}
+		}
+
+	case *Settings_ReporterStatus:
+		if _, ok := target.StatusOneof.(*Settings_ReporterStatus); !ok {
+			return false
+		}
+
+		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetReporterStatus()) {
+				return false
+			}
+		} else {
+			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+				return false
+			}
+		}
+
+	default:
+		// m is nil but target is not nil
+		if m.StatusOneof != target.StatusOneof {
 			return false
 		}
 	}

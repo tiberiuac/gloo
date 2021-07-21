@@ -302,6 +302,14 @@ func (m *Upstream) Hash(hasher hash.Hash64) (uint64, error) {
 		}
 	}
 
+	switch m.StatusOneof.(type) {
+
+	case *Upstream_Status:
+
+	case *Upstream_ReporterStatus:
+
+	}
+
 	switch m.UpstreamType.(type) {
 
 	case *Upstream_Kube:

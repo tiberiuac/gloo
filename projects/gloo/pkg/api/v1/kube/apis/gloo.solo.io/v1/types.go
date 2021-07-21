@@ -180,13 +180,13 @@ func (o *Proxy) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -307,13 +307,13 @@ func (o *Settings) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -377,13 +377,13 @@ func (o *Upstream) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil
@@ -447,13 +447,13 @@ func (o *UpstreamGroup) UnmarshalJSON(data []byte) error {
 		TypeMeta:   metaOnly.TypeMeta,
 		Spec:       spec,
 	}
-	if spec.Status != nil {
-		o.Status = *spec.Status
-		o.Spec.Status = nil
+	if spec.GetStatus() != nil {
+		o.Status = *spec.GetStatus()
+		o.Spec.SetStatus(nil)
 	}
-	if spec.ReporterStatus != nil {
-		o.ReporterStatus = *spec.ReporterStatus
-		o.Spec.ReporterStatus = nil
+	if spec.GetReporterStatus() != nil {
+		o.ReporterStatus = *spec.GetReporterStatus()
+		o.Spec.SetReporterStatus(nil)
 	}
 
 	return nil

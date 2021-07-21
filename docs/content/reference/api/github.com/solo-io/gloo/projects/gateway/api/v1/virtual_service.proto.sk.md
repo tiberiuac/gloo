@@ -129,8 +129,8 @@ constraints:
 "sslConfig": .gloo.solo.io.SslConfig
 "displayName": string
 "status": .core.solo.io.Status
-"metadata": .core.solo.io.Metadata
 "reporterStatus": .core.solo.io.ReporterStatus
+"metadata": .core.solo.io.Metadata
 
 ```
 
@@ -139,9 +139,9 @@ constraints:
 | `virtualHost` | [.gateway.solo.io.VirtualHost](../virtual_service.proto.sk/#virtualhost) | The VirtualHost contains the The list of HTTP routes define routing actions to be taken for incoming HTTP requests whose host header matches this virtual host. If the request matches more than one route in the list, the first route matched will be selected. If the list of routes is empty, the virtual host will be ignored by Gloo. |
 | `sslConfig` | [.gloo.solo.io.SslConfig](../../../../gloo/api/v1/ssl.proto.sk/#sslconfig) | If provided, the Gateway will serve TLS/SSL traffic for this set of routes. |
 | `displayName` | `string` | Display only, optional descriptive name. Unlike metadata.name, DisplayName can be any string and can be changed after creating the resource. |
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `reporterStatus` can be set. |
+| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  Only one of `reporterStatus` or `status` can be set. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
-| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  |
 
 
 
