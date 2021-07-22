@@ -134,11 +134,26 @@ func getRouteTableStatus(vs *v1.RouteTable) string {
 	}
 }
 
-// TODO(mitchaman): This and analogous functions need reworking
 func getStatus(ctx context.Context, res resources.InputResource, namespace string) string {
+	reporterStatus := res.GetReporterStatus()
+	var sb strings.Builder
+	var firstController = true
+	for controller, status := range reporterStatus.GetStatuses() {
+		if !firstController {
+			sb.WriteString("\n")
+		}
+		sb.WriteString(controller)
+		sb.WriteString(": ")
+		sb.WriteString(getSingleStatus(status, ctx, namespace))
+		firstController = false
+	}
+	return sb.String()
+}
+
+func getSingleStatus(status *core.Status, ctx context.Context, namespace string) string {
 
 	// If the virtual service is still pending and may yet be accepted, don't clutter the status with other errors.
-	resourceStatus := res.GetStatus().GetState()
+	resourceStatus := status.GetState()
 	if resourceStatus == core.Status_Pending {
 		return resourceStatus.String()
 	}
@@ -147,7 +162,7 @@ func getStatus(ctx context.Context, res resources.InputResource, namespace strin
 	// At the moment, virtual services only have one subresource, the associated gateway.
 	// In the future, we may add more.
 	// Either way, we only care if a subresource is in a non-accepted state.
-	subresourceStatuses := res.GetStatus().GetSubresourceStatuses()
+	subresourceStatuses := status.GetSubresourceStatuses()
 
 	// If the virtual service was accepted, don't include confusing errors on subresources but note if there's another resource potentially blocking config updates.
 	if resourceStatus == core.Status_Accepted {
