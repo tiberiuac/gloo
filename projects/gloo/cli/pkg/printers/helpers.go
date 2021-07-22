@@ -2,8 +2,9 @@ package printers
 
 import (
 	"fmt"
-	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 	"strings"
+
+	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
 
 	"github.com/ghodss/yaml"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/kube/crd"
