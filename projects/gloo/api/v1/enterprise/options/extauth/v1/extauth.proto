@@ -736,6 +736,7 @@ message PassThroughAuth {
 
     oneof protocol {
         PassThroughGrpc grpc = 1;
+        PassThroughHttp http = 2;
     }
 
     // Custom config to be passed per request to the passthrough auth service.
@@ -792,6 +793,11 @@ message PassThroughHttp {
     Response response = 4;
 
     bool pass_through_state = 5;
+
+    bool pass_through_filter_metadata = 6;
+
+    // Timeout for the auth server to respond. Defaults to 5s
+    google.protobuf.Duration connection_timeout = 7;
 }
 
 /*

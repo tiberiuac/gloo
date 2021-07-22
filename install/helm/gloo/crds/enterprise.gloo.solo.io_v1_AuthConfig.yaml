@@ -345,6 +345,41 @@ spec:
                           connectionTimeout:
                             type: string
                         type: object
+                      http:
+                        properties:
+                          connectionTimeout:
+                            type: string
+                          passThroughFilterMetadata:
+                            type: boolean
+                          passThroughState:
+                            type: boolean
+                          pathPrefix:
+                            type: string
+                          request:
+                            properties:
+                              allowedHeaders:
+                                items:
+                                  type: string
+                                type: array
+                              headersToAdd:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            type: object
+                          response:
+                            properties:
+                              allowedClientHeaders:
+                                items:
+                                  type: string
+                                type: array
+                              allowedUpstreamHeaders:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          uri:
+                            type: string
+                        type: object
                     type: object
                   pluginAuth:
                     properties:

@@ -52,6 +52,9 @@ weight: 5
 - [ConnectionPool](#connectionpool)
 - [PassThroughAuth](#passthroughauth)
 - [PassThroughGrpc](#passthroughgrpc)
+- [PassThroughHttp](#passthroughhttp)
+- [Request](#request)
+- [Response](#response)
 - [ExtAuthConfig](#extauthconfig)
 - [OAuthConfig](#oauthconfig)
 - [OidcAuthorizationCodeConfig](#oidcauthorizationcodeconfig)
@@ -261,8 +264,8 @@ Describes the transport protocol version to use when connecting to the ext auth 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `allowedUpstreamHeaders` | `[]string` | When this is set, authorization response headers that have a will be added to the original client request and sent to the upstream. Note that coexistent headers will be overridden. |
-| `allowedClientHeaders` | `[]string` | When this. is set, authorization response headers that will be added to the client's response when auth request is denied. Note that when this list is *not* set, all the authorization response headers, except *Authority (Host)* will be in the response to the client. When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added. |
+| `allowedUpstreamHeaders` | `[]string` | When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream. Note that coexistent headers will be overridden. |
+| `allowedClientHeaders` | `[]string` | When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied. Note that when this list is *not* set, all the authorization response headers, except *Authority (Host)* will be in the response to the client. When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added. |
 
 
 
@@ -1002,13 +1005,15 @@ Authorizes requests by querying a custom extauth server.
 
 ```yaml
 "grpc": .enterprise.gloo.solo.io.PassThroughGrpc
+"http": .enterprise.gloo.solo.io.PassThroughHttp
 "config": .google.protobuf.Struct
 
 ```
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `grpc` | [.enterprise.gloo.solo.io.PassThroughGrpc](../extauth.proto.sk/#passthroughgrpc) |  |
+| `grpc` | [.enterprise.gloo.solo.io.PassThroughGrpc](../extauth.proto.sk/#passthroughgrpc) |  Only one of `grpc` or `http` can be set. |
+| `http` | [.enterprise.gloo.solo.io.PassThroughHttp](../extauth.proto.sk/#passthroughhttp) |  Only one of `http` or `grpc` can be set. |
 | `config` | [.google.protobuf.Struct](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/struct) | Custom config to be passed per request to the passthrough auth service. |
 
 
@@ -1032,6 +1037,73 @@ https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b030
 | ----- | ---- | ----------- | 
 | `address` | `string` | Address of the auth server to query. Should be in the form ADDRESS:PORT, e.g. `default.svc.cluster.local:389`. |
 | `connectionTimeout` | [.google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration) | Timeout for the auth server to respond. Defaults to 5s. |
+
+
+
+
+---
+### PassThroughHttp
+
+
+
+```yaml
+"uri": string
+"pathPrefix": string
+"request": .enterprise.gloo.solo.io.PassThroughHttp.Request
+"response": .enterprise.gloo.solo.io.PassThroughHttp.Response
+"passThroughState": bool
+"passThroughFilterMetadata": bool
+"connectionTimeout": .google.protobuf.Duration
+
+```
+
+| Field | Type | Description |
+| ----- | ---- | ----------- | 
+| `uri` | `string` |  |
+| `pathPrefix` | `string` | todo: do we need a port? Sets a prefix to the value of authorization request header *Path*. |
+| `request` | [.enterprise.gloo.solo.io.PassThroughHttp.Request](../extauth.proto.sk/#request) |  |
+| `response` | [.enterprise.gloo.solo.io.PassThroughHttp.Response](../extauth.proto.sk/#response) |  |
+| `passThroughState` | `bool` |  |
+| `passThroughFilterMetadata` | `bool` |  |
+| `connectionTimeout` | [.google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration) | Timeout for the auth server to respond. Defaults to 5s. |
+
+
+
+
+---
+### Request
+
+
+
+```yaml
+"allowedHeaders": []string
+"headersToAdd": map<string, string>
+
+```
+
+| Field | Type | Description |
+| ----- | ---- | ----------- | 
+| `allowedHeaders` | `[]string` | These headers will be copied from the incoming request to the request going to the auth server. Note that in addition to the user's supplied matchers: 1. *Host*, *Method*, *Path* and *Content-Length* are automatically included to the list. 2. *Content-Length* will be set to 0 and the request to the authorization service will not have a message body. |
+| `headersToAdd` | `map<string, string>` | These headers that will be included to the request to authorization service. Note that client request of the same key will be overridden. |
+
+
+
+
+---
+### Response
+
+
+
+```yaml
+"allowedUpstreamHeaders": []string
+"allowedClientHeaders": []string
+
+```
+
+| Field | Type | Description |
+| ----- | ---- | ----------- | 
+| `allowedUpstreamHeaders` | `[]string` | When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream. Note that coexistent headers will be overridden. |
+| `allowedClientHeaders` | `[]string` | When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied. Note that when this list is *not* set, all the authorization response headers, except *Authority (Host)* will be in the response to the client. When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added. |
 
 
 
