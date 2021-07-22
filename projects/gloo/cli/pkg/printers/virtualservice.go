@@ -135,19 +135,9 @@ func getRouteTableStatus(vs *v1.RouteTable) string {
 }
 
 func getStatus(ctx context.Context, res resources.InputResource, namespace string) string {
-	reporterStatus := res.GetReporterStatus()
-	var sb strings.Builder
-	var firstController = true
-	for controller, status := range reporterStatus.GetStatuses() {
-		if !firstController {
-			sb.WriteString("\n")
-		}
-		sb.WriteString(controller)
-		sb.WriteString(": ")
-		sb.WriteString(getSingleStatus(status, ctx, namespace))
-		firstController = false
-	}
-	return sb.String()
+	return AggregateReporterStatus(res.GetReporterStatus(), func(status *core.Status) string {
+		return getSingleStatus(status, ctx, namespace)
+	})
 }
 
 func getSingleStatus(status *core.Status, ctx context.Context, namespace string) string {

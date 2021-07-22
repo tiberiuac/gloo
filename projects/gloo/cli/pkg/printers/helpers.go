@@ -2,6 +2,8 @@ package printers
 
 import (
 	"fmt"
+	"github.com/solo-io/solo-kit/pkg/api/v1/resources/core"
+	"strings"
 
 	"github.com/ghodss/yaml"
 	"github.com/solo-io/solo-kit/pkg/api/v1/clients/kube/crd"
@@ -39,4 +41,21 @@ func PrintKubeCrdList(in resources.InputResourceList, resourceCrd crd.Crd) error
 		}
 	}
 	return nil
+}
+
+// AggregateReporterStatus Formats a ReporterStatus into a string, using the statusProcessor function to
+// format each individual controller's status
+func AggregateReporterStatus(reporterStatus *core.ReporterStatus, statusProcessor func(*core.Status) string) string {
+	var sb strings.Builder
+	var firstController = true
+	for controller, status := range reporterStatus.GetStatuses() {
+		if !firstController {
+			sb.WriteString("\n")
+		}
+		sb.WriteString(controller)
+		sb.WriteString(": ")
+		sb.WriteString(statusProcessor(status))
+		firstController = false
+	}
+	return sb.String()
 }

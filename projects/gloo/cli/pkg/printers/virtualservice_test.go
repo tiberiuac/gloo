@@ -255,6 +255,7 @@ var _ = Describe("getStatus", func() {
 			State:      core.Status_Accepted,
 			ReportedBy: "gateway",
 		})
-		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Pending\ngloo-system:gateway: Accepted"))
+		Expect(getStatus(ctx, vs, namespace)).To(ContainSubstring("gloo-system:gloo: Pending"))
+		Expect(getStatus(ctx, vs, namespace)).To(ContainSubstring("gloo-system:gateway: Accepted"))
 	})
 })
