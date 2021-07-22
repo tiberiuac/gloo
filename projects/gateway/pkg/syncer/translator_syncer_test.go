@@ -37,7 +37,7 @@ var _ = Describe("TranslatorSyncer", func() {
 	})
 
 	AfterEach(func() {
-		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 	})
 
 	getMapOnlyKey := func(r map[string]reporter.Report) string {

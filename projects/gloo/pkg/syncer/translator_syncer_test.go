@@ -106,7 +106,7 @@ var _ = Describe("Translate Proxy", func() {
 	})
 
 	AfterEach(func() {
-		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		cancel()
 	})
 

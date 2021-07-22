@@ -15,7 +15,7 @@ var _ = Describe("UpstreamTable", func() {
 	})
 
 	AfterEach(func(){
-		Expect(os.Setenv("POD_NAMESPACE", "")).NotTo(HaveOccurred())
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 	})
 
 	It("handles malformed upstream (nil spec)", func() {
