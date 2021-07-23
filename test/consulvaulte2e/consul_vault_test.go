@@ -62,6 +62,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 	const writeNamespace = defaults.GlooSystem
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 
 		glooPort = int(services.AllocateGlooPort())
@@ -170,6 +171,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		if consulInstance != nil {
 			err = consulInstance.Clean()
 			Expect(err).NotTo(HaveOccurred())
@@ -236,7 +238,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 			if err != nil {
 				return 0, err
 			}
-			return proxy.GetStatusForReporter("gateway").GetState(), nil
+			return proxy.GetStatusForReporter("gloo").GetState(), nil
 		}, "60s", "0.2s").Should(Equal(core.Status_Accepted))
 
 		v1helpers.TestUpstreamReachable(defaults.HttpsPort, svc1, &cert)
@@ -262,7 +264,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 			if err != nil {
 				return 0, err
 			}
-			return proxy.GetStatusForReporter("gateway").GetState(), nil
+			return proxy.GetStatusForReporter("gloo").GetState(), nil
 		}, "60s", "0.2s").Should(Equal(core.Status_Accepted))
 
 		v1helpers.ExpectHttpOK(nil, nil, defaults.HttpPort,
