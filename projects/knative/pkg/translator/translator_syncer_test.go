@@ -2,6 +2,7 @@ package translator
 
 import (
 	"context"
+	"os"
 	"time"
 
 	knativev1 "github.com/solo-io/gloo/projects/knative/pkg/api/v1"
@@ -36,6 +37,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		cancel               context.CancelFunc
 	)
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", namespace)).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		proxyClient, _ = v1.NewProxyClient(ctx, &factory.MemoryResourceClientFactory{Cache: memory.NewInMemoryResourceCache()})
 		ingress = &v1alpha1.Ingress{Ingress: knative.Ingress{ObjectMeta: v12.ObjectMeta{Generation: 1},
@@ -69,6 +71,7 @@ var _ = Describe("TranslatorSyncer", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		cancel()
 	})
 
@@ -114,8 +117,9 @@ var _ = Describe("TranslatorSyncer", func() {
 			defer GinkgoRecover()
 			// update status after a 1s sleep
 			time.Sleep(time.Second / 5)
-			proxy.SetStatus(&core.Status{
-				State: core.Status_Accepted,
+			proxy.AddToReporterStatus(&core.Status{
+				State:      core.Status_Accepted,
+				ReportedBy: "gloo",
 			})
 			_, err := proxyClient.Write(proxy, clients.WriteOpts{OverwriteExisting: true})
 			Expect(err).NotTo(HaveOccurred())

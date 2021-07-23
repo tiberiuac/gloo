@@ -170,7 +170,8 @@ func (s *translatorSyncer) propagateProxyStatus(ctx context.Context, proxy *gloo
 			if err != nil {
 				return err
 			}
-			switch updatedProxy.GetStatus().State {
+			// TODO(mitchaman): Should this be gloo?
+			switch updatedProxy.GetStatusForReporter("gloo").GetState() {
 			case core.Status_Pending:
 				continue
 			case core.Status_Rejected:
