@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"regexp"
 
 	"github.com/solo-io/gloo/test/kube2e"
@@ -88,6 +89,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		cfg, err = utils.GetConfig("", "")
 		Expect(err).NotTo(HaveOccurred())
@@ -112,7 +114,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		Eventually(func() bool {
 			vs, err := virtualServiceClient.Read(defaults.GlooSystem, "default", clients.ReadOpts{})
 			Expect(err).NotTo(HaveOccurred())
-			return vs.GetStatus().GetState() == core.Status_Accepted
+			return vs.GetStatusForReporter("gateway").GetState() == core.Status_Accepted
 		}, "15s", "0.5s").Should(BeTrue())
 
 		// Find gateway-proxy pod name
@@ -123,6 +125,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		kubeutils.EnableContainer(ctx, GinkgoWriter, kubeCtx, defaults.GlooSystem, "discovery")
 		cancel()
 	})
