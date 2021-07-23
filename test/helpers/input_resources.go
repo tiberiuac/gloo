@@ -19,15 +19,15 @@ const (
 type InputResourceGetter func() (resources.InputResource, error)
 type InputResourceListGetter func() (resources.InputResourceList, error)
 
-func EventuallyResourceAccepted(getter InputResourceGetter, intervals ...interface{}) {
-	EventuallyResourceStatusMatchesState(1, getter, core.Status_Accepted, intervals...)
+func EventuallyResourceAccepted(reporter string, getter InputResourceGetter, intervals ...interface{}) {
+	EventuallyResourceStatusMatchesState(1, getter, core.Status_Accepted, reporter, intervals...)
 }
 
-func EventuallyResourceWarning(getter InputResourceGetter, intervals ...interface{}) {
-	EventuallyResourceStatusMatchesState(1, getter, core.Status_Warning, intervals...)
+func EventuallyResourceWarning(reporter string, getter InputResourceGetter, intervals ...interface{}) {
+	EventuallyResourceStatusMatchesState(1, getter, core.Status_Warning, reporter, intervals...)
 }
 
-func EventuallyResourceStatusMatchesState(offset int, getter InputResourceGetter, desiredStatusState core.Status_State, intervals ...interface{}) {
+func EventuallyResourceStatusMatchesState(offset int, getter InputResourceGetter, desiredStatusState core.Status_State, reporter string, intervals ...interface{}) {
 	statusStateMatcher := gstruct.MatchFields(gstruct.IgnoreExtras, gstruct.Fields{
 		"State": gomega.Equal(desiredStatusState),
 	})
@@ -39,11 +39,11 @@ func EventuallyResourceStatusMatchesState(offset int, getter InputResourceGetter
 			return core.Status{}, errors.Wrapf(err, "failed to get resource")
 		}
 
-		if resource.GetStatus() == nil {
+		if resource.GetStatusForReporter(reporter) == nil {
 			return core.Status{}, errors.Wrapf(err, "waiting for %v status to be non-nil", resource.GetMetadata().GetName())
 		}
 
-		return *resource.GetStatus(), nil
+		return *resource.GetStatusForReporter(reporter), nil
 	}, timeoutInterval, pollingInterval).Should(statusStateMatcher)
 }
 

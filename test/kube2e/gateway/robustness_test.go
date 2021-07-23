@@ -163,7 +163,7 @@ var _ = Describe("Robustness tests", func() {
 			Expect(writeErr).NotTo(HaveOccurred())
 
 			// Wait for the proxy to be accepted
-			helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
+			helpers.EventuallyResourceAccepted("gloo", func() (resources.InputResource, error) {
 				return proxyClient.Read(testHelper.InstallNamespace, defaults.GatewayProxyName, clients.ReadOpts{Ctx: ctx})
 			}, 60*time.Second, 1*time.Second)
 
@@ -223,7 +223,7 @@ var _ = Describe("Robustness tests", func() {
 			err = virtualServiceReconciler.Reconcile(testHelper.InstallNamespace, gatewayv1.VirtualServiceList{virtualService}, nil, clients.ListOpts{})
 			Expect(err).NotTo(HaveOccurred())
 
-			helpers.EventuallyResourceWarning(func() (resources.InputResource, error) {
+			helpers.EventuallyResourceWarning("gloo", func() (resources.InputResource, error) {
 				return proxyClient.Read(testHelper.InstallNamespace, defaults.GatewayProxyName, clients.ReadOpts{Ctx: ctx})
 			}, 20*time.Second, 1*time.Second)
 		}
