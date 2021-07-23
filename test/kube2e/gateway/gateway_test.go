@@ -260,7 +260,7 @@ var _ = Describe("Kube2e: gateway", func() {
 						return err
 					}
 
-					if status := proxy.GetStatus(); status.GetState() != core.Status_Accepted {
+					if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
 						return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 					}
 
@@ -631,7 +631,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					if err != nil {
 						return 0, err
 					}
-					return vs.GetStatus().GetState(), nil
+					return vs.GetStatusForReporter("gateway").GetState(), nil
 				}, "15s", "0.5s").Should(Equal(core.Status_Accepted))
 
 				// wrapped in eventually to get around resource version errors
@@ -663,7 +663,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					if err != nil {
 						return 0, err
 					}
-					return vs.GetStatus().GetState(), nil
+					return vs.GetStatusForReporter("gateway").GetState(), nil
 				}, "15s", "0.5s").Should(Equal(core.Status_Accepted))
 			})
 		})
@@ -913,7 +913,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return err
 				}
 
-				if status := proxy.GetStatus(); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
 					return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 				}
 				return nil
@@ -1074,7 +1074,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return err
 				}
 
-				if status := proxy.GetStatus(); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
 					return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 				}
 				return nil
@@ -1280,7 +1280,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return err
 				}
 
-				if status := proxy.GetStatus(); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
 					return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 				}
 
@@ -1361,7 +1361,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return nil, err
 				}
 
-				if status := proxy.GetStatus(); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
 					return nil, eris.New("proxy not in accepted state")
 				}
 

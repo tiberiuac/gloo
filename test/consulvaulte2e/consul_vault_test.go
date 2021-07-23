@@ -226,7 +226,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 			if err != nil {
 				return 0, err
 			}
-			return readVs.GetStatus().GetState(), nil
+			return readVs.GetStatusForReporter("gateway").GetState(), nil
 		}, "60s", "0.2s").Should(Equal(core.Status_Accepted))
 
 		// Wait for the proxy to be accepted. this can take up to 40 seconds, as the vault snapshot
@@ -236,7 +236,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 			if err != nil {
 				return 0, err
 			}
-			return proxy.GetStatus().GetState(), nil
+			return proxy.GetStatusForReporter("gateway").GetState(), nil
 		}, "60s", "0.2s").Should(Equal(core.Status_Accepted))
 
 		v1helpers.TestUpstreamReachable(defaults.HttpsPort, svc1, &cert)
@@ -262,7 +262,7 @@ var _ = Describe("Consul + Vault Configuration Happy Path e2e", func() {
 			if err != nil {
 				return 0, err
 			}
-			return proxy.GetStatus().GetState(), nil
+			return proxy.GetStatusForReporter("gateway").GetState(), nil
 		}, "60s", "0.2s").Should(Equal(core.Status_Accepted))
 
 		v1helpers.ExpectHttpOK(nil, nil, defaults.HttpPort,

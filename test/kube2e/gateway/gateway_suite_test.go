@@ -41,6 +41,7 @@ var _ = BeforeSuite(StartTestHelper)
 var _ = AfterSuite(TearDownTestHelper)
 
 func StartTestHelper() {
+	Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 	cwd, err := os.Getwd()
 	Expect(err).NotTo(HaveOccurred())
 
@@ -78,6 +79,7 @@ func StartTestHelper() {
 
 func TearDownTestHelper() {
 	if os.Getenv("TEAR_DOWN") == "true" {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		Expect(testHelper).ToNot(BeNil())
 		err := testHelper.UninstallGloo()
 		Expect(err).NotTo(HaveOccurred())

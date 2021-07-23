@@ -203,10 +203,10 @@ var _ = Describe("Robustness tests", func() {
 			if err != nil {
 				return err
 			}
-			if proxy.GetStatus().GetState() == core.Status_Accepted {
+			if proxy.GetStatusForReporter("gloo").GetState() == core.Status_Accepted {
 				return nil
 			}
-			return eris.Errorf("waiting for proxy to be accepted, but status is %v", proxy.Status)
+			return eris.Errorf("waiting for proxy to be accepted, but status is %v", proxy.GetStatusForReporter("gloo"))
 		}, 60*time.Second, 1*time.Second).Should(BeNil())
 
 		By("verify that we can route to the service")
@@ -264,10 +264,10 @@ var _ = Describe("Robustness tests", func() {
 			if err != nil {
 				return err
 			}
-			if proxy.GetStatus().GetState() == core.Status_Warning {
+			if proxy.GetStatusForReporter("gloo").GetState() == core.Status_Warning {
 				return nil
 			}
-			return eris.Errorf("waiting for proxy to be warning, but status is %v", proxy.Status)
+			return eris.Errorf("waiting for proxy to be warning, but status is %v", proxy.GetStatusForReporter("gloo"))
 		}, 20*time.Second, 1*time.Second).Should(BeNil())
 
 		By("force an update of the service endpoints")
@@ -321,10 +321,10 @@ var _ = Describe("Robustness tests", func() {
 			// Modify the upstream
 			us, err := upstreamClient.Read(namespace, upstream.Metadata.Name, clients.ReadOpts{Ctx: ctx})
 			Expect(err).NotTo(HaveOccurred())
-			if us.Status.State == core.Status_Accepted {
+			if us.GetStatusForReporter("gloo").GetState() == core.Status_Accepted {
 				return nil
 			}
-			return eris.Errorf("waiting for proxy to be accepted, but status is %v", us.Status)
+			return eris.Errorf("waiting for proxy to be accepted, but status is %v", us.GetStatusForReporter("gloo"))
 		}, "3m", "5s").Should(BeNil())
 
 		By("create a virtual service routing to the service")
@@ -371,10 +371,10 @@ var _ = Describe("Robustness tests", func() {
 			if err != nil {
 				return err
 			}
-			if proxy.GetStatus().GetState() == core.Status_Accepted {
+			if proxy.GetStatusForReporter("gloo").GetState() == core.Status_Accepted {
 				return nil
 			}
-			return eris.Errorf("waiting for proxy to be accepted, but status is %v", proxy.Status)
+			return eris.Errorf("waiting for proxy to be accepted, but status is %v", proxy.GetStatusForReporter("gloo"))
 		}, 60*time.Second, 1*time.Second).Should(BeNil())
 
 		By("verify that we can route to the service")
@@ -411,10 +411,10 @@ var _ = Describe("Robustness tests", func() {
 			if err != nil {
 				return err
 			}
-			if proxy.GetStatus().GetState() == core.Status_Rejected {
+			if proxy.GetStatusForReporter("gloo").GetState() == core.Status_Rejected {
 				return nil
 			}
-			return eris.Errorf("waiting for proxy to be rejected, but status is %v", proxy.Status)
+			return eris.Errorf("waiting for proxy to be rejected, but status is %v", proxy.GetStatusForReporter("gloo"))
 		}, 20*time.Second, 1*time.Second).Should(BeNil())
 
 		By("reset snapshot cache")
