@@ -206,7 +206,6 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 		EventuallyProxyStatus().Should(Equal(core.Status_Pending))
 
 		// wait for the status propagate
-		// TODO(mitchaman): Test is failing here
 		EventuallyProxyStatusInVs().Should(Equal(core.Status_Pending))
 
 		// write the proxy status again to the same status as the one currently in the snapshot
