@@ -84,7 +84,7 @@ var _ = Describe("Translate Proxy", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 			ReportedBy: ref,
@@ -115,7 +115,7 @@ var _ = Describe("Translate Proxy", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      1,
 			ReportedBy: ref,
 		}))
@@ -184,6 +184,7 @@ var _ = Describe("Empty cache", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", ns)).NotTo(HaveOccurred())
 		var err error
 		xdsCache = &MockXdsCache{}
 		sanitizer = &MockXdsSanitizer{}
@@ -239,7 +240,10 @@ var _ = Describe("Empty cache", func() {
 
 	})
 
-	AfterEach(func() { cancel() })
+	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
+		cancel()
+	})
 
 	It("only updates endpoints and clusters when sanitization fails and there is no previous snapshot", func() {
 		sanitizer.Err = errors.Errorf("we ran out of coffee")
@@ -274,7 +278,7 @@ var _ = Describe("Empty cache", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(1))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].GetStatus()).To(Equal(&core.Status{
+		Expect(proxies[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
 			ReportedBy: ref,
@@ -329,6 +333,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 	}
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", ns)).NotTo(HaveOccurred())
 		var err error
 		xdsCache = &MockXdsCache{}
 		sanitizer = &MockXdsSanitizer{}
@@ -391,17 +396,20 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(2))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
-			State:      2,
-			Reason:     "1 error occurred:\n\t* hi, how ya doin'?\n\n",
-			ReportedBy: ref,
-		}))
+		Expect(proxies[0].GetStatusForReporter(ref).GetState()).To(Equal(core.Status_Rejected))
+		Expect(proxies[0].GetStatusForReporter(ref).GetReason()).To(Equal("1 error occurred:\n\t* hi, how ya doin'?\n\n"))
+		Expect(proxies[0].GetStatusForReporter(ref).GetReportedBy()).To(Equal(ref))
 
 		// NilSnapshot is always consistent, so snapshot will always be set as part of endpoints update
 		Expect(xdsCache.Called).To(BeTrue())
 
 		upstreamClient, err = v1.NewUpstreamClient(context.Background(), resourceClientFactory)
 		Expect(err).NotTo(HaveOccurred())
+	})
+
+	AfterEach(func() {
+
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 	})
 
 	It("handles reporting errors on multiple proxies sharing an upstream reporting 2 different errors", func() {
@@ -416,7 +424,7 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		upstreams, err := upstreamClient.List(ns, clients.ListOpts{})
 		Expect(err).NotTo(HaveOccurred())
 
-		Expect(upstreams[0].GetStatus()).To(Equal(&core.Status{
+		Expect(upstreams[0].GetStatusForReporter(ref)).To(Equal(&core.Status{
 			State:      2,
 			Reason:     "2 errors occurred:\n\t* upstream is bad - determined by proxy-name1\n\t* upstream is bad - determined by proxy-name2\n\n",
 			ReportedBy: ref,

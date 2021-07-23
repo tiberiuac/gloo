@@ -80,7 +80,6 @@ func NewTranslatorSyncer(
 }
 
 func (s *translatorSyncer) Sync(ctx context.Context, snap *v1.ApiSnapshot) error {
-	contextutils.LoggerFrom(ctx).Info("mitchaman - gloo/pkg/syncer/translator_syncer.go:syncStatus")
 	logger := contextutils.LoggerFrom(ctx)
 	var multiErr *multierror.Error
 	reports := make(reporter.ResourceReports)
