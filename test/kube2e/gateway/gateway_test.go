@@ -263,7 +263,7 @@ var _ = Describe("Kube2e: gateway", func() {
 						return err
 					}
 
-					if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
+					if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
 						return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 					}
 
@@ -665,7 +665,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					Expect(err).NotTo(HaveOccurred())
 
 					// the VS should not be rejected since the failure is sanitized by route replacement
-					helpers.EventuallyResourceAccepted("gateway", func() (resources.InputResource, error) {
+					helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
 						return virtualServiceClient.Read(testHelper.InstallNamespace, petstoreName, clients.ReadOpts{})
 					})
 
@@ -693,7 +693,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					// gateway to resync virtual service status
 
 					// the VS should get accepted
-					helpers.EventuallyResourceAccepted("gateway", func() (resources.InputResource, error) {
+					helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
 						return virtualServiceClient.Read(vsWithFunctionRoute.GetMetadata().GetNamespace(), vsWithFunctionRoute.GetMetadata().GetName(), clients.ReadOpts{})
 					})
 				})
@@ -929,7 +929,7 @@ var _ = Describe("Kube2e: gateway", func() {
 			}, "5s", "0.1s").ShouldNot(HaveOccurred())
 
 			var proxy *gloov1.Proxy
-			helpers.EventuallyResourceAccepted("gateway", func() (resources.InputResource, error) {
+			helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
 				proxy, err = proxyClient.Read(testHelper.InstallNamespace, defaults.GatewayProxyName, clients.ReadOpts{Ctx: ctx})
 				return proxy, err
 			}, "15s", ".5s")
@@ -1077,7 +1077,7 @@ var _ = Describe("Kube2e: gateway", func() {
 			}, "5s", "0.1s").ShouldNot(HaveOccurred())
 
 			var proxy *gloov1.Proxy
-			helpers.EventuallyResourceAccepted("gateway", func() (resources.InputResource, error) {
+			helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
 				proxy, err = proxyClient.Read(testHelper.InstallNamespace, defaults.GatewayProxyName, clients.ReadOpts{Ctx: ctx})
 				return proxy, err
 			}, "15s", ".5s")
@@ -1283,7 +1283,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return err
 				}
 
-				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
 					return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
 				}
 
@@ -1364,7 +1364,7 @@ var _ = Describe("Kube2e: gateway", func() {
 					return nil, err
 				}
 
-				if status := proxy.GetStatusForReporter("gateway"); status.GetState() != core.Status_Accepted {
+				if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
 					return nil, eris.New("proxy not in accepted state")
 				}
 
@@ -1849,7 +1849,7 @@ spec:
 					_, err := virtualServiceClient.Write(vs, clients.WriteOpts{Ctx: ctx})
 					return err
 				}, "5s", "0.1s").ShouldNot(HaveOccurred())
-				helpers.EventuallyResourceAccepted("gateway", func() (resources.InputResource, error) {
+				helpers.EventuallyResourceAccepted(func() (resources.InputResource, error) {
 					return virtualServiceClient.Read(testHelper.InstallNamespace, vs.GetMetadata().GetName(), clients.ReadOpts{Ctx: ctx})
 				})
 

@@ -171,7 +171,7 @@ func (s *translatorSyncer) propagateProxyStatus(ctx context.Context, proxy *gloo
 				return err
 			}
 			// TODO(mitchaman): Should this be gloo?
-			switch updatedProxy.GetStatusForReporter("gloo").GetState() {
+			switch updatedProxy.GetNamespacedStatus().GetState() {
 			case core.Status_Pending:
 				continue
 			case core.Status_Rejected:

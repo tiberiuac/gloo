@@ -43,7 +43,7 @@ https://developers.google.com/protocol-buffers/docs/proto3#updating.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `statuses` | `map<string, .core.solo.io.Status>` | Mapping from reporter to that reporter's Status. Key format: ${POD_NAMESPACE}:${Status.ReportedBy} (i.e. gloo-system:gloo, gloo-system:gateway, etc). |
+| `statuses` | `map<string, .core.solo.io.Status>` | Mapping from namespace to the Status written by the controller running in that namespace. |
 
 
 

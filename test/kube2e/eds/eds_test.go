@@ -114,7 +114,7 @@ var _ = Describe("endpoint discovery (EDS) works", func() {
 		Eventually(func() bool {
 			vs, err := virtualServiceClient.Read(defaults.GlooSystem, "default", clients.ReadOpts{})
 			Expect(err).NotTo(HaveOccurred())
-			return vs.GetStatusForReporter("gateway").GetState() == core.Status_Accepted
+			return vs.GetNamespacedStatus().GetState() == core.Status_Accepted
 		}, "15s", "0.5s").Should(BeTrue())
 
 		// Find gateway-proxy pod name

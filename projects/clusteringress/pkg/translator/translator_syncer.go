@@ -115,7 +115,7 @@ func (s *translatorSyncer) propagateProxyStatus(ctx context.Context, proxy *gloo
 			if err != nil {
 				return err
 			}
-			switch p := updatedProxy.GetStatusForReporter("gateway"); p.GetState() {
+			switch p := updatedProxy.GetNamespacedStatus(); p.GetState() {
 			case core.Status_Pending:
 				continue
 			case core.Status_Rejected:

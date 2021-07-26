@@ -32,7 +32,7 @@ func (r *RateLimitConfig) GetReporterStatus() *core.ReporterStatus {
 	panic("implement me")
 }
 
-func (r *RateLimitConfig) GetStatusForReporter(reportedBy string) *core.Status {
+func (r *RateLimitConfig) GetNamespacedStatus() *core.Status {
 	panic("implement me")
 }
 
@@ -40,7 +40,7 @@ func (r *RateLimitConfig) SetReporterStatus(status *core.ReporterStatus) {
 	panic("implement me")
 }
 
-func (r *RateLimitConfig) AddToReporterStatus(status *core.Status) {
+func (r *RateLimitConfig) UpsertReporterStatus(status *core.Status) {
 	panic("implement me")
 }
 

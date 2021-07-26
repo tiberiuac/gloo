@@ -138,7 +138,7 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 			if err != nil {
 				return core.Status_Pending, err
 			}
-			subresource := newvs.GetStatusForReporter("gateway").GetSubresourceStatuses()
+			subresource := newvs.GetNamespacedStatus().GetSubresourceStatuses()
 			if subresource == nil {
 				contextutils.LoggerFrom(ctx).Debugf("nil subresource")
 				return core.Status_Pending, fmt.Errorf("no status")
@@ -157,14 +157,14 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 			if err != nil {
 				return core.Status_Pending, err
 			}
-			return proxy.GetStatusForReporter("gateway").GetState(), nil
+			return proxy.GetNamespacedStatus().GetState(), nil
 		})
 	}
 
 	AcceptProxy := func() {
 		proxy, err := proxyClient.Read("gloo-system", "gateway-proxy", clients.ReadOpts{})
 		Expect(err).NotTo(HaveOccurred())
-		proxy.AddToReporterStatus(&core.Status{
+		proxy.UpsertReporterStatus(&core.Status{
 			State:      core.Status_Accepted,
 			ReportedBy: "gateway",
 		})

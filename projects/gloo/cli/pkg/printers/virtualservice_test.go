@@ -35,39 +35,39 @@ var _ = Describe("getStatus", func() {
 
 	It("handles Pending resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.AddToReporterStatus(&core.Status{
+		vs.UpsertReporterStatus(&core.Status{
 			State:      core.Status_Pending,
 			ReportedBy: "gloo",
 		})
-		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Pending"))
+		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Pending"))
 
 		// range through all possible sub resource states
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
-			vs.GetStatusForReporter("gloo").SubresourceStatuses = map[string]*core.Status{
+			vs.GetNamespacedStatus().SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:  subResourceStatusState,
 					Reason: "any reason",
 				},
 			}
 			By(fmt.Sprintf("subresource: %v", subResourceStatusString))
-			Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Pending"))
+			Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Pending"))
 		}
 	})
 
 	It("handles Accepted resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.AddToReporterStatus(&core.Status{
+		vs.UpsertReporterStatus(&core.Status{
 			State:      core.Status_Accepted,
 			ReportedBy: "gloo",
 		})
-		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Accepted"))
+		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Accepted"))
 
 		// range through all possible sub resource states
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
 			By(fmt.Sprintf("subresource: %v", subResourceStatusString))
-			status := vs.GetStatusForReporter("gloo")
+			status := vs.GetNamespacedStatus()
 			status.SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:      subResourceStatusState,
@@ -77,14 +77,14 @@ var _ = Describe("getStatus", func() {
 			}
 			vs.SetReporterStatus(&core.ReporterStatus{
 				Statuses: map[string]*core.Status{
-					"gloo-system:gloo": status,
+					"gloo-system": status,
 				},
 			})
 
 			if subResourceStatusString == core.Status_Accepted.String() {
-				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Accepted"))
+				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Accepted"))
 			} else {
-				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: Accepted\n" + genericSubResourceMessage(thing1, subResourceStatusString)))
+				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Accepted\n" + genericSubResourceMessage(thing1, subResourceStatusString)))
 			}
 		}
 	})
@@ -97,11 +97,11 @@ var _ = Describe("getStatus", func() {
 			if resourceStatusString != core.Status_Accepted.String() && resourceStatusString != core.Status_Pending.String() {
 				By(fmt.Sprintf("resource: %v", resourceStatusString))
 				vs := &v1.VirtualService{}
-				vs.AddToReporterStatus(&core.Status{
+				vs.UpsertReporterStatus(&core.Status{
 					State:      resourceStatusState,
 					ReportedBy: "gloo",
 				})
-				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: " + resourceStatusString))
+				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 			}
 		}
 	})
@@ -119,12 +119,12 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.AddToReporterStatus(&core.Status{
+				vs.UpsertReporterStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
 				})
-				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: " + resourceStatusString))
+				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 
 				By(fmt.Sprintf("resource: %v, two subresources accepted", resourceStatusString))
 				subStatuses = map[string]*core.Status{
@@ -135,8 +135,8 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.GetStatusForReporter("gloo").SubresourceStatuses = subStatuses
-				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system:gloo: " + resourceStatusString))
+				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
+				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 			}
 		}
 	})
@@ -156,13 +156,13 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.AddToReporterStatus(&core.Status{
+				vs.UpsertReporterStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
 				})
 				out := getStatus(ctx, vs, namespace)
-				Expect(out).To(Equal("gloo-system:gloo: " + resourceStatusString + "\n" + genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUntracked)))
+				Expect(out).To(Equal("gloo-system: " + resourceStatusString + "\n" + genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUntracked)))
 
 				By(fmt.Sprintf("resource: %v, two subresources rejected", resourceStatusString))
 				subStatuses = map[string]*core.Status{
@@ -175,9 +175,9 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUntracked,
 					},
 				}
-				vs.GetStatusForReporter("gloo").SubresourceStatuses = subStatuses
+				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
-				Expect(out).To(HavePrefix("gloo-system:gloo: " + resourceStatusString + "\n"))
+				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				// Use regex because order does not matter
 				Expect(out).To(MatchRegexp(genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUntracked)))
 				Expect(out).To(MatchRegexp(genericErrorFormat(thing2, core.Status_Rejected.String(), reasonUntracked)))
@@ -201,13 +201,13 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.AddToReporterStatus(&core.Status{
+				vs.UpsertReporterStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
 				})
 				out := getStatus(ctx, vs, namespace)
-				Expect(out).To(Equal("gloo-system:gloo: " + resourceStatusString + "\n" + subResourceErrorFormat(erroredResourceIdentifier)))
+				Expect(out).To(Equal("gloo-system: " + resourceStatusString + "\n" + subResourceErrorFormat(erroredResourceIdentifier)))
 
 				By(fmt.Sprintf("resource: %v, one subresource accepted and one rejected", resourceStatusString))
 				subStatuses = map[string]*core.Status{
@@ -219,9 +219,9 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.GetStatusForReporter("gloo").SubresourceStatuses = subStatuses
+				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
-				Expect(out).To(HavePrefix("gloo-system:gloo: " + resourceStatusString + "\n"))
+				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				Expect(out).To(MatchRegexp(reasonUpstreamList))
 
 				By(fmt.Sprintf("resource: %v, two subresources rejected", resourceStatusString))
@@ -235,27 +235,13 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUpstreamList,
 					},
 				}
-				vs.GetStatusForReporter("gloo").SubresourceStatuses = subStatuses
+				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
-				Expect(out).To(HavePrefix("gloo-system:gloo: " + resourceStatusString + "\n"))
+				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				// Use regex because order does not matter
 				Expect(out).To(MatchRegexp(genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUpstreamList)))
 				Expect(out).To(MatchRegexp(genericErrorFormat(thing2, core.Status_Rejected.String(), reasonUpstreamList)))
 			}
 		}
-	})
-
-	It("handles statuses from multiple controllers", func() {
-		vs := &v1.VirtualService{}
-		vs.AddToReporterStatus(&core.Status{
-			State:      core.Status_Pending,
-			ReportedBy: "gloo",
-		})
-		vs.AddToReporterStatus(&core.Status{
-			State:      core.Status_Accepted,
-			ReportedBy: "gateway",
-		})
-		Expect(getStatus(ctx, vs, namespace)).To(ContainSubstring("gloo-system:gloo: Pending"))
-		Expect(getStatus(ctx, vs, namespace)).To(ContainSubstring("gloo-system:gateway: Accepted"))
 	})
 })

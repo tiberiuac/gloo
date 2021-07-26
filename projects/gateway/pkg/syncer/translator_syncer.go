@@ -240,7 +240,7 @@ func (s *statusSyncer) setStatuses(list gloov1.ProxyList) {
 	for _, proxy := range list {
 		ref := proxy.Metadata.Ref()
 		refKey := gloo_translator.UpstreamToClusterName(ref)
-		status := proxy.GetStatusForReporter("gateway")
+		status := proxy.GetNamespacedStatus()
 		if current, ok := s.proxyToLastStatus[refKey]; ok {
 			current.Status = status
 			s.proxyToLastStatus[refKey] = current
@@ -339,7 +339,7 @@ func (s *statusSyncer) syncStatus(ctx context.Context) error {
 		// this may be different than the status on the snapshot, as the snapshot doesn't get updated
 		// on status changes.
 		if status, ok := localInputResourceLastStatus[inputResource]; ok {
-			clonedInputResource.AddToReporterStatus(status)
+			clonedInputResource.UpsertReporterStatus(status)
 		}
 		if err := s.reporter.WriteReports(ctx, reports, currentStatuses); err != nil {
 			errs = multierror.Append(errs, err)
