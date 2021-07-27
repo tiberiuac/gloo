@@ -180,6 +180,7 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 	}
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		if envoyInstance != nil {
 			_ = envoyInstance.Clean()
 		}
@@ -233,10 +234,10 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 			if err != nil {
 				return core.Status{}, err
 			}
-			if proxy.GetStatus() == nil {
+			if proxy.GetNamespacedStatus() == nil {
 				return core.Status{}, nil
 			}
-			return *(proxy.GetStatus()), nil
+			return *(proxy.GetNamespacedStatus()), nil
 		}, "60s", "0.5s").Should(MatchFields(IgnoreExtras, Fields{
 			"Reason": BeEmpty(),
 			"State":  Equal(core.Status_Accepted),
@@ -246,6 +247,7 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 	})
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		defaults.HttpPort = services.NextBindPort()
 		defaults.HttpsPort = services.NextBindPort()
