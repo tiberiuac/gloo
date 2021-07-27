@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/solo-io/gloo/projects/gloo/pkg/translator"
@@ -42,6 +43,7 @@ var _ = Describe("Gateway", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 		defaults.HttpPort = services.NextBindPort()
 		defaults.HttpsPort = services.NextBindPort()
@@ -49,6 +51,7 @@ var _ = Describe("Gateway", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		cancel()
 	})
 
@@ -173,7 +176,7 @@ var _ = Describe("Gateway", func() {
 					if err != nil {
 						return false
 					}
-					return proxy.GetStatus().GetState() == core.Status_Accepted
+					return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
 				}, "100s", "0.1s").Should(BeTrue())
 
 				// Verify that the proxy has the expected route
@@ -226,7 +229,7 @@ var _ = Describe("Gateway", func() {
 					if err != nil {
 						return false
 					}
-					return proxy.GetStatus().GetState() == core.Status_Accepted
+					return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
 				}, "60s", "2s").Should(BeTrue(), "first virtualservice should be accepted")
 
 				// Create a second vs with a bad authconfig
@@ -255,7 +258,7 @@ var _ = Describe("Gateway", func() {
 						return false
 					}
 
-					return vs.GetStatus().GetState() == core.Status_Rejected
+					return vs.GetNamespacedStatus().GetState() == core.Status_Rejected
 				}, "30s", "1s").Should(BeTrue(), fmt.Sprintf("second virtualservice should be rejected due to missing authconfig"))
 
 				Consistently(func() bool {
@@ -263,7 +266,7 @@ var _ = Describe("Gateway", func() {
 					if err != nil {
 						return false
 					}
-					return gateway.GetStatus().GetState() == core.Status_Accepted
+					return gateway.GetNamespacedStatus().GetState() == core.Status_Accepted
 				}, "10s", "0.1s").Should(BeTrue(), "gateway should not have any errors from a bad VS")
 
 				Eventually(func() bool {
@@ -273,7 +276,7 @@ var _ = Describe("Gateway", func() {
 					}
 					nonSslListener := getNonSSLListener(proxy)
 
-					return proxy.GetStatus().GetState() == core.Status_Accepted && len(nonSslListener.GetHttpListener().VirtualHosts) == 1
+					return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted && len(nonSslListener.GetHttpListener().VirtualHosts) == 1
 				}, "10s", "0.1s").Should(BeTrue(), "second virtualservice should not end up in the proxy (bad config)")
 
 				// Create a third trivial vs with valid config
@@ -292,7 +295,7 @@ var _ = Describe("Gateway", func() {
 					}
 					nonSslListener := getNonSSLListener(proxy)
 
-					return proxy.GetStatus().GetState() == core.Status_Accepted && len(nonSslListener.GetHttpListener().VirtualHosts) == 2
+					return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted && len(nonSslListener.GetHttpListener().VirtualHosts) == 2
 				}, "10s", "0.1s").Should(BeTrue(), "third virtualservice should end up in the proxy (good config)")
 
 				// Verify that the proxy is as expected (2 functional virtualservices)

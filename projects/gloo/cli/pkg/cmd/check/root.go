@@ -328,20 +328,34 @@ func checkUpstreams(ctx context.Context, namespaces []string) ([]string, error) 
 			return nil, err
 		}
 		for _, upstream := range upstreams {
-			reporterStatus := upstream.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected upstream by '%s': %s ", reporter, renderMetadata(upstream.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
-					multiErr = multierror.Append(multiErr, errors.New(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found upstream with warnings by '%s': %s ", reporter, renderMetadata(upstream.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+			if upstream.HasReporterStatus() {
+				reporterStatus := upstream.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected upstream by '%s': %s ", reporter, renderMetadata(upstream.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found upstream with warnings by '%s': %s ", reporter, renderMetadata(upstream.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					}
+				}
+				knownUpstreams = append(knownUpstreams, renderMetadata(upstream.GetMetadata()))
+			} else { // upstream has a Status, not ReporterStatus
+				if upstream.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected upstream: %s ", renderMetadata(upstream.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", upstream.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
 				}
+				if upstream.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found upstream with warnings: %s ", renderMetadata(upstream.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", upstream.GetStatus().GetReason())
+					multiErr = multierror.Append(multiErr, errors.New(errMessage))
+				}
+				knownUpstreams = append(knownUpstreams, renderMetadata(upstream.GetMetadata()))
 			}
-			knownUpstreams = append(knownUpstreams, renderMetadata(upstream.GetMetadata()))
 		}
 	}
 	if multiErr != nil {
@@ -361,16 +375,29 @@ func checkUpstreamGroups(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, upstreamGroup := range upstreamGroups {
-			reporterStatus := upstreamGroup.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected upstream group by '%s': %s ", reporter, renderMetadata(upstreamGroup.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+			if upstreamGroup.HasReporterStatus() {
+				reporterStatus := upstreamGroup.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected upstream group by '%s': %s ", reporter, renderMetadata(upstreamGroup.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found upstream group with warnings by '%s': %s ", reporter, renderMetadata(upstreamGroup.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					}
+				}
+			} else { // upstream group has a Status, not ReporterStatus
+				if upstreamGroup.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected upstream group: %s ", renderMetadata(upstreamGroup.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", upstreamGroup.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found upstream group with warnings by '%s': %s ", reporter, renderMetadata(upstreamGroup.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+				}
+				if upstreamGroup.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found upstream group with warnings: %s ", renderMetadata(upstreamGroup.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", upstreamGroup.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
 				}
 			}
@@ -394,20 +421,33 @@ func checkAuthConfigs(ctx context.Context, namespaces []string) ([]string, error
 			return nil, err
 		}
 		for _, authConfig := range authConfigs {
-			reporterStatus := authConfig.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected auth config by '%s': %s ", reporter, renderMetadata(authConfig.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+			if authConfig.HasReporterStatus() {
+				reporterStatus := authConfig.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected auth config by '%s': %s ", reporter, renderMetadata(authConfig.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found auth config with warnings by '%s': %s ", reporter, renderMetadata(authConfig.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					}
+				}
+				knownAuthConfigs = append(knownAuthConfigs, renderMetadata(authConfig.GetMetadata()))
+			} else { // auth config has a Status, not ReporterStatus
+				if authConfig.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected auth config: %s ", renderMetadata(authConfig.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", authConfig.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found auth config with warnings by '%s': %s ", reporter, renderMetadata(authConfig.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+				} else if authConfig.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found auth config with warnings: %s ", renderMetadata(authConfig.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", authConfig.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
 				}
+				knownAuthConfigs = append(knownAuthConfigs, renderMetadata(authConfig.GetMetadata()))
 			}
-			knownAuthConfigs = append(knownAuthConfigs, renderMetadata(authConfig.GetMetadata()))
 		}
 	}
 	if multiErr != nil {
@@ -476,20 +516,33 @@ func checkVirtualHostOptions(ctx context.Context, namespaces []string) ([]string
 			return nil, err
 		}
 		for _, vhOpt := range vhOpts {
-			reporterStatus := vhOpt.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected VirtualHostOption by '%s': %s ", reporter, renderMetadata(vhOpt.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+			if vhOpt.HasReporterStatus() {
+				reporterStatus := vhOpt.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected VirtualHostOption by '%s': %s ", reporter, renderMetadata(vhOpt.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found VirtualHostOption with warnings by '%s': %s ", reporter, renderMetadata(vhOpt.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					}
+				}
+				knownVhOpts = append(knownVhOpts, renderMetadata(vhOpt.GetMetadata()))
+			} else { // vhost options has a Status, not ReporterStatus
+				if vhOpt.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected VirtualHostOption: %s ", renderMetadata(vhOpt.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", vhOpt.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found VirtualHostOption with warnings by '%s': %s ", reporter, renderMetadata(vhOpt.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+				} else if vhOpt.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found VirtualHostOption with warnings: %s ", renderMetadata(vhOpt.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", vhOpt.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
 				}
+				knownVhOpts = append(knownVhOpts, renderMetadata(vhOpt.GetMetadata()))
 			}
-			knownVhOpts = append(knownVhOpts, renderMetadata(vhOpt.GetMetadata()))
 		}
 	}
 	if multiErr != nil {
@@ -519,20 +572,33 @@ func checkRouteOptions(ctx context.Context, namespaces []string) ([]string, erro
 			return nil, err
 		}
 		for _, routeOpt := range vhOpts {
-			reporterStatus := routeOpt.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected RouteOption by '%s': %s ", reporter, renderMetadata(routeOpt.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+			if routeOpt.HasReporterStatus() {
+				reporterStatus := routeOpt.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected RouteOption by '%s': %s ", reporter, renderMetadata(routeOpt.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found RouteOption with warnings by '%s': %s ", reporter, renderMetadata(routeOpt.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+						multiErr = multierror.Append(multiErr, errors.New(errMessage))
+					}
+				}
+				knownVhOpts = append(knownVhOpts, renderMetadata(routeOpt.GetMetadata()))
+			} else { // Route option has a Status, not ReporterStatus
+				if routeOpt.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected RouteOption: %s ", renderMetadata(routeOpt.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", routeOpt.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found RouteOption with warnings by '%s': %s ", reporter, renderMetadata(routeOpt.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.Reason)
+				} else if routeOpt.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found RouteOption with warnings: %s ", renderMetadata(routeOpt.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", routeOpt.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, errors.New(errMessage))
 				}
+				knownVhOpts = append(knownVhOpts, renderMetadata(routeOpt.GetMetadata()))
 			}
-			knownVhOpts = append(knownVhOpts, renderMetadata(routeOpt.GetMetadata()))
 		}
 	}
 	if multiErr != nil {
@@ -553,16 +619,29 @@ func checkVirtualServices(ctx context.Context, namespaces, knownUpstreams, known
 			return err
 		}
 		for _, virtualService := range virtualServices {
-			reporterStatus := virtualService.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected virtual service by '%s': %s ", reporter, renderMetadata(virtualService.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.GetReason())
+			if virtualService.HasReporterStatus() {
+				reporterStatus := virtualService.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected virtual service by '%s': %s ", reporter, renderMetadata(virtualService.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.GetReason())
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found virtual service with warnings by '%s': %s ", reporter, renderMetadata(virtualService.GetMetadata()))
+						errMessage += fmt.Sprintf("(Reason: %s)", status.GetReason())
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					}
+				}
+			} else { // virtual service has a Status, not ReporterStatus
+				if virtualService.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected virtual service: %s ", renderMetadata(virtualService.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", virtualService.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found virtual service with warnings by '%s': %s ", reporter, renderMetadata(virtualService.GetMetadata()))
-					errMessage += fmt.Sprintf("(Reason: %s)", status.GetReason())
+				}
+				if virtualService.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found virtual service with warnings: %s ", renderMetadata(virtualService.GetMetadata()))
+					errMessage += fmt.Sprintf("(Reason: %s)", virtualService.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 				}
 			}
@@ -682,19 +761,33 @@ func checkGateways(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, gateway := range gateways {
-			reporterStatus := gateway.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected gateway by '%s': %s\n", reporter, renderMetadata(gateway.GetMetadata()))
-					errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+			if gateway.HasReporterStatus() {
+				reporterStatus := gateway.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected gateway by '%s': %s\n", reporter, renderMetadata(gateway.GetMetadata()))
+						errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found gateway with warnings by '%s': %s\n", reporter, renderMetadata(gateway.GetMetadata()))
+						errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					}
+				}
+			} else { // gateway has a Status, not ReporterStatus
+				if gateway.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected gateway: %s\n", renderMetadata(gateway.GetMetadata()))
+					errMessage += fmt.Sprintf("Reason: %s\n", gateway.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found gateway with warnings by '%s': %s\n", reporter, renderMetadata(gateway.GetMetadata()))
-					errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+				}
+				if gateway.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found gateway with warnings: %s\n", renderMetadata(gateway.GetMetadata()))
+					errMessage += fmt.Sprintf("Reason: %s\n", gateway.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 				}
 			}
+
 		}
 	}
 
@@ -720,19 +813,33 @@ func checkProxies(ctx context.Context, namespaces []string, glooNamespace string
 			return err
 		}
 		for _, proxy := range proxies {
-			reporterStatus := proxy.GetReporterStatus()
-			for reporter, status := range reporterStatus.GetStatuses() {
-				switch status.GetState() {
-				case core.Status_Rejected:
-					errMessage := fmt.Sprintf("Found rejected proxy by '%s': %s\n", reporter, renderMetadata(proxy.GetMetadata()))
-					errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+			if proxy.HasReporterStatus() {
+				reporterStatus := proxy.GetReporterStatus()
+				for reporter, status := range reporterStatus.GetStatuses() {
+					switch status.GetState() {
+					case core.Status_Rejected:
+						errMessage := fmt.Sprintf("Found rejected proxy by '%s': %s\n", reporter, renderMetadata(proxy.GetMetadata()))
+						errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					case core.Status_Warning:
+						errMessage := fmt.Sprintf("Found proxy with warnings by '%s': %s\n", reporter, renderMetadata(proxy.GetMetadata()))
+						errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
+					}
+				}
+			} else { // proxy has a Status, not ReporterStatus
+				if proxy.GetStatus().GetState() == core.Status_Rejected {
+					errMessage := fmt.Sprintf("Found rejected proxy: %s\n", renderMetadata(proxy.GetMetadata()))
+					errMessage += fmt.Sprintf("Reason: %s\n", proxy.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
-				case core.Status_Warning:
-					errMessage := fmt.Sprintf("Found proxy with warnings by '%s': %s\n", reporter, renderMetadata(proxy.GetMetadata()))
-					errMessage += fmt.Sprintf("Reason: %s\n", status.Reason)
+				}
+				if proxy.GetStatus().GetState() == core.Status_Warning {
+					errMessage := fmt.Sprintf("Found proxy with warnings: %s\n", renderMetadata(proxy.GetMetadata()))
+					errMessage += fmt.Sprintf("Reason: %s\n", proxy.GetStatus().GetReason())
 					multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 				}
 			}
+
 		}
 	}
 
