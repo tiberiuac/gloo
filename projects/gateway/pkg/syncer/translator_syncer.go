@@ -75,8 +75,6 @@ func (s *translatorSyncer) Sync(ctx context.Context, snap *v1.ApiSnapshot) error
 		logger.Debug(syncutil.StringifySnapshot(snap))
 	}
 
-	logger.Debugw("snap", "stringified", syncutil.StringifySnapshot(snap))
-
 	desiredProxies := s.generatedDesiredProxies(ctx, snap)
 
 	return s.reconcile(ctx, desiredProxies)
