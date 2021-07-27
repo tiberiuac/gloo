@@ -48,15 +48,16 @@ func PrintKubeCrdList(in resources.InputResourceList, resourceCrd crd.Crd) error
 // format each individual controller's status
 func AggregateReporterStatus(reporterStatus *core.ReporterStatus, statusProcessor func(*core.Status) string) string {
 	var sb strings.Builder
-	var firstController = true
+	var index = 0
 	for controller, status := range reporterStatus.GetStatuses() {
-		if !firstController {
-			sb.WriteString("\n")
-		}
 		sb.WriteString(controller)
 		sb.WriteString(": ")
 		sb.WriteString(statusProcessor(status))
-		firstController = false
+		index += 1
+		// Don't write newline after last status in the map
+		if index != len(reporterStatus.GetStatuses()) {
+			sb.WriteString("\n")
+		}
 	}
 	return sb.String()
 }

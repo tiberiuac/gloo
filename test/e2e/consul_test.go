@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo"
@@ -57,6 +58,7 @@ var _ = Describe("Consul e2e", func() {
 	}
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", writeNamespace)).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 
 		defaults.HttpPort = services.NextBindPort()
@@ -109,6 +111,7 @@ var _ = Describe("Consul e2e", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		if consulInstance != nil {
 			err = consulInstance.Clean()
 			Expect(err).NotTo(HaveOccurred())
@@ -132,7 +135,7 @@ var _ = Describe("Consul e2e", func() {
 			if err != nil {
 				return false
 			}
-			return proxy.GetStatus().GetState() == core.Status_Accepted
+			return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
 		}, "10s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)
@@ -195,7 +198,7 @@ var _ = Describe("Consul e2e", func() {
 			if err != nil {
 				return false
 			}
-			return proxy.GetStatus().GetState() == core.Status_Accepted
+			return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
 		}, "20s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)
