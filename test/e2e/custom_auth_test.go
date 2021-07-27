@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -38,6 +39,7 @@ var _ = Describe("CustomAuth", func() {
 	)
 
 	BeforeEach(func() {
+		Expect(os.Setenv("POD_NAMESPACE", "gloo-system")).NotTo(HaveOccurred())
 		ctx, cancel = context.WithCancel(context.Background())
 
 		// Initialize Envoy instance
@@ -107,10 +109,10 @@ var _ = Describe("CustomAuth", func() {
 			if err != nil {
 				return core.Status{}, err
 			}
-			if proxy.GetStatus() == nil {
+			if proxy.GetNamespacedStatus() == nil {
 				return core.Status{}, nil
 			}
-			return *(proxy.GetStatus()), nil
+			return *(proxy.GetNamespacedStatus()), nil
 		}, "60s", "0.1s").Should(MatchFields(IgnoreExtras, Fields{
 			"Reason": BeEmpty(),
 			"State":  Equal(core.Status_Accepted),
@@ -118,6 +120,7 @@ var _ = Describe("CustomAuth", func() {
 	})
 
 	AfterEach(func() {
+		Expect(os.Unsetenv("POD_NAMESPACE")).NotTo(HaveOccurred())
 		cancel()
 
 		if envoyInstance != nil {
