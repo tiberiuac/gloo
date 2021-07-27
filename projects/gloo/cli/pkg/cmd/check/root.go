@@ -328,7 +328,7 @@ func checkUpstreams(ctx context.Context, namespaces []string) ([]string, error) 
 			return nil, err
 		}
 		for _, upstream := range upstreams {
-			if upstream.HasReporterStatus() {
+			if upstream.GetReporterStatus() != nil {
 				reporterStatus := upstream.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -375,7 +375,7 @@ func checkUpstreamGroups(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, upstreamGroup := range upstreamGroups {
-			if upstreamGroup.HasReporterStatus() {
+			if upstreamGroup.GetReporterStatus() != nil {
 				reporterStatus := upstreamGroup.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -421,7 +421,7 @@ func checkAuthConfigs(ctx context.Context, namespaces []string) ([]string, error
 			return nil, err
 		}
 		for _, authConfig := range authConfigs {
-			if authConfig.HasReporterStatus() {
+			if authConfig.GetReporterStatus() != nil {
 				reporterStatus := authConfig.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -516,7 +516,7 @@ func checkVirtualHostOptions(ctx context.Context, namespaces []string) ([]string
 			return nil, err
 		}
 		for _, vhOpt := range vhOpts {
-			if vhOpt.HasReporterStatus() {
+			if vhOpt.GetReporterStatus() != nil {
 				reporterStatus := vhOpt.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -572,7 +572,7 @@ func checkRouteOptions(ctx context.Context, namespaces []string) ([]string, erro
 			return nil, err
 		}
 		for _, routeOpt := range vhOpts {
-			if routeOpt.HasReporterStatus() {
+			if routeOpt.GetReporterStatus() != nil {
 				reporterStatus := routeOpt.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -619,7 +619,7 @@ func checkVirtualServices(ctx context.Context, namespaces, knownUpstreams, known
 			return err
 		}
 		for _, virtualService := range virtualServices {
-			if virtualService.HasReporterStatus() {
+			if virtualService.GetReporterStatus() != nil {
 				reporterStatus := virtualService.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -761,7 +761,7 @@ func checkGateways(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, gateway := range gateways {
-			if gateway.HasReporterStatus() {
+			if gateway.GetReporterStatus() != nil {
 				reporterStatus := gateway.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {
@@ -813,7 +813,7 @@ func checkProxies(ctx context.Context, namespaces []string, glooNamespace string
 			return err
 		}
 		for _, proxy := range proxies {
-			if proxy.HasReporterStatus() {
+			if proxy.GetReporterStatus() != nil {
 				reporterStatus := proxy.GetReporterStatus()
 				for reporter, status := range reporterStatus.GetStatuses() {
 					switch status.GetState() {

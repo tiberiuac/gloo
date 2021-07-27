@@ -199,6 +199,8 @@ type Proxy_Status struct {
 }
 
 type Proxy_ReporterStatus struct {
+	// ReporterStatus indicates the validation status of this resource.
+	// ReporterStatus is read-only by clients, and set by gloo during validation
 	ReporterStatus *core.ReporterStatus `protobuf:"bytes,8,opt,name=reporter_status,json=reporterStatus,proto3,oneof"`
 }
 

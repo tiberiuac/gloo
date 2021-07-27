@@ -40,53 +40,39 @@ func (r *Proxy) SetReporterStatus(status *core.ReporterStatus) {
 // current namespace (as specified by POD_NAMESPACE env var).  If the resource does not yet have
 // a ReporterStatus, one will be created.
 // Note: POD_NAMESPACE environment variable must be set for this function to behave as expected.
-func (r *Proxy) UpsertReporterStatus(status *core.Status) {
+// If unset, a podNamespaceErr is returned.
+func (r *Proxy) UpsertReporterStatus(status *core.Status) error {
 	podNamespace := os.Getenv("POD_NAMESPACE")
-	if podNamespace != "" {
-		if r.GetReporterStatus() == nil {
-			r.SetReporterStatus(&core.ReporterStatus{})
-		}
-		if r.GetReporterStatus().Statuses == nil {
-			r.GetReporterStatus().Statuses = make(map[string]*core.Status)
-		}
-		r.GetReporterStatus().Statuses[podNamespace] = status
+	if podNamespace == "" {
+		return errors.NewPodNamespaceErr()
 	}
+	if r.GetReporterStatus() == nil {
+		r.SetReporterStatus(&core.ReporterStatus{})
+	}
+	if r.GetReporterStatus().Statuses == nil {
+		r.GetReporterStatus().Statuses = make(map[string]*core.Status)
+	}
+	r.GetReporterStatus().Statuses[podNamespace] = status
+	return nil
 }
 
 // GetNamespacedStatus returns the status stored in the ReporterStatus.Statuses map for the
 // controller specified by the POD_NAMESPACE env var, or nil if no status exists for that
 // controller.
 // Note: POD_NAMESPACE environment variable must be set for this function to behave as expected.
-func (r *Proxy) GetNamespacedStatus() *core.Status {
+// If unset, a podNamespaceErr is returned.
+func (r *Proxy) GetNamespacedStatus() (*core.Status, error) {
 	podNamespace := os.Getenv("POD_NAMESPACE")
-	if podNamespace != "" {
-		if r.GetReporterStatus() == nil {
-			return nil
-		}
-		if r.GetReporterStatus().Statuses == nil {
-			return nil
-		}
-		return r.GetReporterStatus().Statuses[podNamespace]
+	if podNamespace == "" {
+		return nil, errors.NewPodNamespaceErr()
 	}
-	return nil
-}
-
-func (r *Proxy) HasReporterStatus() bool {
-	switch r.StatusOneof.(type) {
-	case *Proxy_ReporterStatus:
-		return true
-	default:
-		return false
+	if r.GetReporterStatus() == nil {
+		return nil, nil
 	}
-}
-
-func (r *Proxy) HasStatus() bool {
-	switch r.StatusOneof.(type) {
-	case *Proxy_Status:
-		return true
-	default:
-		return false
+	if r.GetReporterStatus().Statuses == nil {
+		return nil, nil
 	}
+	return r.GetReporterStatus().Statuses[podNamespace], nil
 }
 
 func (r *Proxy) MustHash() uint64 {
