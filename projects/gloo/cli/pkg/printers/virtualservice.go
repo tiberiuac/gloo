@@ -135,7 +135,7 @@ func getRouteTableStatus(vs *v1.RouteTable) string {
 }
 
 func getStatus(ctx context.Context, res resources.InputResource, namespace string) string {
-	return AggregateReporterStatus(res.GetReporterStatus(), func(status *core.Status) string {
+	return AggregateNamespacedStatuses(res.GetNamespacedStatuses(), func(status *core.Status) string {
 		return getSingleStatus(status, ctx, namespace)
 	})
 }

@@ -57,7 +57,7 @@ func UpstreamTable(xdsDump *xdsinspection.XdsDump, upstreams []*v1.Upstream, w i
 }
 
 func upstreamStatus(us *v1.Upstream) string {
-	return AggregateReporterStatus(us.GetReporterStatus(), func(status *core.Status) string {
+	return AggregateNamespacedStatuses(us.GetNamespacedStatuses(), func(status *core.Status) string {
 		return status.GetState().String()
 	})
 }

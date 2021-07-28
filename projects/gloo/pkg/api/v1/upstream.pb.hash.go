@@ -306,7 +306,7 @@ func (m *Upstream) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *Upstream_Status:
 
-	case *Upstream_ReporterStatus:
+	case *Upstream_NamespacedStatuses:
 
 	}
 

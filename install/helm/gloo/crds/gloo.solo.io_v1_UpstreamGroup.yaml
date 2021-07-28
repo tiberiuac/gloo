@@ -1165,7 +1165,7 @@ spec:
                     type: integer
                 type: object
               type: array
-            reporterStatus:
+            namespacedStatuses:
               properties:
                 statuses:
                   additionalProperties:

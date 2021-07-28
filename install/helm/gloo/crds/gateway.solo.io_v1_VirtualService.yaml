@@ -23,7 +23,7 @@ spec:
           properties:
             displayName:
               type: string
-            reporterStatus:
+            namespacedStatuses:
               properties:
                 statuses:
                   additionalProperties:

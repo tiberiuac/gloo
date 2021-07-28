@@ -143,16 +143,16 @@ func MarshalSpec(in resources.Resource) (v1.Spec, error) {
 }
 
 func UnmarshalStatus(in resources.InputResource, status v1.Status) error {
-	typedStatus := core.ReporterStatus{}
+	typedStatus := core.NamespacedStatuses{}
 	if err := protoutils.UnmarshalMapToProto(status, &typedStatus); err != nil {
 		return err
 	}
-	in.SetReporterStatus(&typedStatus)
+	in.SetNamespacedStatuses(&typedStatus)
 	return nil
 }
 
 func MarshalStatus(in resources.InputResource) (v1.Status, error) {
-	statusProto := in.GetReporterStatus()
+	statusProto := in.GetNamespacedStatuses()
 	if statusProto == nil {
 		return v1.Status{}, nil
 	}

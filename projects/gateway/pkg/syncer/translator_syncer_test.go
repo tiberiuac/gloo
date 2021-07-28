@@ -52,7 +52,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -88,14 +88,14 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy1 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test1", Namespace: "gloo-system"},
 		}
-		acceptedProxy1.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy1.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			}})
 		acceptedProxy2 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
 		}
-		acceptedProxy2.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy2.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -144,7 +144,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		pendingProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		pendingProxy.SetReporterStatus(&core.ReporterStatus{
+		pendingProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Pending},
 			},
@@ -152,7 +152,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -191,7 +191,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -227,7 +227,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -235,7 +235,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		rejectedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
 		}
-		rejectedProxy.SetReporterStatus(&core.ReporterStatus{
+		rejectedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Rejected},
 			},
@@ -270,7 +270,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		acceptedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		acceptedProxy.SetReporterStatus(&core.ReporterStatus{
+		acceptedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Accepted},
 			},
@@ -278,7 +278,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		rejectedProxy := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
 		}
-		rejectedProxy.SetReporterStatus(&core.ReporterStatus{
+		rejectedProxy.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Rejected},
 			},
@@ -312,7 +312,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		rejectedProxy1 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test", Namespace: "gloo-system"},
 		}
-		rejectedProxy1.SetReporterStatus(&core.ReporterStatus{
+		rejectedProxy1.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Rejected},
 			},
@@ -320,7 +320,7 @@ var _ = Describe("TranslatorSyncer", func() {
 		rejectedProxy2 := &gloov1.Proxy{
 			Metadata: &core.Metadata{Name: "test2", Namespace: "gloo-system"},
 		}
-		rejectedProxy2.SetReporterStatus(&core.ReporterStatus{
+		rejectedProxy2.SetNamespacedStatuses(&core.NamespacedStatuses{
 			Statuses: map[string]*core.Status{
 				"gloo-system": {State: core.Status_Rejected},
 			},

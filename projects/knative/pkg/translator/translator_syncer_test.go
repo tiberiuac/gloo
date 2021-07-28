@@ -117,7 +117,7 @@ var _ = Describe("TranslatorSyncer", func() {
 			defer GinkgoRecover()
 			// update status after a 1s sleep
 			time.Sleep(time.Second / 5)
-			proxy.UpsertReporterStatus(&core.Status{
+			proxy.UpsertNamespacedStatuses(&core.Status{
 				State:      core.Status_Accepted,
 				ReportedBy: "gloo",
 			})

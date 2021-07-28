@@ -35,7 +35,7 @@ var _ = Describe("getStatus", func() {
 
 	It("handles Pending resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.UpsertReporterStatus(&core.Status{
+		vs.UpsertNamespacedStatuses(&core.Status{
 			State:      core.Status_Pending,
 			ReportedBy: "gloo",
 		})
@@ -59,7 +59,7 @@ var _ = Describe("getStatus", func() {
 
 	It("handles Accepted resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.UpsertReporterStatus(&core.Status{
+		vs.UpsertNamespacedStatuses(&core.Status{
 			State:      core.Status_Accepted,
 			ReportedBy: "gloo",
 		})
@@ -78,7 +78,7 @@ var _ = Describe("getStatus", func() {
 					ReportedBy: "gloo",
 				},
 			}
-			vs.SetReporterStatus(&core.ReporterStatus{
+			vs.SetNamespacedStatuses(&core.NamespacedStatuses{
 				Statuses: map[string]*core.Status{
 					"gloo-system": status,
 				},
@@ -100,7 +100,7 @@ var _ = Describe("getStatus", func() {
 			if resourceStatusString != core.Status_Accepted.String() && resourceStatusString != core.Status_Pending.String() {
 				By(fmt.Sprintf("resource: %v", resourceStatusString))
 				vs := &v1.VirtualService{}
-				vs.UpsertReporterStatus(&core.Status{
+				vs.UpsertNamespacedStatuses(&core.Status{
 					State:      resourceStatusState,
 					ReportedBy: "gloo",
 				})
@@ -122,7 +122,7 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertReporterStatus(&core.Status{
+				vs.UpsertNamespacedStatuses(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
@@ -161,7 +161,7 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertReporterStatus(&core.Status{
+				vs.UpsertNamespacedStatuses(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
@@ -208,7 +208,7 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertReporterStatus(&core.Status{
+				vs.UpsertNamespacedStatuses(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",

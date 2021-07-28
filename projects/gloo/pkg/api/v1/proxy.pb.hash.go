@@ -86,7 +86,7 @@ func (m *Proxy) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *Proxy_Status:
 
-	case *Proxy_ReporterStatus:
+	case *Proxy_NamespacedStatuses:
 
 	}
 
@@ -1004,7 +1004,7 @@ func (m *UpstreamGroup) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *UpstreamGroup_Status:
 
-	case *UpstreamGroup_ReporterStatus:
+	case *UpstreamGroup_NamespacedStatuses:
 
 	}
 

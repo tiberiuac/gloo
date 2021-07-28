@@ -706,6 +706,14 @@ spec:
                     type: object
                   type: array
               type: object
+            namespacedStatuses:
+              properties:
+                statuses:
+                  additionalProperties:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  type: object
+              type: object
             options:
               properties:
                 accessLoggingService:
@@ -791,14 +799,6 @@ spec:
               items:
                 type: string
               type: array
-            reporterStatus:
-              properties:
-                statuses:
-                  additionalProperties:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  type: object
-              type: object
             routeOptions:
               properties:
                 maxDirectResponseBodySizeBytes:

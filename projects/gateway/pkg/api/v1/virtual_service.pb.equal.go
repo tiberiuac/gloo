@@ -97,17 +97,17 @@ func (m *VirtualService) Equal(that interface{}) bool {
 			}
 		}
 
-	case *VirtualService_ReporterStatus:
-		if _, ok := target.StatusOneof.(*VirtualService_ReporterStatus); !ok {
+	case *VirtualService_NamespacedStatuses:
+		if _, ok := target.StatusOneof.(*VirtualService_NamespacedStatuses); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetReporterStatus()) {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamespacedStatuses()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+			if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
 				return false
 			}
 		}

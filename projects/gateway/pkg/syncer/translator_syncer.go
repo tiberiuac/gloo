@@ -227,7 +227,7 @@ func (s *statusSyncer) watchProxiesFromChannel(ctx context.Context, proxies <-ch
 func hashStatuses(proxyList gloov1.ProxyList) (uint64, error) {
 	statuses := make([]interface{}, 0, len(proxyList))
 	for _, proxy := range proxyList {
-		statuses = append(statuses, proxy.GetReporterStatus())
+		statuses = append(statuses, proxy.GetNamespacedStatuses())
 	}
 	return hashutils.HashAllSafe(nil, statuses...)
 }
@@ -341,7 +341,7 @@ func (s *statusSyncer) syncStatus(ctx context.Context) error {
 		// this may be different than the status on the snapshot, as the snapshot doesn't get updated
 		// on status changes.
 		if status, ok := localInputResourceLastStatus[inputResource]; ok {
-			clonedInputResource.UpsertReporterStatus(status)
+			clonedInputResource.UpsertNamespacedStatuses(status)
 		}
 		if err := s.reporter.WriteReports(ctx, reports, currentStatuses); err != nil {
 			errs = multierror.Append(errs, err)

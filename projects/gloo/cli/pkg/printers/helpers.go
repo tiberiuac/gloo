@@ -44,18 +44,18 @@ func PrintKubeCrdList(in resources.InputResourceList, resourceCrd crd.Crd) error
 	return nil
 }
 
-// AggregateReporterStatus Formats a ReporterStatus into a string, using the statusProcessor function to
+// AggregateNamespacedStatuses Formats a NamespacedStatuses into a string, using the statusProcessor function to
 // format each individual controller's status
-func AggregateReporterStatus(reporterStatus *core.ReporterStatus, statusProcessor func(*core.Status) string) string {
+func AggregateNamespacedStatuses(NamespacedStatuses *core.NamespacedStatuses, statusProcessor func(*core.Status) string) string {
 	var sb strings.Builder
 	var index = 0
-	for controller, status := range reporterStatus.GetStatuses() {
+	for controller, status := range NamespacedStatuses.GetStatuses() {
 		sb.WriteString(controller)
 		sb.WriteString(": ")
 		sb.WriteString(statusProcessor(status))
 		index += 1
 		// Don't write newline after last status in the map
-		if index != len(reporterStatus.GetStatuses()) {
+		if index != len(NamespacedStatuses.GetStatuses()) {
 			sb.WriteString("\n")
 		}
 	}

@@ -34,7 +34,7 @@ Each upstream type is handled by a corresponding Gloo plugin. (plugins currently
 
 ```yaml
 "status": .core.solo.io.Status
-"reporterStatus": .core.solo.io.ReporterStatus
+"namespacedStatuses": .core.solo.io.NamespacedStatuses
 "metadata": .core.solo.io.Metadata
 "discoveryMetadata": .gloo.solo.io.DiscoveryMetadata
 "sslConfig": .gloo.solo.io.UpstreamSslConfig
@@ -60,8 +60,8 @@ Each upstream type is handled by a corresponding Gloo plugin. (plugins currently
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of the resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `reporterStatus` can be set. |
-| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  Only one of `reporterStatus` or `status` can be set. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of the resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `namespacedStatuses` can be set. |
+| `namespacedStatuses` | [.core.solo.io.NamespacedStatuses](../../../../../../solo-kit/api/v1/status.proto.sk/#namespacedstatuses) |  Only one of `namespacedStatuses` or `status` can be set. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `discoveryMetadata` | [.gloo.solo.io.DiscoveryMetadata](../upstream.proto.sk/#discoverymetadata) | Upstreams and their configuration can be automatically by Gloo Discovery if this upstream is created or modified by Discovery, metadata about the operation will be placed here. |
 | `sslConfig` | [.gloo.solo.io.UpstreamSslConfig](../ssl.proto.sk/#upstreamsslconfig) | SslConfig contains the options necessary to configure an upstream to use TLS origination. |

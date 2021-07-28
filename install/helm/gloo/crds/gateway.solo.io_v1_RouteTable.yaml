@@ -21,7 +21,7 @@ spec:
       properties:
         spec:
           properties:
-            reporterStatus:
+            namespacedStatuses:
               properties:
                 statuses:
                   additionalProperties:

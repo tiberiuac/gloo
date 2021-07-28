@@ -90,7 +90,7 @@ var _ = Describe("Compress", func() {
 					Annotations: map[string]string{"gloo.solo.io/compress": "true"},
 				},
 			}
-			p.SetReporterStatus(&core.ReporterStatus{
+			p.SetNamespacedStatuses(&core.NamespacedStatuses{
 				Statuses: map[string]*core.Status{
 					"test-namespace:gloo": {State: core.Status_Accepted, ReportedBy: "gloo"},
 				},
@@ -101,7 +101,7 @@ var _ = Describe("Compress", func() {
 			p2 := &v1.Proxy{}
 			err = UnmarshalStatus(p2, status)
 			Expect(err).NotTo(HaveOccurred())
-			Expect(p.GetReporterStatus()).To(BeEquivalentTo(p2.GetReporterStatus()))
+			Expect(p.GetNamespacedStatuses()).To(BeEquivalentTo(p2.GetNamespacedStatuses()))
 		})
 
 		It("should not compress status even when annotated", func() {
@@ -110,7 +110,7 @@ var _ = Describe("Compress", func() {
 					Name: "foo",
 				},
 			}
-			p.SetReporterStatus(&core.ReporterStatus{
+			p.SetNamespacedStatuses(&core.NamespacedStatuses{
 				Statuses: map[string]*core.Status{
 					"test-namespace:gloo": {State: core.Status_Accepted, ReportedBy: "gloo"},
 				},

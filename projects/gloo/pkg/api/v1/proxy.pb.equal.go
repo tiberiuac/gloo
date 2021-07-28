@@ -90,17 +90,17 @@ func (m *Proxy) Equal(that interface{}) bool {
 			}
 		}
 
-	case *Proxy_ReporterStatus:
-		if _, ok := target.StatusOneof.(*Proxy_ReporterStatus); !ok {
+	case *Proxy_NamespacedStatuses:
+		if _, ok := target.StatusOneof.(*Proxy_NamespacedStatuses); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetReporterStatus()) {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamespacedStatuses()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+			if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
 				return false
 			}
 		}
@@ -938,17 +938,17 @@ func (m *UpstreamGroup) Equal(that interface{}) bool {
 			}
 		}
 
-	case *UpstreamGroup_ReporterStatus:
-		if _, ok := target.StatusOneof.(*UpstreamGroup_ReporterStatus); !ok {
+	case *UpstreamGroup_NamespacedStatuses:
+		if _, ok := target.StatusOneof.(*UpstreamGroup_NamespacedStatuses); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetReporterStatus()) {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamespacedStatuses()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+			if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
 				return false
 			}
 		}

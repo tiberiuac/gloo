@@ -109,7 +109,7 @@ var _ = Describe("Root", func() {
 					Namespace: "gloo-system",
 				},
 			}
-			warningUpstream.UpsertReporterStatus(&core.Status{
+			warningUpstream.UpsertNamespacedStatuses(&core.Status{
 				State:      core.Status_Warning,
 				Reason:     "I am an upstream with a warning",
 				ReportedBy: "gateway",
@@ -123,7 +123,7 @@ var _ = Describe("Root", func() {
 					Namespace: "gloo-system",
 				},
 			}
-			rejectedUpstream.UpsertReporterStatus(&core.Status{
+			rejectedUpstream.UpsertNamespacedStatuses(&core.Status{
 				State:      core.Status_Rejected,
 				Reason:     "I am a rejected upstream",
 				ReportedBy: "gateway",
@@ -134,7 +134,7 @@ var _ = Describe("Root", func() {
 			rejectedVs := &v12.VirtualService{
 				Metadata: &core.Metadata{Name: "some-bad-vs", Namespace: "gloo-system"},
 			}
-			rejectedVs.UpsertReporterStatus(&core.Status{
+			rejectedVs.UpsertNamespacedStatuses(&core.Status{
 				State:      core.Status_Rejected,
 				Reason:     "I am a rejected vs",
 				ReportedBy: "gateway",

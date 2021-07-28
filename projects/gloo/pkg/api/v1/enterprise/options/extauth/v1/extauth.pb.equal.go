@@ -100,17 +100,17 @@ func (m *AuthConfig) Equal(that interface{}) bool {
 			}
 		}
 
-	case *AuthConfig_ReporterStatus:
-		if _, ok := target.StatusOneof.(*AuthConfig_ReporterStatus); !ok {
+	case *AuthConfig_NamespacedStatuses:
+		if _, ok := target.StatusOneof.(*AuthConfig_NamespacedStatuses); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetReporterStatus()) {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamespacedStatuses()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+			if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
 				return false
 			}
 		}

@@ -168,7 +168,7 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 	AcceptProxy := func() {
 		proxy, err := proxyClient.Read("gloo-system", "gateway-proxy", clients.ReadOpts{})
 		Expect(err).NotTo(HaveOccurred())
-		proxy.UpsertReporterStatus(&core.Status{
+		proxy.UpsertNamespacedStatuses(&core.Status{
 			State:      core.Status_Accepted,
 			ReportedBy: "gateway",
 		})

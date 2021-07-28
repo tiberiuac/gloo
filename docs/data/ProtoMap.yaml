@@ -71,8 +71,8 @@ apis:
   core.solo.io.Metadata:
     relativepath: reference/api/github.com/solo-io/solo-kit/api/v1/metadata.proto.sk/#Metadata
     package: core.solo.io
-  core.solo.io.ReporterStatus:
-    relativepath: reference/api/github.com/solo-io/solo-kit/api/v1/status.proto.sk/#ReporterStatus
+  core.solo.io.NamespacedStatuses:
+    relativepath: reference/api/github.com/solo-io/solo-kit/api/v1/status.proto.sk/#NamespacedStatuses
     package: core.solo.io
   core.solo.io.Resource:
     relativepath: reference/api/github.com/solo-io/solo-kit/api/v1/solo-kit.proto.sk/#Resource

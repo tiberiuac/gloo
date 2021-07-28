@@ -82,7 +82,7 @@ func (m *VirtualHostOption) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *VirtualHostOption_Status:
 
-	case *VirtualHostOption_ReporterStatus:
+	case *VirtualHostOption_NamespacedStatuses:
 
 	}
 
@@ -146,7 +146,7 @@ func (m *RouteOption) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *RouteOption_Status:
 
-	case *RouteOption_ReporterStatus:
+	case *RouteOption_NamespacedStatuses:
 
 	}
 

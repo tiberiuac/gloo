@@ -126,20 +126,20 @@ func (m *AuthConfig) Hash(hasher hash.Hash64) (uint64, error) {
 			}
 		}
 
-	case *AuthConfig_ReporterStatus:
+	case *AuthConfig_NamespacedStatuses:
 
-		if h, ok := interface{}(m.GetReporterStatus()).(safe_hasher.SafeHasher); ok {
-			if _, err = hasher.Write([]byte("ReporterStatus")); err != nil {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(safe_hasher.SafeHasher); ok {
+			if _, err = hasher.Write([]byte("NamespacedStatuses")); err != nil {
 				return 0, err
 			}
 			if _, err = h.Hash(hasher); err != nil {
 				return 0, err
 			}
 		} else {
-			if fieldValue, err := hashstructure.Hash(m.GetReporterStatus(), nil); err != nil {
+			if fieldValue, err := hashstructure.Hash(m.GetNamespacedStatuses(), nil); err != nil {
 				return 0, err
 			} else {
-				if _, err = hasher.Write([]byte("ReporterStatus")); err != nil {
+				if _, err = hasher.Write([]byte("NamespacedStatuses")); err != nil {
 					return 0, err
 				}
 				if err := binary.Write(hasher, binary.LittleEndian, fieldValue); err != nil {

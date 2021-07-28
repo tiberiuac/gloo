@@ -6776,7 +6776,7 @@ spec:
                     type: boolean
                 type: object
               type: array
-            reporterStatus:
+            namespacedStatuses:
               properties:
                 statuses:
                   additionalProperties:

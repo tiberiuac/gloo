@@ -796,6 +796,14 @@ spec:
                 updateMergeWindow:
                   type: string
               type: object
+            namespacedStatuses:
+              properties:
+                statuses:
+                  additionalProperties:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  type: object
+              type: object
             outlierDetection:
               properties:
                 baseEjectionTime:
@@ -971,14 +979,6 @@ spec:
                             type: object
                           type: object
                       type: object
-                  type: object
-              type: object
-            reporterStatus:
-              properties:
-                statuses:
-                  additionalProperties:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
                   type: object
               type: object
             sslConfig:

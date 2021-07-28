@@ -425,17 +425,17 @@ func (m *Settings) Equal(that interface{}) bool {
 			}
 		}
 
-	case *Settings_ReporterStatus:
-		if _, ok := target.StatusOneof.(*Settings_ReporterStatus); !ok {
+	case *Settings_NamespacedStatuses:
+		if _, ok := target.StatusOneof.(*Settings_NamespacedStatuses); !ok {
 			return false
 		}
 
-		if h, ok := interface{}(m.GetReporterStatus()).(equality.Equalizer); ok {
-			if !h.Equal(target.GetReporterStatus()) {
+		if h, ok := interface{}(m.GetNamespacedStatuses()).(equality.Equalizer); ok {
+			if !h.Equal(target.GetNamespacedStatuses()) {
 				return false
 			}
 		} else {
-			if !proto.Equal(m.GetReporterStatus(), target.GetReporterStatus()) {
+			if !proto.Equal(m.GetNamespacedStatuses(), target.GetNamespacedStatuses()) {
 				return false
 			}
 		}

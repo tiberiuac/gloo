@@ -328,9 +328,9 @@ func checkUpstreams(ctx context.Context, namespaces []string) ([]string, error) 
 			return nil, err
 		}
 		for _, upstream := range upstreams {
-			if upstream.GetReporterStatus() != nil {
-				reporterStatus := upstream.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if upstream.GetNamespacedStatuses() != nil {
+				namespacedStatuses := upstream.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected upstream by '%s': %s ", reporter, renderMetadata(upstream.GetMetadata()))
@@ -343,7 +343,7 @@ func checkUpstreams(ctx context.Context, namespaces []string) ([]string, error) 
 					}
 				}
 				knownUpstreams = append(knownUpstreams, renderMetadata(upstream.GetMetadata()))
-			} else { // upstream has a Status, not ReporterStatus
+			} else { // upstream has a Status, not NamespacedStatuses
 				if upstream.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected upstream: %s ", renderMetadata(upstream.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", upstream.GetStatus().GetReason())
@@ -375,9 +375,9 @@ func checkUpstreamGroups(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, upstreamGroup := range upstreamGroups {
-			if upstreamGroup.GetReporterStatus() != nil {
-				reporterStatus := upstreamGroup.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if upstreamGroup.GetNamespacedStatuses() != nil {
+				namespacedStatuses := upstreamGroup.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected upstream group by '%s': %s ", reporter, renderMetadata(upstreamGroup.GetMetadata()))
@@ -389,7 +389,7 @@ func checkUpstreamGroups(ctx context.Context, namespaces []string) error {
 						multiErr = multierror.Append(multiErr, errors.New(errMessage))
 					}
 				}
-			} else { // upstream group has a Status, not ReporterStatus
+			} else { // upstream group has a Status, not NamespacedStatuses
 				if upstreamGroup.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected upstream group: %s ", renderMetadata(upstreamGroup.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", upstreamGroup.GetStatus().GetReason())
@@ -421,9 +421,9 @@ func checkAuthConfigs(ctx context.Context, namespaces []string) ([]string, error
 			return nil, err
 		}
 		for _, authConfig := range authConfigs {
-			if authConfig.GetReporterStatus() != nil {
-				reporterStatus := authConfig.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if authConfig.GetNamespacedStatuses() != nil {
+				namespacedStatuses := authConfig.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected auth config by '%s': %s ", reporter, renderMetadata(authConfig.GetMetadata()))
@@ -436,7 +436,7 @@ func checkAuthConfigs(ctx context.Context, namespaces []string) ([]string, error
 					}
 				}
 				knownAuthConfigs = append(knownAuthConfigs, renderMetadata(authConfig.GetMetadata()))
-			} else { // auth config has a Status, not ReporterStatus
+			} else { // auth config has a Status, not NamespacedStatuses
 				if authConfig.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected auth config: %s ", renderMetadata(authConfig.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", authConfig.GetStatus().GetReason())
@@ -516,9 +516,9 @@ func checkVirtualHostOptions(ctx context.Context, namespaces []string) ([]string
 			return nil, err
 		}
 		for _, vhOpt := range vhOpts {
-			if vhOpt.GetReporterStatus() != nil {
-				reporterStatus := vhOpt.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if vhOpt.GetNamespacedStatuses() != nil {
+				namespacedStatuses := vhOpt.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected VirtualHostOption by '%s': %s ", reporter, renderMetadata(vhOpt.GetMetadata()))
@@ -531,7 +531,7 @@ func checkVirtualHostOptions(ctx context.Context, namespaces []string) ([]string
 					}
 				}
 				knownVhOpts = append(knownVhOpts, renderMetadata(vhOpt.GetMetadata()))
-			} else { // vhost options has a Status, not ReporterStatus
+			} else { // vhost options has a Status, not NamespacedStatuses
 				if vhOpt.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected VirtualHostOption: %s ", renderMetadata(vhOpt.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", vhOpt.GetStatus().GetReason())
@@ -572,9 +572,9 @@ func checkRouteOptions(ctx context.Context, namespaces []string) ([]string, erro
 			return nil, err
 		}
 		for _, routeOpt := range vhOpts {
-			if routeOpt.GetReporterStatus() != nil {
-				reporterStatus := routeOpt.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if routeOpt.GetNamespacedStatuses() != nil {
+				namespacedStatuses := routeOpt.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected RouteOption by '%s': %s ", reporter, renderMetadata(routeOpt.GetMetadata()))
@@ -587,7 +587,7 @@ func checkRouteOptions(ctx context.Context, namespaces []string) ([]string, erro
 					}
 				}
 				knownVhOpts = append(knownVhOpts, renderMetadata(routeOpt.GetMetadata()))
-			} else { // Route option has a Status, not ReporterStatus
+			} else { // Route option has a Status, not NamespacedStatuses
 				if routeOpt.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected RouteOption: %s ", renderMetadata(routeOpt.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", routeOpt.GetStatus().GetReason())
@@ -619,9 +619,9 @@ func checkVirtualServices(ctx context.Context, namespaces, knownUpstreams, known
 			return err
 		}
 		for _, virtualService := range virtualServices {
-			if virtualService.GetReporterStatus() != nil {
-				reporterStatus := virtualService.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if virtualService.GetNamespacedStatuses() != nil {
+				namespacedStatuses := virtualService.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected virtual service by '%s': %s ", reporter, renderMetadata(virtualService.GetMetadata()))
@@ -633,7 +633,7 @@ func checkVirtualServices(ctx context.Context, namespaces, knownUpstreams, known
 						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 					}
 				}
-			} else { // virtual service has a Status, not ReporterStatus
+			} else { // virtual service has a Status, not NamespacedStatuses
 				if virtualService.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected virtual service: %s ", renderMetadata(virtualService.GetMetadata()))
 					errMessage += fmt.Sprintf("(Reason: %s)", virtualService.GetStatus().GetReason())
@@ -761,9 +761,9 @@ func checkGateways(ctx context.Context, namespaces []string) error {
 			return err
 		}
 		for _, gateway := range gateways {
-			if gateway.GetReporterStatus() != nil {
-				reporterStatus := gateway.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if gateway.GetNamespacedStatuses() != nil {
+				namespacedStatuses := gateway.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected gateway by '%s': %s\n", reporter, renderMetadata(gateway.GetMetadata()))
@@ -775,7 +775,7 @@ func checkGateways(ctx context.Context, namespaces []string) error {
 						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 					}
 				}
-			} else { // gateway has a Status, not ReporterStatus
+			} else { // gateway has a Status, not NamespacedStatuses
 				if gateway.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected gateway: %s\n", renderMetadata(gateway.GetMetadata()))
 					errMessage += fmt.Sprintf("Reason: %s\n", gateway.GetStatus().GetReason())
@@ -813,9 +813,9 @@ func checkProxies(ctx context.Context, namespaces []string, glooNamespace string
 			return err
 		}
 		for _, proxy := range proxies {
-			if proxy.GetReporterStatus() != nil {
-				reporterStatus := proxy.GetReporterStatus()
-				for reporter, status := range reporterStatus.GetStatuses() {
+			if proxy.GetNamespacedStatuses() != nil {
+				namespacedStatuses := proxy.GetNamespacedStatuses()
+				for reporter, status := range namespacedStatuses.GetStatuses() {
 					switch status.GetState() {
 					case core.Status_Rejected:
 						errMessage := fmt.Sprintf("Found rejected proxy by '%s': %s\n", reporter, renderMetadata(proxy.GetMetadata()))
@@ -827,7 +827,7 @@ func checkProxies(ctx context.Context, namespaces []string, glooNamespace string
 						multiErr = multierror.Append(multiErr, fmt.Errorf(errMessage))
 					}
 				}
-			} else { // proxy has a Status, not ReporterStatus
+			} else { // proxy has a Status, not NamespacedStatuses
 				if proxy.GetStatus().GetState() == core.Status_Rejected {
 					errMessage := fmt.Sprintf("Found rejected proxy: %s\n", renderMetadata(proxy.GetMetadata()))
 					errMessage += fmt.Sprintf("Reason: %s\n", proxy.GetStatus().GetReason())

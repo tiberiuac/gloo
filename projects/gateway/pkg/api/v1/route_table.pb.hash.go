@@ -106,7 +106,7 @@ func (m *RouteTable) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *RouteTable_Status:
 
-	case *RouteTable_ReporterStatus:
+	case *RouteTable_NamespacedStatuses:
 
 	}
 

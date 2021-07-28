@@ -114,7 +114,7 @@ message VirtualHostOption {
     // Status indicates the validation status of this resource.
     // Status is read-only by clients, and set by gateway during validation
     core.solo.io.Status status = 1 [(extproto.skip_hashing) = true];
-    core.solo.io.ReporterStatus reporter_status = 4 [(extproto.skip_hashing) = true];
+    core.solo.io.NamespacedStatuses namespaced_statuses = 4 [(extproto.skip_hashing) = true];
   }
 
   // Metadata contains the object metadata for this resource
@@ -228,7 +228,7 @@ message RouteOption {
     // Status indicates the validation status of this resource.
     // Status is read-only by clients, and set by gloo during validation
     core.solo.io.Status status = 1 [(extproto.skip_hashing) = true];
-    core.solo.io.ReporterStatus reporter_status = 4 [(extproto.skip_hashing) = true];
+    core.solo.io.NamespacedStatuses namespaced_statuses = 4 [(extproto.skip_hashing) = true];
   }
 
   // Metadata contains the object metadata for this resource

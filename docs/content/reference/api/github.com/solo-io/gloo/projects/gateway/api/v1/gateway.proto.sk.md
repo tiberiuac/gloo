@@ -40,7 +40,7 @@ and the routing configuration to upstreams that are reachable via a specific por
 "bindPort": int
 "options": .gloo.solo.io.ListenerOptions
 "status": .core.solo.io.Status
-"reporterStatus": .core.solo.io.ReporterStatus
+"namespacedStatuses": .core.solo.io.NamespacedStatuses
 "metadata": .core.solo.io.Metadata
 "useProxyProto": .google.protobuf.BoolValue
 "httpGateway": .gateway.solo.io.HttpGateway
@@ -56,8 +56,8 @@ and the routing configuration to upstreams that are reachable via a specific por
 | `bindAddress` | `string` | the bind address the gateway should serve traffic on. |
 | `bindPort` | `int` | bind ports must not conflict across gateways for a single proxy. |
 | `options` | [.gloo.solo.io.ListenerOptions](../../../../gloo/api/v1/options.proto.sk/#listeneroptions) | top level optional configuration for all routes on the gateway. |
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `reporterStatus` can be set. |
-| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  Only one of `reporterStatus` or `status` can be set. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `namespacedStatuses` can be set. |
+| `namespacedStatuses` | [.core.solo.io.NamespacedStatuses](../../../../../../solo-kit/api/v1/status.proto.sk/#namespacedstatuses) |  Only one of `namespacedStatuses` or `status` can be set. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `useProxyProto` | [.google.protobuf.BoolValue](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/bool-value) | Enable ProxyProtocol support for this listener. |
 | `httpGateway` | [.gateway.solo.io.HttpGateway](../gateway.proto.sk/#httpgateway) |  Only one of `httpGateway` or `tcpGateway` can be set. |

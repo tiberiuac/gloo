@@ -144,7 +144,7 @@ func (m *Gateway) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *Gateway_Status:
 
-	case *Gateway_ReporterStatus:
+	case *Gateway_NamespacedStatuses:
 
 	}
 

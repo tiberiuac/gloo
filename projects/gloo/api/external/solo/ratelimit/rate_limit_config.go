@@ -20,7 +20,11 @@ var _ resources.CustomInputResource = &RateLimitConfig{}
 
 type RateLimitConfig v1alpha1.RateLimitConfig
 
-func (r *RateLimitConfig) GetReporterStatus() *core.ReporterStatus {
+func (r *RateLimitConfig) UpsertNamespacedStatus(status *core.Status) error {
+	panic("implement me")
+}
+
+func (r *RateLimitConfig) GetNamespacedStatuses() *core.NamespacedStatuses {
 	panic("implement me")
 }
 
@@ -28,11 +32,11 @@ func (r *RateLimitConfig) GetNamespacedStatus() (*core.Status, error) {
 	panic("implement me")
 }
 
-func (r *RateLimitConfig) SetReporterStatus(status *core.ReporterStatus) {
+func (r *RateLimitConfig) SetNamespacedStatuses(status *core.NamespacedStatuses) {
 	panic("implement me")
 }
 
-func (r *RateLimitConfig) UpsertReporterStatus(status *core.Status) error {
+func (r *RateLimitConfig) UpsertNamespacedStatuses(status *core.Status) error {
 	panic("implement me")
 }
 

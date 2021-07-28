@@ -120,7 +120,7 @@ Notice how the order of VirtualHostOption delegations matters, and that the Virt
 
 ```yaml
 "status": .core.solo.io.Status
-"reporterStatus": .core.solo.io.ReporterStatus
+"namespacedStatuses": .core.solo.io.NamespacedStatuses
 "metadata": .core.solo.io.Metadata
 "options": .gloo.solo.io.VirtualHostOptions
 
@@ -128,8 +128,8 @@ Notice how the order of VirtualHostOption delegations matters, and that the Virt
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gateway during validation. Only one of `status` or `reporterStatus` can be set. |
-| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  Only one of `reporterStatus` or `status` can be set. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gateway during validation. Only one of `status` or `namespacedStatuses` can be set. |
+| `namespacedStatuses` | [.core.solo.io.NamespacedStatuses](../../../../../../solo-kit/api/v1/status.proto.sk/#namespacedstatuses) |  Only one of `namespacedStatuses` or `status` can be set. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `options` | [.gloo.solo.io.VirtualHostOptions](../../../../gloo/api/v1/options.proto.sk/#virtualhostoptions) | VirtualHost options. See VirtualHost for delegation behavior. |
 
@@ -235,7 +235,7 @@ Notice how the order of RouteOption delegations matters, and that the Route-leve
 
 ```yaml
 "status": .core.solo.io.Status
-"reporterStatus": .core.solo.io.ReporterStatus
+"namespacedStatuses": .core.solo.io.NamespacedStatuses
 "metadata": .core.solo.io.Metadata
 "options": .gloo.solo.io.RouteOptions
 
@@ -243,8 +243,8 @@ Notice how the order of RouteOption delegations matters, and that the Route-leve
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `reporterStatus` can be set. |
-| `reporterStatus` | [.core.solo.io.ReporterStatus](../../../../../../solo-kit/api/v1/status.proto.sk/#reporterstatus) |  Only one of `reporterStatus` or `status` can be set. |
+| `status` | [.core.solo.io.Status](../../../../../../solo-kit/api/v1/status.proto.sk/#status) | Status indicates the validation status of this resource. Status is read-only by clients, and set by gloo during validation. Only one of `status` or `namespacedStatuses` can be set. |
+| `namespacedStatuses` | [.core.solo.io.NamespacedStatuses](../../../../../../solo-kit/api/v1/status.proto.sk/#namespacedstatuses) |  Only one of `namespacedStatuses` or `status` can be set. |
 | `metadata` | [.core.solo.io.Metadata](../../../../../../solo-kit/api/v1/metadata.proto.sk/#metadata) | Metadata contains the object metadata for this resource. |
 | `options` | [.gloo.solo.io.RouteOptions](../../../../gloo/api/v1/options.proto.sk/#routeoptions) | Route options. See Route for delegation behavior. |
 

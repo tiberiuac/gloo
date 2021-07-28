@@ -41,7 +41,7 @@ message Upstream {
     oneof status_oneof {
         // Status indicates the validation status of the resource. Status is read-only by clients, and set by gloo during validation
         core.solo.io.Status status = 1 [(extproto.skip_hashing) = true];
-        core.solo.io.ReporterStatus reporter_status = 22 [(extproto.skip_hashing) = true];
+        core.solo.io.NamespacedStatuses namespaced_statuses = 22 [(extproto.skip_hashing) = true];
     }
 
     // Metadata contains the object metadata for this resource

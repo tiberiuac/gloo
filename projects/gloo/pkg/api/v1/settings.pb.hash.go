@@ -633,7 +633,7 @@ func (m *Settings) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *Settings_Status:
 
-	case *Settings_ReporterStatus:
+	case *Settings_NamespacedStatuses:
 
 	}
 

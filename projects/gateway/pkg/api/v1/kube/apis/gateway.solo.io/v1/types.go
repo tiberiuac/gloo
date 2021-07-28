@@ -27,9 +27,9 @@ type Gateway struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.Gateway         `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.Gateway             `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *Gateway) MarshalJSON() ([]byte, error) {
@@ -39,14 +39,14 @@ func (o *Gateway) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -70,9 +70,9 @@ func (o *Gateway) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -97,9 +97,9 @@ type RouteOption struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.RouteOption     `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.RouteOption         `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *RouteOption) MarshalJSON() ([]byte, error) {
@@ -109,14 +109,14 @@ func (o *RouteOption) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -140,9 +140,9 @@ func (o *RouteOption) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -167,9 +167,9 @@ type RouteTable struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.RouteTable      `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.RouteTable          `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *RouteTable) MarshalJSON() ([]byte, error) {
@@ -179,14 +179,14 @@ func (o *RouteTable) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -210,9 +210,9 @@ func (o *RouteTable) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -237,9 +237,9 @@ type VirtualHostOption struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.VirtualHostOption `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status           `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus   `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.VirtualHostOption   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *VirtualHostOption) MarshalJSON() ([]byte, error) {
@@ -249,14 +249,14 @@ func (o *VirtualHostOption) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -280,9 +280,9 @@ func (o *VirtualHostOption) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -307,9 +307,9 @@ type VirtualService struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.VirtualService  `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.VirtualService      `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *VirtualService) MarshalJSON() ([]byte, error) {
@@ -319,14 +319,14 @@ func (o *VirtualService) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -350,9 +350,9 @@ func (o *VirtualService) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil

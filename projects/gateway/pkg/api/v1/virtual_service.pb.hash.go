@@ -102,7 +102,7 @@ func (m *VirtualService) Hash(hasher hash.Hash64) (uint64, error) {
 
 	case *VirtualService_Status:
 
-	case *VirtualService_ReporterStatus:
+	case *VirtualService_NamespacedStatuses:
 
 	}
 

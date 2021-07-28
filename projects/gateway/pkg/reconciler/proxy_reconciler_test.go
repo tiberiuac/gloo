@@ -162,7 +162,7 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 				liveProxyStatus, err := liveProxy.GetNamespacedStatus()
 				Expect(err).NotTo(HaveOccurred())
 				if liveProxyStatus == nil {
-					liveProxy.UpsertReporterStatus(&core.Status{State: core.Status_Accepted, ReportedBy: "gateway"})
+					liveProxy.UpsertNamespacedStatuses(&core.Status{State: core.Status_Accepted, ReportedBy: "gateway"})
 				} else {
 					liveProxyStatus.State = core.Status_Accepted
 				}

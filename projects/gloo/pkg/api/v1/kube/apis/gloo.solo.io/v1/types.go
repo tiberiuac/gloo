@@ -141,9 +141,9 @@ type Proxy struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.Proxy           `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.Proxy               `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *Proxy) MarshalJSON() ([]byte, error) {
@@ -153,14 +153,14 @@ func (o *Proxy) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -184,9 +184,9 @@ func (o *Proxy) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -268,9 +268,9 @@ type Settings struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.Settings        `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.Settings            `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *Settings) MarshalJSON() ([]byte, error) {
@@ -280,14 +280,14 @@ func (o *Settings) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -311,9 +311,9 @@ func (o *Settings) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -338,9 +338,9 @@ type Upstream struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.Upstream        `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.Upstream            `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *Upstream) MarshalJSON() ([]byte, error) {
@@ -350,14 +350,14 @@ func (o *Upstream) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -381,9 +381,9 @@ func (o *Upstream) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
@@ -408,9 +408,9 @@ type UpstreamGroup struct {
 
 	// Spec defines the implementation of this definition.
 	// +optional
-	Spec           api.UpstreamGroup   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status         core.Status         `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-	ReporterStatus core.ReporterStatus `json:"reporter_status,omitempty" protobuf:"bytes,4,opt,name=reporter_status"`
+	Spec               api.UpstreamGroup       `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status             core.Status             `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	NamespacedStatuses core.NamespacedStatuses `json:"namespaced_statuses,omitempty" protobuf:"bytes,4,opt,name=namespaced_statuses"`
 }
 
 func (o *UpstreamGroup) MarshalJSON() ([]byte, error) {
@@ -420,14 +420,14 @@ func (o *UpstreamGroup) MarshalJSON() ([]byte, error) {
 	}
 	delete(spec, "metadata")
 	delete(spec, "status")
-	delete(spec, "reporter_status")
+	delete(spec, "namespaced_statuses")
 	asMap := map[string]interface{}{
-		"metadata":        o.ObjectMeta,
-		"apiVersion":      o.TypeMeta.APIVersion,
-		"kind":            o.TypeMeta.Kind,
-		"status":          o.Status,
-		"reporter_status": o.ReporterStatus,
-		"spec":            spec,
+		"metadata":            o.ObjectMeta,
+		"apiVersion":          o.TypeMeta.APIVersion,
+		"kind":                o.TypeMeta.Kind,
+		"status":              o.Status,
+		"namespaced_statuses": o.NamespacedStatuses,
+		"spec":                spec,
 	}
 	return json.Marshal(asMap)
 }
@@ -451,9 +451,9 @@ func (o *UpstreamGroup) UnmarshalJSON(data []byte) error {
 		o.Status = *spec.GetStatus()
 		o.Spec.SetStatus(nil)
 	}
-	if spec.GetReporterStatus() != nil {
-		o.ReporterStatus = *spec.GetReporterStatus()
-		o.Spec.SetReporterStatus(nil)
+	if spec.GetNamespacedStatuses() != nil {
+		o.NamespacedStatuses = *spec.GetNamespacedStatuses()
+		o.Spec.SetNamespacedStatuses(nil)
 	}
 
 	return nil
