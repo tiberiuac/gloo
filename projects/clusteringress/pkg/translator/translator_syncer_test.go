@@ -53,10 +53,10 @@ var _ = Describe("TranslatorSyncer", func() {
 			defer GinkgoRecover()
 			// update status after a 1s sleep
 			time.Sleep(time.Second / 5)
-			proxy.UpsertNamespacedStatuses(&core.Status{
+			Expect(proxy.UpsertNamespacedStatus(&core.Status{
 				State:      core.Status_Accepted,
 				ReportedBy: "gateway",
-			})
+			})).NotTo(HaveOccurred())
 			_, err := proxyClient.Write(proxy, clients.WriteOpts{OverwriteExisting: true})
 			Expect(err).NotTo(HaveOccurred())
 		}()

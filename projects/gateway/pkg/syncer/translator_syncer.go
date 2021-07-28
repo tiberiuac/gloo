@@ -341,7 +341,10 @@ func (s *statusSyncer) syncStatus(ctx context.Context) error {
 		// this may be different than the status on the snapshot, as the snapshot doesn't get updated
 		// on status changes.
 		if status, ok := localInputResourceLastStatus[inputResource]; ok {
-			clonedInputResource.UpsertNamespacedStatuses(status)
+			err := clonedInputResource.UpsertNamespacedStatus(status)
+			if err != nil {
+				return err
+			}
 		}
 		if err := s.reporter.WriteReports(ctx, reports, currentStatuses); err != nil {
 			errs = multierror.Append(errs, err)

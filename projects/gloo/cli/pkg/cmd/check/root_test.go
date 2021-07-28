@@ -109,11 +109,11 @@ var _ = Describe("Root", func() {
 					Namespace: "gloo-system",
 				},
 			}
-			warningUpstream.UpsertNamespacedStatuses(&core.Status{
+			Expect(warningUpstream.UpsertNamespacedStatus(&core.Status{
 				State:      core.Status_Warning,
 				Reason:     "I am an upstream with a warning",
 				ReportedBy: "gateway",
-			})
+			})).NotTo(HaveOccurred())
 			_, usErr := helpers.MustNamespacedUpstreamClient(ctx, "gloo-system").Write(warningUpstream, clients.WriteOpts{})
 			Expect(usErr).NotTo(HaveOccurred())
 
@@ -123,22 +123,22 @@ var _ = Describe("Root", func() {
 					Namespace: "gloo-system",
 				},
 			}
-			rejectedUpstream.UpsertNamespacedStatuses(&core.Status{
+			Expect(rejectedUpstream.UpsertNamespacedStatus(&core.Status{
 				State:      core.Status_Rejected,
 				Reason:     "I am a rejected upstream",
 				ReportedBy: "gateway",
-			})
+			})).NotTo(HaveOccurred())
 			_, rUsErr := helpers.MustNamespacedUpstreamClient(ctx, "gloo-system").Write(rejectedUpstream, clients.WriteOpts{})
 			Expect(rUsErr).NotTo(HaveOccurred())
 
 			rejectedVs := &v12.VirtualService{
 				Metadata: &core.Metadata{Name: "some-bad-vs", Namespace: "gloo-system"},
 			}
-			rejectedVs.UpsertNamespacedStatuses(&core.Status{
+			Expect(rejectedVs.UpsertNamespacedStatus(&core.Status{
 				State:      core.Status_Rejected,
 				Reason:     "I am a rejected vs",
 				ReportedBy: "gateway",
-			})
+			})).NotTo(HaveOccurred())
 			_, vsErr := helpers.MustNamespacedVirtualServiceClient(ctx, "gloo-system").Write(rejectedVs, clients.WriteOpts{})
 			Expect(vsErr).NotTo(HaveOccurred())
 			testutils.Glooctl("check -x xds-metrics")

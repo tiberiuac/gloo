@@ -35,10 +35,10 @@ var _ = Describe("getStatus", func() {
 
 	It("handles Pending resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.UpsertNamespacedStatuses(&core.Status{
+		Expect(vs.UpsertNamespacedStatus(&core.Status{
 			State:      core.Status_Pending,
 			ReportedBy: "gloo",
-		})
+		})).NotTo(HaveOccurred())
 		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Pending"))
 
 		// range through all possible sub resource states
@@ -59,10 +59,10 @@ var _ = Describe("getStatus", func() {
 
 	It("handles Accepted resource state", func() {
 		vs := &v1.VirtualService{}
-		vs.UpsertNamespacedStatuses(&core.Status{
+		Expect(vs.UpsertNamespacedStatus(&core.Status{
 			State:      core.Status_Accepted,
 			ReportedBy: "gloo",
-		})
+		})).NotTo(HaveOccurred())
 		Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: Accepted"))
 
 		// range through all possible sub resource states
@@ -100,10 +100,10 @@ var _ = Describe("getStatus", func() {
 			if resourceStatusString != core.Status_Accepted.String() && resourceStatusString != core.Status_Pending.String() {
 				By(fmt.Sprintf("resource: %v", resourceStatusString))
 				vs := &v1.VirtualService{}
-				vs.UpsertNamespacedStatuses(&core.Status{
+				Expect(vs.UpsertNamespacedStatus(&core.Status{
 					State:      resourceStatusState,
 					ReportedBy: "gloo",
-				})
+				})).NotTo(HaveOccurred())
 				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 			}
 		}
@@ -122,11 +122,11 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertNamespacedStatuses(&core.Status{
+				Expect(vs.UpsertNamespacedStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
-				})
+				})).NotTo(HaveOccurred())
 				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 
 				By(fmt.Sprintf("resource: %v, two subresources accepted", resourceStatusString))
@@ -161,11 +161,11 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertNamespacedStatuses(&core.Status{
+				Expect(vs.UpsertNamespacedStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
-				})
+				})).NotTo(HaveOccurred())
 				out := getStatus(ctx, vs, namespace)
 				Expect(out).To(Equal("gloo-system: " + resourceStatusString + "\n" + genericErrorFormat(thing1, core.Status_Rejected.String(), reasonUntracked)))
 
@@ -208,11 +208,11 @@ var _ = Describe("getStatus", func() {
 					},
 				}
 				vs := &v1.VirtualService{}
-				vs.UpsertNamespacedStatuses(&core.Status{
+				Expect(vs.UpsertNamespacedStatus(&core.Status{
 					State:               resourceStatusState,
 					SubresourceStatuses: subStatuses,
 					ReportedBy:          "gloo",
-				})
+				})).NotTo(HaveOccurred())
 				out := getStatus(ctx, vs, namespace)
 				Expect(out).To(Equal("gloo-system: " + resourceStatusString + "\n" + subResourceErrorFormat(erroredResourceIdentifier)))
 

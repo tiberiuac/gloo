@@ -36,10 +36,6 @@ func (r *RateLimitConfig) SetNamespacedStatuses(status *core.NamespacedStatuses)
 	panic("implement me")
 }
 
-func (r *RateLimitConfig) UpsertNamespacedStatuses(status *core.Status) error {
-	panic("implement me")
-}
-
 func (r *RateLimitConfig) GetMetadata() *core.Metadata {
 	return kubeutils.FromKubeMeta(r.ObjectMeta)
 }
