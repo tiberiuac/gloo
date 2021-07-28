@@ -44,7 +44,9 @@ var _ = Describe("getStatus", func() {
 		// range through all possible sub resource states
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
-			vs.GetNamespacedStatus().SubresourceStatuses = map[string]*core.Status{
+			namespacedStatus, err := vs.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			namespacedStatus.SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:  subResourceStatusState,
 					Reason: "any reason",
@@ -67,7 +69,8 @@ var _ = Describe("getStatus", func() {
 		for subResourceStatusString, subResourceStatusInt := range core.Status_State_value {
 			subResourceStatusState := core.Status_State(subResourceStatusInt)
 			By(fmt.Sprintf("subresource: %v", subResourceStatusString))
-			status := vs.GetNamespacedStatus()
+			status, err := vs.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
 			status.SubresourceStatuses = map[string]*core.Status{
 				thing1: {
 					State:      subResourceStatusState,
@@ -135,7 +138,9 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
+				namespacedStatus, err := vs.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				namespacedStatus.SubresourceStatuses = subStatuses
 				Expect(getStatus(ctx, vs, namespace)).To(Equal("gloo-system: " + resourceStatusString))
 			}
 		}
@@ -175,7 +180,9 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUntracked,
 					},
 				}
-				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
+				namespacedStatus, err := vs.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				namespacedStatus.SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				// Use regex because order does not matter
@@ -219,7 +226,9 @@ var _ = Describe("getStatus", func() {
 						State: core.Status_Accepted,
 					},
 				}
-				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
+				namespacedStatus, err := vs.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				namespacedStatus.SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				Expect(out).To(MatchRegexp(reasonUpstreamList))
@@ -235,7 +244,9 @@ var _ = Describe("getStatus", func() {
 						Reason: reasonUpstreamList,
 					},
 				}
-				vs.GetNamespacedStatus().SubresourceStatuses = subStatuses
+				namespacedStatus, err = vs.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				namespacedStatus.SubresourceStatuses = subStatuses
 				out = getStatus(ctx, vs, namespace)
 				Expect(out).To(HavePrefix("gloo-system: " + resourceStatusString + "\n"))
 				// Use regex because order does not matter

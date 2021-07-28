@@ -217,7 +217,7 @@ func (s *statusSyncer) watchProxiesFromChannel(ctx context.Context, proxies <-ch
 			if currentHash != previousHash {
 				logger.Debugw("proxy list updated", "len(proxyList)", len(proxyList), "currentHash", currentHash, "previousHash", previousHash)
 				previousHash = currentHash
-				s.setStatuses(proxyList)
+				s.setStatuses(ctx, proxyList)
 				s.forceSync()
 			}
 		}
@@ -232,19 +232,23 @@ func hashStatuses(proxyList gloov1.ProxyList) (uint64, error) {
 	return hashutils.HashAllSafe(nil, statuses...)
 }
 
-func (s *statusSyncer) setStatuses(list gloov1.ProxyList) {
+func (s *statusSyncer) setStatuses(ctx context.Context, list gloov1.ProxyList) {
 	s.mapLock.Lock()
 	defer s.mapLock.Unlock()
 	for _, proxy := range list {
 		ref := proxy.Metadata.Ref()
 		refKey := gloo_translator.UpstreamToClusterName(ref)
-		status := proxy.GetNamespacedStatus()
-		if current, ok := s.proxyToLastStatus[refKey]; ok {
-			current.Status = status
-			s.proxyToLastStatus[refKey] = current
+		status, err := proxy.GetNamespacedStatus()
+		if err != nil {
+			contextutils.LoggerFrom(ctx).Errorf("Error getting NamespacedStatus: %v", err)
 		} else {
-			s.proxyToLastStatus[refKey] = reportsAndStatus{
-				Status: status,
+			if current, ok := s.proxyToLastStatus[refKey]; ok {
+				current.Status = status
+				s.proxyToLastStatus[refKey] = current
+			} else {
+				s.proxyToLastStatus[refKey] = reportsAndStatus{
+					Status: status,
+				}
 			}
 		}
 	}

@@ -38,12 +38,15 @@ func EventuallyResourceStatusMatchesState(offset int, getter InputResourceGetter
 		if err != nil {
 			return core.Status{}, errors.Wrapf(err, "failed to get resource")
 		}
-
-		if resource.GetNamespacedStatus() == nil {
+		resourceStatus, err := resource.GetNamespacedStatus()
+		if err != nil {
+			return core.Status{}, errors.Wrapf(err, "Failed to get %v status", resource.GetMetadata().GetName())
+		}
+		if resourceStatus == nil {
 			return core.Status{}, errors.Wrapf(err, "waiting for %v status to be non-nil", resource.GetMetadata().GetName())
 		}
 
-		return *resource.GetNamespacedStatus(), nil
+		return *resourceStatus, nil
 	}, timeoutInterval, pollingInterval).Should(statusStateMatcher)
 }
 

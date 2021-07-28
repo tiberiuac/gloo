@@ -234,10 +234,12 @@ var _ = Describe("AWS EC2 Plugin utils test", func() {
 			if err != nil {
 				return core.Status{}, err
 			}
-			if proxy.GetNamespacedStatus() == nil {
+			proxyStatus, err := proxy.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			if proxyStatus == nil {
 				return core.Status{}, nil
 			}
-			return *(proxy.GetNamespacedStatus()), nil
+			return *(proxyStatus), nil
 		}, "60s", "0.5s").Should(MatchFields(IgnoreExtras, Fields{
 			"Reason": BeEmpty(),
 			"State":  Equal(core.Status_Accepted),

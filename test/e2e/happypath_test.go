@@ -366,10 +366,12 @@ var _ = Describe("Happy path", func() {
 							if err != nil {
 								return 0, err
 							}
-							if updatedProxy.GetNamespacedStatus() == nil {
+							updatedProxyStatus, err := updatedProxy.GetNamespacedStatus()
+							if updatedProxyStatus == nil {
 								return 0, nil
 							}
-							return updatedProxy.GetNamespacedStatus().GetState(), nil
+							Expect(err).NotTo(HaveOccurred())
+							return updatedProxyStatus.GetState(), nil
 						}
 
 						Eventually(getStatus, "10s").ShouldNot(Equal(core.Status_Pending))
@@ -477,7 +479,9 @@ var _ = Describe("Happy path", func() {
 					if err != nil {
 						return core.Status_Pending, err
 					}
-					return u.GetNamespacedStatus().GetState(), nil
+					uStatus, err := u.GetNamespacedStatus()
+					Expect(err).NotTo(HaveOccurred())
+					return uStatus.GetState(), nil
 				}
 
 				Context("specific namespace", func() {

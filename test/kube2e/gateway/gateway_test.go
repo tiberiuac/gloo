@@ -262,9 +262,10 @@ var _ = Describe("Kube2e: gateway", func() {
 					if err != nil {
 						return err
 					}
-
-					if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
-						return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
+					proxyStatus, err := proxy.GetNamespacedStatus()
+					Expect(err).NotTo(HaveOccurred())
+					if proxyStatus.GetState() != core.Status_Accepted {
+						return eris.Errorf("unexpected proxy state: %v. Reason: %v", proxyStatus.GetState(), proxyStatus.GetReason())
 					}
 
 					for _, l := range proxy.Listeners {
@@ -1283,8 +1284,10 @@ var _ = Describe("Kube2e: gateway", func() {
 					return err
 				}
 
-				if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
-					return eris.Errorf("unexpected proxy state: %v. Reason: %v", status.GetState(), status.GetReason())
+				proxyStatus, err := proxy.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				if proxyStatus.GetState() != core.Status_Accepted {
+					return eris.Errorf("unexpected proxy state: %v. Reason: %v", proxyStatus.GetState(), proxyStatus.GetReason())
 				}
 
 				for _, l := range proxy.Listeners {
@@ -1364,7 +1367,9 @@ var _ = Describe("Kube2e: gateway", func() {
 					return nil, err
 				}
 
-				if status := proxy.GetNamespacedStatus(); status.GetState() != core.Status_Accepted {
+				proxyStatus, err := proxy.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				if proxyStatus.GetState() != core.Status_Accepted {
 					return nil, eris.New("proxy not in accepted state")
 				}
 

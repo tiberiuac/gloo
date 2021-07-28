@@ -159,7 +159,8 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 				// simulate gloo accepting the proxy resource
 				liveProxy, err := proxyClient.Read(proxy.Metadata.Namespace, proxy.Metadata.Name, clients.ReadOpts{})
 				Expect(err).NotTo(HaveOccurred())
-				liveProxyStatus := liveProxy.GetNamespacedStatus()
+				liveProxyStatus, err := liveProxy.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
 				if liveProxyStatus == nil {
 					liveProxy.UpsertReporterStatus(&core.Status{State: core.Status_Accepted, ReportedBy: "gateway"})
 				} else {
@@ -177,7 +178,9 @@ var _ = Describe("ReconcileGatewayProxies", func() {
 				// typically the reconciler sets resources to pending for processing, but here
 				// we expect the status to be carried over because nothing changed from gloo's
 				// point of view
-				Expect(px.GetNamespacedStatus().GetState()).To(Equal(core.Status_Accepted))
+				namespacedStatus, err := px.GetNamespacedStatus()
+				Expect(err).NotTo(HaveOccurred())
+				Expect(namespacedStatus.GetState()).To(Equal(core.Status_Accepted))
 
 				// after reconcile with the updated snapshot, we confirm that gateway-specific
 				// parts of the proxy have been updated

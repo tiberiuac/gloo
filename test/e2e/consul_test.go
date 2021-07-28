@@ -135,7 +135,9 @@ var _ = Describe("Consul e2e", func() {
 			if err != nil {
 				return false
 			}
-			return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
+			proxyStatus, err := proxy.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			return proxyStatus.GetState() == core.Status_Accepted
 		}, "10s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)
@@ -198,7 +200,9 @@ var _ = Describe("Consul e2e", func() {
 			if err != nil {
 				return false
 			}
-			return proxy.GetNamespacedStatus().GetState() == core.Status_Accepted
+			proxyStatus, err := proxy.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			return proxyStatus.GetState() == core.Status_Accepted
 		}, "20s", "0.2s").Should(BeTrue())
 
 		time.Sleep(3 * time.Second)

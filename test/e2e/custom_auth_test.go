@@ -109,10 +109,12 @@ var _ = Describe("CustomAuth", func() {
 			if err != nil {
 				return core.Status{}, err
 			}
-			if proxy.GetNamespacedStatus() == nil {
+			proxyStatus, err := proxy.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			if proxyStatus == nil {
 				return core.Status{}, nil
 			}
-			return *(proxy.GetNamespacedStatus()), nil
+			return *(proxyStatus), nil
 		}, "60s", "0.1s").Should(MatchFields(IgnoreExtras, Fields{
 			"Reason": BeEmpty(),
 			"State":  Equal(core.Status_Accepted),

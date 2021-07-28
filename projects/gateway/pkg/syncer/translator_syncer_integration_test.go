@@ -138,7 +138,9 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 			if err != nil {
 				return core.Status_Pending, err
 			}
-			subresource := newvs.GetNamespacedStatus().GetSubresourceStatuses()
+			newvsStatus, err := newvs.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			subresource := newvsStatus.GetSubresourceStatuses()
 			if subresource == nil {
 				contextutils.LoggerFrom(ctx).Debugf("nil subresource")
 				return core.Status_Pending, fmt.Errorf("no status")
@@ -157,7 +159,9 @@ var _ = Describe("TranslatorSyncer integration test", func() {
 			if err != nil {
 				return core.Status_Pending, err
 			}
-			return proxy.GetNamespacedStatus().GetState(), nil
+			proxyStatus, err := proxy.GetNamespacedStatus()
+			Expect(err).NotTo(HaveOccurred())
+			return proxyStatus.GetState(), nil
 		})
 	}
 

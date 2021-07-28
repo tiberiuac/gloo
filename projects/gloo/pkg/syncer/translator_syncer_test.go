@@ -396,9 +396,11 @@ var _ = Describe("Translate mulitple proxies with errors", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(proxies).To(HaveLen(2))
 		Expect(proxies[0]).To(BeAssignableToTypeOf(&v1.Proxy{}))
-		Expect(proxies[0].GetNamespacedStatus().GetState()).To(Equal(core.Status_Rejected))
-		Expect(proxies[0].GetNamespacedStatus().GetReason()).To(Equal("1 error occurred:\n\t* hi, how ya doin'?\n\n"))
-		Expect(proxies[0].GetNamespacedStatus().GetReportedBy()).To(Equal(ref))
+		proxyStatus, err := proxies[0].GetNamespacedStatus()
+		Expect(err).NotTo(HaveOccurred())
+		Expect(proxyStatus.GetState()).To(Equal(core.Status_Rejected))
+		Expect(proxyStatus.GetReason()).To(Equal("1 error occurred:\n\t* hi, how ya doin'?\n\n"))
+		Expect(proxyStatus.GetReportedBy()).To(Equal(ref))
 
 		// NilSnapshot is always consistent, so snapshot will always be set as part of endpoints update
 		Expect(xdsCache.Called).To(BeTrue())
