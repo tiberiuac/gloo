@@ -6,16 +6,13 @@ require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1
 	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
-	github.com/Microsoft/hcsshim v0.8.14 // indirect
 	github.com/Netflix/go-expect v0.0.0-20180928190340-9d1f4485533b
 	github.com/avast/retry-go v2.4.3+incompatible
 	github.com/aws/aws-sdk-go v1.34.9
 	github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403
 	github.com/containerd/cgroups v0.0.0-20210114181951-8a68de567b68 // indirect
-	github.com/containerd/containerd v1.4.4 // indirect
 	github.com/containerd/continuity v0.0.0-20210208174643-50096c924a4e // indirect
 	github.com/cratonica/2goarray v0.0.0-20190331194516-514510793eaa
-	github.com/docker/cli v20.10.0-beta1.0.20201029214301-1d20b15adc38+incompatible // indirect
 	github.com/docker/docker v20.10.3+incompatible // indirect
 	github.com/elazarl/goproxy v0.0.0-20210110162100-a92cc753f88e // indirect
 	github.com/envoyproxy/go-control-plane v0.9.9-0.20210511190911-87d352569d55
@@ -50,16 +47,13 @@ require (
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
 	github.com/jhump/protoreflect v1.5.0
-	github.com/jmoiron/sqlx v1.2.1-0.20190826204134-d7d95172beb5 // indirect
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/keybase/go-ps v0.0.0-20190827175125-91aafc93ba19
-	github.com/magefile/mage v1.11.0 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/miekg/dns v1.1.29 // indirect
-	github.com/mitchellh/copystructure v1.1.1 // indirect
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/moby/term v0.0.0-20200915141129-7f0af18e79f2 // indirect
@@ -76,7 +70,6 @@ require (
 	github.com/rotisserie/eris v0.4.0
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sergi/go-diff v1.1.0
-	github.com/sirupsen/logrus v1.8.0 // indirect
 	github.com/smartystreets/assertions v1.2.0 // indirect
 	github.com/solo-io/go-list-licenses v0.1.0
 	github.com/solo-io/go-utils v0.21.14
@@ -105,13 +98,13 @@ require (
 	gopkg.in/ini.v1 v1.56.0 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-	helm.sh/helm/v3 v3.4.2
-	k8s.io/api v0.19.6
-	k8s.io/apiextensions-apiserver v0.19.6
-	k8s.io/apimachinery v0.19.6
+	helm.sh/helm/v3 v3.6.1
+	k8s.io/api v0.21.0
+	k8s.io/apiextensions-apiserver v0.21.0
+	k8s.io/apimachinery v0.21.0
 	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
 	k8s.io/code-generator v0.19.6
-	k8s.io/kubectl v0.19.6
+	k8s.io/kubectl v0.21.0
 	k8s.io/kubernetes v1.19.6
 	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 	knative.dev/networking v0.0.0-20201103163404-b9f80f4537af
