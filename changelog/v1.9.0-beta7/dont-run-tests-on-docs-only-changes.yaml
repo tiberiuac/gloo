@@ -1,0 +1,5 @@
+changelog:
+  - type: NON_USER_FACING
+    description: >
+      Don't run regression tests on branches where docs only changes / changelog only changes. This will help
+      increase the velocity of docs-only changes and hopefully encourage more contribution.

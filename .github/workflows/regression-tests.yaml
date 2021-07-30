@@ -4,6 +4,9 @@ on:
     branches:
       - 'master'
   pull_request:
+    paths-ignore:
+      - 'changelog/**'
+      - '**.md'
 jobs:
   regression_tests:
     name: k8s regression tests
