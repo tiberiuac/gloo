@@ -5,9 +5,9 @@ on:
       - 'master'
   pull_request:
     paths-ignore:
-      - '.github'
+      - '.github/**'
       - 'changelog/**'
-      - '**.md'
+      - '**/**.md'
 jobs:
   regression_tests:
     name: k8s regression tests
