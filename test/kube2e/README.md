@@ -37,7 +37,7 @@ Load the images into the cluster: `CLUSTER_NAME=kind VERSION=kind make push-kind
 
 
 ## Verify Your Setup
-Before running your tests, it's worthwhile to verify that a cluster was created, and the proper images have been loaded.
+Before running your tests, it is worthwhile to verify that a cluster was created, and the proper images have been loaded.
 
 ```bash
 kubectl get nodes
