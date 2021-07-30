@@ -349,11 +349,13 @@ spec:
                         properties:
                           connectionTimeout:
                             type: string
+                          passThroughBody:
+                            type: boolean
                           passThroughFilterMetadata:
                             type: boolean
                           passThroughState:
                             type: boolean
-                          pathPrefix:
+                          path:
                             type: string
                           request:
                             properties:

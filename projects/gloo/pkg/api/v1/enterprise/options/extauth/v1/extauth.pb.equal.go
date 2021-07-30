@@ -1603,7 +1603,7 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetPathPrefix(), target.GetPathPrefix()) != 0 {
+	if strings.Compare(m.GetPath(), target.GetPath()) != 0 {
 		return false
 	}
 
@@ -1632,6 +1632,10 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 	}
 
 	if m.GetPassThroughFilterMetadata() != target.GetPassThroughFilterMetadata() {
+		return false
+	}
+
+	if m.GetPassThroughBody() != target.GetPassThroughBody() {
 		return false
 	}
 

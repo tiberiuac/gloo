@@ -757,11 +757,10 @@ message PassThroughGrpc {
 }
 
 message PassThroughHttp {
-
+    // URI of the passthrough http service
     string uri = 1;
-    // todo: do we need a port?
-    // Sets a prefix to the value of authorization request header *Path*.
-    string path_prefix = 2;
+    // Sets the :Path request header on the request to the authorization server
+    string path = 2;
 
     message Request {
         // These headers will be copied from the incoming request to the request going
@@ -792,12 +791,17 @@ message PassThroughHttp {
     }
     Response response = 4;
 
+    // Whether or not to include the ext-auth state object in the passthrough request body
     bool pass_through_state = 5;
 
+    // Whether or not to include the filter metadata in the passthrough request body
     bool pass_through_filter_metadata = 6;
 
+    // Whether or not to include the body in the passthrough request body
+    bool pass_through_body = 7;
+
     // Timeout for the auth server to respond. Defaults to 5s
-    google.protobuf.Duration connection_timeout = 7;
+    google.protobuf.Duration connection_timeout = 8;
 }
 
 /*

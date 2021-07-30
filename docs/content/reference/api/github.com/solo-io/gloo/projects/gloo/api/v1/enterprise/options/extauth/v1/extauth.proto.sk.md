@@ -1048,23 +1048,25 @@ https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b030
 
 ```yaml
 "uri": string
-"pathPrefix": string
+"path": string
 "request": .enterprise.gloo.solo.io.PassThroughHttp.Request
 "response": .enterprise.gloo.solo.io.PassThroughHttp.Response
 "passThroughState": bool
 "passThroughFilterMetadata": bool
+"passThroughBody": bool
 "connectionTimeout": .google.protobuf.Duration
 
 ```
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `uri` | `string` |  |
-| `pathPrefix` | `string` | todo: do we need a port? Sets a prefix to the value of authorization request header *Path*. |
+| `uri` | `string` | URI of the passthrough http service. |
+| `path` | `string` | Sets the :Path request header on the request to the authorization server. |
 | `request` | [.enterprise.gloo.solo.io.PassThroughHttp.Request](../extauth.proto.sk/#request) |  |
 | `response` | [.enterprise.gloo.solo.io.PassThroughHttp.Response](../extauth.proto.sk/#response) |  |
-| `passThroughState` | `bool` |  |
-| `passThroughFilterMetadata` | `bool` |  |
+| `passThroughState` | `bool` | Whether or not to include the ext-auth state object in the passthrough request body. |
+| `passThroughFilterMetadata` | `bool` | Whether or not to include the filter metadata in the passthrough request body. |
+| `passThroughBody` | `bool` | Whether or not to include the body in the passthrough request body. |
 | `connectionTimeout` | [.google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration) | Timeout for the auth server to respond. Defaults to 5s. |
 
 
