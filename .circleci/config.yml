@@ -6,7 +6,6 @@ jobs:
   all-tests:
     machine:
       image: ubuntu-2004:202010-01
-      resource_class: large
     working_directory: ~/go/src/github.com/solo-io/gloo
     steps:
       - checkout
