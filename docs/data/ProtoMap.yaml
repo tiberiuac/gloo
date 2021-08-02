@@ -572,6 +572,9 @@ apis:
   gloo.solo.io.VirtualHostReport:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/grpc/validation/proxy_validation.proto.sk/#VirtualHostReport
     package: gloo.solo.io
+  gloo.solo.io.VirtualServiceOptions:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/settings.proto.sk/#VirtualServiceOptions
+    package: gloo.solo.io
   gloo.solo.io.WeightedDestination:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/proxy.proto.sk/#WeightedDestination
     package: gloo.solo.io
@@ -880,6 +883,9 @@ apis:
     package: options.gloo.solo.io
   options.gloo.solo.io.ServiceSpec:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/service_spec.proto.sk/#ServiceSpec
+    package: options.gloo.solo.io
+  options.gloo.solo.io.Subset:
+    relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/subset_spec.proto.sk/#Subset
     package: options.gloo.solo.io
   options.gloo.solo.io.SubsetSpec:
     relativepath: reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/subset_spec.proto.sk/#SubsetSpec
