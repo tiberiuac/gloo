@@ -1,0 +1,62 @@
+version: 2.1
+orbs:
+  protobuf: izumin5210/protobuf@0.1.0
+  helm: circleci/helm@1.1.2
+jobs:
+  build:
+    machine:
+      image: ubuntu-2004:202010-01
+      resource_class: large
+    working_directory: ~/go/src/github.com/solo-io/gloo
+    steps:
+      - checkout
+      - protobuf/install
+      - helm/install-helm-client:
+          version: v3.4.0
+      - run:
+          name: install go
+          command: |
+            sudo rm -rf /usr/local/go && \
+            wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz && \
+            tar -xvf go1.16.3.linux-amd64.tar.gz && sudo mv go /usr/local/go && \
+            export GOROOT=/usr/local/go && \
+            export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+      - run:
+          name: install kubectl
+          command: |
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: install kind
+          command: |
+            curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-linux-amd64
+            chmod +x ./kind
+            sudo mv ./kind /usr/local/bin/
+      - run:
+          name: setup private repo permissions
+          command: |
+            git config --global url."https://${GITHUB_TOKEN}@github.com/solo-io/".insteadOf "https://github.com/solo-io/"
+      - run:
+          name: setup test env
+          environment:
+            KUBE2E_TESTS: gateway
+            CLUSTER_NAME: kind
+            CLUSTER_NODE_VERSION: v1.17.17@sha256:66f1d0d91a88b8a001811e2f1054af60eef3b669a9a74f9b6db871f2f1eeed00
+            VERSION: kind
+          command: |
+            ./ci/deploy-to-kind-cluster.sh
+      - run:
+          name: Testing - kube e2e regression tests
+          environment:
+            KUBE2E_TESTS: gateway
+          command: make run-ci-regression-tests
+      - run:
+          name: gather test results
+          command: ./ci/test-results.bash
+      - store_test_results:
+          path: test_results
+workflows:
+  build:
+    jobs:
+      - all-tests
