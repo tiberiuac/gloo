@@ -1599,11 +1599,7 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 		return false
 	}
 
-	if strings.Compare(m.GetUri(), target.GetUri()) != 0 {
-		return false
-	}
-
-	if strings.Compare(m.GetPath(), target.GetPath()) != 0 {
+	if strings.Compare(m.GetUrl(), target.GetUrl()) != 0 {
 		return false
 	}
 
@@ -1625,18 +1621,6 @@ func (m *PassThroughHttp) Equal(that interface{}) bool {
 		if !proto.Equal(m.GetResponse(), target.GetResponse()) {
 			return false
 		}
-	}
-
-	if m.GetPassThroughState() != target.GetPassThroughState() {
-		return false
-	}
-
-	if m.GetPassThroughFilterMetadata() != target.GetPassThroughFilterMetadata() {
-		return false
-	}
-
-	if m.GetPassThroughBody() != target.GetPassThroughBody() {
-		return false
 	}
 
 	if h, ok := interface{}(m.GetConnectionTimeout()).(equality.Equalizer); ok {
@@ -2511,6 +2495,18 @@ func (m *PassThroughHttp_Request) Equal(that interface{}) bool {
 
 	}
 
+	if m.GetPassThroughState() != target.GetPassThroughState() {
+		return false
+	}
+
+	if m.GetPassThroughFilterMetadata() != target.GetPassThroughFilterMetadata() {
+		return false
+	}
+
+	if m.GetPassThroughBody() != target.GetPassThroughBody() {
+		return false
+	}
+
 	return true
 }
 
@@ -2546,12 +2542,12 @@ func (m *PassThroughHttp_Response) Equal(that interface{}) bool {
 
 	}
 
-	if len(m.GetAllowedClientHeaders()) != len(target.GetAllowedClientHeaders()) {
+	if len(m.GetAllowedClientHeadersOnDenied()) != len(target.GetAllowedClientHeadersOnDenied()) {
 		return false
 	}
-	for idx, v := range m.GetAllowedClientHeaders() {
+	for idx, v := range m.GetAllowedClientHeadersOnDenied() {
 
-		if strings.Compare(v, target.GetAllowedClientHeaders()[idx]) != 0 {
+		if strings.Compare(v, target.GetAllowedClientHeadersOnDenied()[idx]) != 0 {
 			return false
 		}
 

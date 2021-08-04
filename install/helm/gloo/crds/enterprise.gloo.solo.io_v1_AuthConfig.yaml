@@ -349,14 +349,6 @@ spec:
                         properties:
                           connectionTimeout:
                             type: string
-                          passThroughBody:
-                            type: boolean
-                          passThroughFilterMetadata:
-                            type: boolean
-                          passThroughState:
-                            type: boolean
-                          path:
-                            type: string
                           request:
                             properties:
                               allowedHeaders:
@@ -367,10 +359,16 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              passThroughBody:
+                                type: boolean
+                              passThroughFilterMetadata:
+                                type: boolean
+                              passThroughState:
+                                type: boolean
                             type: object
                           response:
                             properties:
-                              allowedClientHeaders:
+                              allowedClientHeadersOnDenied:
                                 items:
                                   type: string
                                 type: array
@@ -379,7 +377,7 @@ spec:
                                   type: string
                                 type: array
                             type: object
-                          uri:
+                          url:
                             type: string
                         type: object
                     type: object

@@ -1777,11 +1777,7 @@ func (m *PassThroughHttp) Hash(hasher hash.Hash64) (uint64, error) {
 		return 0, err
 	}
 
-	if _, err = hasher.Write([]byte(m.GetUri())); err != nil {
-		return 0, err
-	}
-
-	if _, err = hasher.Write([]byte(m.GetPath())); err != nil {
+	if _, err = hasher.Write([]byte(m.GetUrl())); err != nil {
 		return 0, err
 	}
 
@@ -1823,21 +1819,6 @@ func (m *PassThroughHttp) Hash(hasher hash.Hash64) (uint64, error) {
 				return 0, err
 			}
 		}
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughState())
-	if err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughFilterMetadata())
-	if err != nil {
-		return 0, err
-	}
-
-	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughBody())
-	if err != nil {
-		return 0, err
 	}
 
 	if h, ok := interface{}(m.GetConnectionTimeout()).(safe_hasher.SafeHasher); ok {
@@ -2793,6 +2774,21 @@ func (m *PassThroughHttp_Request) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
+	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughState())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughFilterMetadata())
+	if err != nil {
+		return 0, err
+	}
+
+	err = binary.Write(hasher, binary.LittleEndian, m.GetPassThroughBody())
+	if err != nil {
+		return 0, err
+	}
+
 	return hasher.Sum64(), nil
 }
 
@@ -2817,7 +2813,7 @@ func (m *PassThroughHttp_Response) Hash(hasher hash.Hash64) (uint64, error) {
 
 	}
 
-	for _, v := range m.GetAllowedClientHeaders() {
+	for _, v := range m.GetAllowedClientHeadersOnDenied() {
 
 		if _, err = hasher.Write([]byte(v)); err != nil {
 			return 0, err

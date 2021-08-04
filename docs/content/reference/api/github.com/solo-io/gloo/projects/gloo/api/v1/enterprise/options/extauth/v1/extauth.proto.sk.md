@@ -1044,29 +1044,24 @@ https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b030
 ---
 ### PassThroughHttp
 
-
+ 
+Authorizes requests by making a POST request to a custom HTTP auth server
+Assumes the request is authorized if the server returns a OK (200) status code,
+else the request is unauthorized.
 
 ```yaml
-"uri": string
-"path": string
+"url": string
 "request": .enterprise.gloo.solo.io.PassThroughHttp.Request
 "response": .enterprise.gloo.solo.io.PassThroughHttp.Response
-"passThroughState": bool
-"passThroughFilterMetadata": bool
-"passThroughBody": bool
 "connectionTimeout": .google.protobuf.Duration
 
 ```
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `uri` | `string` | URI of the passthrough http service. |
-| `path` | `string` | Sets the :Path request header on the request to the authorization server. |
+| `url` | `string` | Required: URL of the passthrough http service, is a fully qualified domain name. Example: http://ext-auth-service.svc.local:9001. Path provided in the URL will be respected. |
 | `request` | [.enterprise.gloo.solo.io.PassThroughHttp.Request](../extauth.proto.sk/#request) |  |
 | `response` | [.enterprise.gloo.solo.io.PassThroughHttp.Response](../extauth.proto.sk/#response) |  |
-| `passThroughState` | `bool` | Whether or not to include the ext-auth state object in the passthrough request body. |
-| `passThroughFilterMetadata` | `bool` | Whether or not to include the filter metadata in the passthrough request body. |
-| `passThroughBody` | `bool` | Whether or not to include the body in the passthrough request body. |
 | `connectionTimeout` | [.google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/csharp/class/google/protobuf/well-known-types/duration) | Timeout for the auth server to respond. Defaults to 5s. |
 
 
@@ -1080,13 +1075,19 @@ https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b030
 ```yaml
 "allowedHeaders": []string
 "headersToAdd": map<string, string>
+"passThroughState": bool
+"passThroughFilterMetadata": bool
+"passThroughBody": bool
 
 ```
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `allowedHeaders` | `[]string` | These headers will be copied from the incoming request to the request going to the auth server. Note that in addition to the user's supplied matchers: 1. *Host*, *Method*, *Path* and *Content-Length* are automatically included to the list. 2. *Content-Length* will be set to 0 and the request to the authorization service will not have a message body. |
-| `headersToAdd` | `map<string, string>` | These headers that will be included to the request to authorization service. Note that client request of the same key will be overridden. |
+| `allowedHeaders` | `[]string` | These headers will be copied from the incoming request to the request going to the auth server. By default, no headers are copied from the incoming request. Pseudo-headers such as `:Path`, and `:Method` can not be specified here. |
+| `headersToAdd` | `map<string, string>` | These headers that will be included to the request to authorization service. Note that client request of the same key will be overridden. Pseudo-headers such as `:Path`, and `:Method` can not be specified here. |
+| `passThroughState` | `bool` | Whether or not to include the ext-auth state object in the passthrough request body. If pass_through_body, pass_through_filter_metadata and pass_through_state are false, the authorization request body will be empty. |
+| `passThroughFilterMetadata` | `bool` | Whether or not to include the filter metadata in the passthrough request body. If pass_through_body, pass_through_filter_metadata and pass_through_state are false, the authorization request body will be empty. |
+| `passThroughBody` | `bool` | Whether or not to include the body in the passthrough request body. If pass_through_body, pass_through_filter_metadata and pass_through_state are false, the authorization request body will be empty. |
 
 
 
@@ -1098,14 +1099,14 @@ https://github.com/envoyproxy/envoy/blob/ae1ed1fa74f096dabe8dd5b19fc70333621b030
 
 ```yaml
 "allowedUpstreamHeaders": []string
-"allowedClientHeaders": []string
+"allowedClientHeadersOnDenied": []string
 
 ```
 
 | Field | Type | Description |
 | ----- | ---- | ----------- | 
-| `allowedUpstreamHeaders` | `[]string` | When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream. Note that coexistent headers will be overridden. |
-| `allowedClientHeaders` | `[]string` | When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied. Note that when this list is *not* set, all the authorization response headers, except *Authority (Host)* will be in the response to the client. When a header is included in this list, *Path*, *Status*, *Content-Length*, *WWW-Authenticate* and *Location* are automatically added. |
+| `allowedUpstreamHeaders` | `[]string` | When this is set, authorization response headers that have a header in this list will be added to the original client request and sent to the upstream when the auth request is successful. If this is empty, by default, no authorization response headers will be added to the upstream request. |
+| `allowedClientHeadersOnDenied` | `[]string` | When this is set, authorization response headers in this list will be added to the client's response when the auth request is denied. If this is empty, by default, no authorization response headers will be added to the client response. |
 
 
 
