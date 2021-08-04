@@ -283,6 +283,7 @@ func (t *translatorInstance) setAction(
 				RouteParams: params,
 				Route:       in,
 			}
+			fmt.Printf("Processing route action: \n in: %+v\n, out %+v\n", in, out)
 			if err := routeActionPlugin.ProcessRouteAction(raParams, in.GetRouteAction(), out.GetRoute()); err != nil {
 				// same as above
 				if isWarningErr(err) {

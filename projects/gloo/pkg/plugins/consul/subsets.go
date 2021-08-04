@@ -1,6 +1,7 @@
 package consul
 
 import (
+	"fmt"
 	envoy_config_core_v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	envoy_config_route_v3 "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	structpb "github.com/golang/protobuf/ptypes/struct"
@@ -34,6 +35,7 @@ func (p *plugin) ProcessRouteAction(
 		return nil
 
 	case *v1.RouteAction_Multi:
+		fmt.Printf("Processing Multi Route Action %+v\n", inAction)
 		return setWeightedClusters(params.Params, dest.Multi, out)
 
 	case *v1.RouteAction_UpstreamGroup:
@@ -45,6 +47,7 @@ func (p *plugin) ProcessRouteAction(
 		md := &v1.MultiDestination{
 			Destinations: upstreamGroup.Destinations,
 		}
+		fmt.Printf("Processing UpstreamGroup Route Action %+v\n", inAction)
 		return setWeightedClusters(params.Params, md, out)
 
 	case *v1.RouteAction_ClusterHeader:
@@ -75,7 +78,7 @@ func getMetadataMatch(
 }
 
 func setWeightedClusters(params plugins.Params, multiDest *v1.MultiDestination, out *envoy_config_route_v3.RouteAction) error {
-
+	fmt.Printf("MissionLane Debug:\n multiDestination: %+v\n, out: %+v\n", multiDest, out)
 	// Index clusters by name so we can look it up by the destination upstream
 	clusterMap := make(map[string]*envoy_config_route_v3.WeightedCluster_ClusterWeight)
 	for _, weightedCluster := range out.GetWeightedClusters().Clusters {
