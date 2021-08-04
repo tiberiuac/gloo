@@ -100,7 +100,7 @@ func checkXdsMetrics(ctx context.Context, glooNamespace string, deployments *v1.
 	}
 
 	for _, deployment := range deployments.Items {
-		if deployment.Name == rateLimitDeployment {
+		if deployment.GetName() == rateLimitDeployment {
 			fmt.Printf("Checking rate limit server... ")
 			if !RateLimitIsConnected(stats) {
 				return fmt.Errorf("rate limit server is not connected")

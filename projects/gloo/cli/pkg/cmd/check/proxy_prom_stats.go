@@ -22,8 +22,8 @@ const metricsUpdateInterval = time.Millisecond * 250
 
 func checkProxiesPromStats(ctx context.Context, glooNamespace string, deployments *v1.DeploymentList) error {
 	for _, deployment := range deployments.Items {
-		if deployment.Name == "gateway-proxy" || deployment.Name == "ingress-proxy" || deployment.Name == "knative-external-proxy" || deployment.Name == "knative-internal-proxy" {
-			if err := checkProxyPromStats(ctx, glooNamespace, deployment.Name); err != nil {
+		if deployment.GetName() == "gateway-proxy" || deployment.GetName() == "ingress-proxy" || deployment.GetName() == "knative-external-proxy" || deployment.GetName() == "knative-internal-proxy" {
+			if err := checkProxyPromStats(ctx, glooNamespace, deployment.GetName()); err != nil {
 				return err
 			}
 		}

@@ -57,7 +57,7 @@ func (p *plugin) DiscoverUpstreams(_ []string, writeNamespace string, opts clien
 // set namespace and name to be valid for writing to storage
 func setRealName(list v1.UpstreamList, writeNamespace string) v1.UpstreamList {
 	list.Each(func(element *v1.Upstream) {
-		element.Metadata.Name = strings.TrimPrefix(element.Metadata.Name, consul.UpstreamNamePrefix)
+		element.Metadata.Name = strings.TrimPrefix(element.GetMetadata().GetName(), consul.UpstreamNamePrefix)
 		element.Metadata.Namespace = writeNamespace
 	})
 	return list
@@ -73,7 +73,7 @@ func (p *plugin) UpdateUpstream(original, desired *v1.Upstream) (bool, error) {
 	}
 
 	// copy service spec, we don't want to overwrite that
-	desiredSpec.Consul.ServiceSpec = originalSpec.Consul.ServiceSpec
+	desiredSpec.Consul.ServiceSpec = originalSpec.Consul.GetServiceSpec()
 
 	utils.UpdateUpstream(original, desired)
 
