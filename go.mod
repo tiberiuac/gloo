@@ -3,7 +3,6 @@ module github.com/solo-io/gloo
 go 1.16
 
 require (
-	9fans.net/go v0.0.4 // indirect
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1
 	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
@@ -55,7 +54,6 @@ require (
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/keybase/go-ps v0.0.0-20190827175125-91aafc93ba19
-	github.com/kisielk/errcheck v1.6.0 // indirect
 	github.com/magefile/mage v1.11.0 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
@@ -75,7 +73,6 @@ require (
 	github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4
 	github.com/prometheus/client_golang v1.8.0
 	github.com/prometheus/prometheus v2.5.0+incompatible
-	github.com/rogpeppe/godef v1.1.2 // indirect
 	github.com/rotisserie/eris v0.4.0
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sergi/go-diff v1.1.0
@@ -95,7 +92,6 @@ require (
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.1
-	github.com/zmb3/gogetdoc v0.0.0-20190228002656-b37376c5da6a // indirect
 	go.opencensus.io v0.22.6
 	go.uber.org/multierr v1.6.0
 	go.uber.org/zap v1.16.0
